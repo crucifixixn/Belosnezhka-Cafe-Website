@@ -2160,8 +2160,6 @@ export default function App() {
         return { hasFrom, amount };
     };
 
-    const totalPositions = currentCatalog.sections.reduce((acc, s) => acc + s.items.length, 0);
-
     const renderSectionBlock = (section: MenuSection, idx: number) => (
         <div key={idx} className="flex flex-col">
             <div className="flex items-center justify-between pb-2.5 mb-2.5 border-b" style={{ borderColor: "#c8853a33" }}>
@@ -2179,8 +2177,8 @@ export default function App() {
                     return (
                         <div
                             key={i}
-                            className="flex items-baseline justify-between gap-4 py-2 border-b"
-                            style={{ borderColor: "#c8853a11" }}
+                            className={`flex items-baseline justify-between gap-4 py-2${i < section.items.length - 1 ? " border-b" : ""}`}
+                            style={i < section.items.length - 1 ? { borderColor: "#c8853a11" } : undefined}
                         >
                             <div className="flex flex-col gap-0.5 min-w-0 pr-2">
                                 <span className="text-sm leading-snug" style={{ color: "#f5ead8" }}>
@@ -2498,15 +2496,6 @@ export default function App() {
                                 boxShadow: "none",
                             }}
                         >
-                            <div className="flex items-center justify-between pb-3 mb-6 border-b" style={{ borderColor: "#c8853a22" }}>
-                                <h4 className="text-xl" style={{ fontFamily: "var(--font-display)", color: "#c8853a", fontStyle: "italic" }}>
-                                    {currentCatalog.title}
-                                </h4>
-                                <span className="text-xs" style={{ color: "#b8a98e77" }}>
-                                    Всего позиций: {totalPositions}
-                                </span>
-                            </div>
-
                             {/* Десктопная сетка: строго 2 параллельные колонки с независимым потоком */}
                             <div className="hidden md:grid md:grid-cols-2 gap-x-12 gap-y-8 items-start">
                                 <div className="flex flex-col gap-8">
@@ -2524,7 +2513,7 @@ export default function App() {
                                     .map(renderSectionBlock)}
                             </div>
 
-                            <div className="mt-8 pt-4 border-t flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4" style={{ borderColor: "#c8853a18" }}>
+                            <div className="mt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                                 <p className="text-xs" style={{ color: "#b8a98e66" }}>
                                     ✦ Цены актуальны в зале кафе «Белоснежка». Желаем приятного отдыха!
                                 </p>
