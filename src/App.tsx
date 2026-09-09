@@ -854,6 +854,11 @@ function Lightbox({ items, index, onClose }: { items: LightboxItem[]; index: num
 
 // ─── Вспомогательные функции для оформления меню и фото ───────────────────────
 
+function formatPrice(priceStr: string): string {
+    if (!priceStr) return "";
+    return priceStr.replace(/^от\s*/i, "от\u00A0");
+}
+
 function getDishImage(dish: Dish, categoryId?: string): string {
     if (dish.img) return dish.img;
     const nameLower = dish.name.toLowerCase();
@@ -1118,7 +1123,7 @@ function DishPhotoModal({
                         </div>
                         <div className="sm:text-right shrink-0">
                             <span className="text-2xl sm:text-3xl font-normal" style={{ color: "#c8853a", fontFamily: "var(--font-body)", fontVariantNumeric: "tabular-nums" }}>
-                                {currentDish.price}
+                                {formatPrice(currentDish.price)}
                             </span>
                         </div>
                     </div>
@@ -2480,12 +2485,6 @@ export default function App() {
         });
     };
 
-    const parsePrice = (priceStr: string) => {
-        const hasFrom = priceStr.startsWith("от ");
-        const amount = hasFrom ? priceStr.replace(/^от\s+/, "") : priceStr;
-        return { hasFrom, amount };
-    };
-
     const renderSectionBlock = (section: MenuSection, idx: number) => (
         <div key={idx} className="flex flex-col">
             <div className="flex items-center justify-between pb-2.5 mb-2.5 border-b" style={{ borderColor: "#c8853a33" }}>
@@ -2499,7 +2498,6 @@ export default function App() {
 
             <div className="flex flex-col">
                 {section.items.map((dish, i) => {
-                    const { hasFrom, amount } = parsePrice(dish.price);
                     const isLast = i === section.items.length - 1;
                     const dishTag = getDishTag(dish);
                     return (
@@ -2521,12 +2519,6 @@ export default function App() {
                                             {dishTag}
                                         </span>
                                     )}
-                                    <span
-                                        className="text-[10px] uppercase tracking-wider px-1.5 py-0.5 rounded opacity-40 group-hover:opacity-100 transition-opacity font-medium"
-                                        style={{ border: "1px solid #c8853a33", color: "#c8853a" }}
-                                    >
-                                        фото
-                                    </span>
                                 </div>
                                 <div className="flex gap-2 items-center flex-wrap">
                                     {dish.weight && (
@@ -2546,14 +2538,13 @@ export default function App() {
                                 className="shrink-0 flex items-baseline justify-end font-medium select-none"
                                 style={{
                                     color: "#c8853a",
-                                    width: "125px",
+                                    minWidth: "115px",
                                     fontFamily: "var(--font-body)",
                                     fontVariantNumeric: "tabular-nums lining-nums",
                                     whiteSpace: "nowrap",
                                 }}
                             >
-                                <span className="text-sm">{hasFrom ? "от " : ""}</span>
-                                <span className="text-sm">{amount}</span>
+                                <span className="text-sm">{formatPrice(dish.price)}</span>
                             </div>
                         </button>
                     );
