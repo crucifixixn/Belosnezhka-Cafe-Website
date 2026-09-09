@@ -861,6 +861,41 @@ function formatPrice(priceStr: string): string {
         .replace(/\s*₽/g, "\u00A0₽");
 }
 
+function getDishImage(dish: Dish, categoryId?: string): string {
+    if (dish.img) return dish.img;
+    const nameLower = dish.name.toLowerCase();
+    if (nameLower.includes("шашлык") || nameLower.includes("люля") || nameLower.includes("стейк") || nameLower.includes("садж")) {
+        return imgMenuShashlik;
+    }
+    if (nameLower.includes("тарелка") || nameLower.includes("закуск") || nameLower.includes("сельдь") || nameLower.includes("рулет") || nameLower.includes("креветк") || nameLower.includes("палочки") || nameLower.includes("гренки") || nameLower.includes("наггетс") || nameLower.includes("кольца")) {
+        return imgMenuPlatter;
+    }
+    if (nameLower.includes("коктейль") || nameLower.includes("мохито") || nameLower.includes("шот") || nameLower.includes("лимонад") || nameLower.includes("санрайз") || nameLower.includes("айленд") || nameLower.includes("лагуна") || nameLower.includes("кола") || nameLower.includes("сок")) {
+        return imgMenuCocktails;
+    }
+    if (nameLower.includes("банкет") || nameLower.includes("праздник") || nameLower.includes("свадебн") || nameLower.includes("обед")) {
+        return imgMenuBanquet;
+    }
+    if (nameLower.includes("пиво") || nameLower.includes("водка") || nameLower.includes("коньяк") || nameLower.includes("виски") || nameLower.includes("вино") || nameLower.includes("бар")) {
+        return imgCocktailsWide;
+    }
+    if (nameLower.includes("салат")) {
+        return imgHero;
+    }
+    if (nameLower.includes("пицца") || nameLower.includes("соус")) {
+        return foodPizzaMargarita;
+    }
+    if (nameLower.includes("чай") || nameLower.includes("кофе") || nameLower.includes("мороженое") || nameLower.includes("пломбир") || nameLower.includes("шоколад")) {
+        return imgHeroOld;
+    }
+    if (categoryId === "mangal") return imgMenuShashlik;
+    if (categoryId === "starters") return imgMenuPlatter;
+    if (categoryId === "bar") return imgMenuCocktails;
+    if (categoryId === "banquet") return imgMenuBanquet;
+    if (categoryId === "salads") return imgHero;
+    return imgHero;
+}
+
 function getDishDescription(dish: Dish, categoryId?: string): string {
     if (dish.description) return dish.description;
     const nameLower = dish.name.toLowerCase();
