@@ -21,6 +21,10 @@ logs/
 # Tool and MCP configs with credentials
 .mcp.json
 
+# Backups
+.backups/
+backups/
+
 # Platform-managed agentplat state, not project source. In the
 # client-initiated single-repo workspace layout (make's `Path: "."` spec) the
 # repo root IS the workspace root, so these land inside this repo rather than

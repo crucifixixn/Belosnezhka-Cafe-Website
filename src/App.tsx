@@ -27,7 +27,15 @@ const ENHANCE_FOOD = "contrast(1.15) saturate(1.25) brightness(1.04)";
 const ENHANCE_DARK = "contrast(1.08) saturate(1.1) brightness(1.1)";
 const ENHANCE_EXTERN = "contrast(1.1) saturate(1.1) brightness(1.05)";
 
-type Dish = { name: string; weight?: string; price: string; note?: string };
+type Dish = {
+    name: string;
+    weight?: string;
+    price: string;
+    note?: string;
+    description?: string;
+    img?: string;
+    tag?: string;
+};
 
 type MenuItem = {
     name: string;
@@ -561,10 +569,10 @@ const PROMOTIONS: PromoItem[] = [
         id: "birthday",
         category: "birthday",
         tag: "Именинникам",
-        badge: "-10%",
+        badge: "-5%",
         title: "Скидка на День Рождения",
         subtitle: "Отпразднуйте с выгодой и размахом",
-        description: "Дарим скидку 10% на всё меню кухни в ваш день рождения, а также 3 дня до и 3 дня после праздника. Живая музыка и поздравление от кафе.",
+        description: "Дарим скидку 5% на всё меню кухни в ваш день рождения, а также 3 дня до и 3 дня после праздника. Живая музыка и поздравление от кафе.",
         bonus: "Праздничный фирменный десерт в комплемент каждому имениннику",
         actionLabel: "Забронировать",
         actionType: "table",
@@ -670,6 +678,14 @@ function Lightbox({ items, index, onClose }: { items: LightboxItem[]; index: num
     const [current, setCurrent] = useState(index);
     const ref = useRef<HTMLDivElement>(null);
 
+    useEffect(() => {
+        const originalOverflow = document.body.style.overflow;
+        document.body.style.overflow = "hidden";
+        return () => {
+            document.body.style.overflow = originalOverflow;
+        };
+    }, []);
+
     const prev = () => setCurrent((c) => (c - 1 + items.length) % items.length);
     const next = () => setCurrent((c) => (c + 1) % items.length);
 
@@ -690,8 +706,9 @@ function Lightbox({ items, index, onClose }: { items: LightboxItem[]; index: num
         <div
             role="presentation"
             className="fixed inset-0 z-50 flex items-center justify-center"
-            style={{ background: "rgba(10,7,2,0.96)", backdropFilter: "blur(8px)" }}
+            style={{ background: "rgba(10,7,2,0.96)", backdropFilter: "blur(8px)", overscrollBehavior: "contain" }}
             onClick={onClose}
+            onWheel={(e) => e.stopPropagation()}
         >
             <button
                 onClick={onClose}
@@ -745,114 +762,263 @@ function Lightbox({ items, index, onClose }: { items: LightboxItem[]; index: num
     );
 }
 
-// ─── Модальное окно категории меню ──────────────────────────────────────────
+// ─── Вспомогательные функции для оформления меню и фото ───────────────────────
 
-function MenuModal({ item, onClose }: { item: MenuItem; onClose: () => void }) {
+function getDishImage(dish: Dish, categoryId?: string): string {
+    if (dish.img) return dish.img;
+    const nameLower = dish.name.toLowerCase();
+    if (nameLower.includes("шашлык") || nameLower.includes("люля") || nameLower.includes("стейк") || nameLower.includes("садж")) {
+        return imgMenuShashlik;
+    }
+    if (nameLower.includes("тарелка") || nameLower.includes("закуск") || nameLower.includes("сельдь") || nameLower.includes("рулет") || nameLower.includes("креветк") || nameLower.includes("палочки") || nameLower.includes("гренки") || nameLower.includes("наггетс") || nameLower.includes("кольца")) {
+        return imgMenuPlatter;
+    }
+    if (nameLower.includes("коктейль") || nameLower.includes("мохито") || nameLower.includes("шот") || nameLower.includes("лимонад") || nameLower.includes("санрайз") || nameLower.includes("айленд") || nameLower.includes("лагуна") || nameLower.includes("кола") || nameLower.includes("сок")) {
+        return imgMenuCocktails;
+    }
+    if (nameLower.includes("банкет") || nameLower.includes("праздник") || nameLower.includes("свадебн") || nameLower.includes("обед")) {
+        return imgMenuBanquet;
+    }
+    if (nameLower.includes("пиво") || nameLower.includes("водка") || nameLower.includes("коньяк") || nameLower.includes("виски") || nameLower.includes("вино") || nameLower.includes("бар")) {
+        return imgCocktailsWide;
+    }
+    if (nameLower.includes("салат")) {
+        return imgHero;
+    }
+    if (nameLower.includes("пицца") || nameLower.includes("соус")) {
+        return imgHero;
+    }
+    if (nameLower.includes("чай") || nameLower.includes("кофе") || nameLower.includes("мороженое") || nameLower.includes("пломбир") || nameLower.includes("шоколад")) {
+        return imgHeroOld;
+    }
+    if (categoryId === "mangal") return imgMenuShashlik;
+    if (categoryId === "starters") return imgMenuPlatter;
+    if (categoryId === "bar") return imgMenuCocktails;
+    if (categoryId === "banquet") return imgMenuBanquet;
+    if (categoryId === "salads") return imgHero;
+    return imgHero;
+}
+
+function getDishDescription(dish: Dish): string {
+    if (dish.description) return dish.description;
+    if (dish.note) return `Особенности / состав: ${dish.note}`;
+    const nameLower = dish.name.toLowerCase();
+    if (nameLower.includes("шашлык свиной")) return "Сочный шашлык из отборной свиной шейки, маринованный по традиционному кавказскому рецепту и обжаренный на древесных углях.";
+    if (nameLower.includes("шашлык куриный")) return "Нежное куриное филе в авторском маринаде, приготовленное на открытом огне до румяной золотистой корочки.";
+    if (nameLower.includes("люля-кебаб")) return "Классический сочный кебаб из рубленого мяса со свежей зеленью, луком и восточными специями на мангале.";
+    if (nameLower.includes("садж")) return "Праздничное кавказское блюдо на компанию, подается на традиционной подогреваемой чугунной сковороде с мясом, овощами и лавашом.";
+    if (nameLower.includes("салат «белоснежка»")) return "Фирменный салат кафе из нежного филе, свежих овощей, отборного сыра и фирменного соуса от шеф-повара.";
+    if (nameLower.includes("цезарь с креветками")) return "Хрустящие листья салата, обжаренные тигровые креветки, томаты черри, перепелиные яйца, пармезан и классический соус «Цезарь».";
+    if (nameLower.includes("цезарь с курицей")) return "Классический салат с нежным филе цыпленка на гриле, листьями романо, чесночными крутонами и пармезаном.";
+    if (nameLower.includes("рыбная тарелка")) return "Деликатесное ассорти благородной рыбы: слабосолёная сёмга, масляная рыба, лимон, свежая зелень и оливки.";
+    if (nameLower.includes("мясная тарелка")) return "Аппетитная нарезка деликатесного мяса: буженина, сыровяленая колбаса, бастурма и домашний рулет.";
+    if (nameLower.includes("сырная тарелка")) return "Ассорти традиционных и европейских сыров с грецкими орехами, мёдом и свежим виноградом.";
+    if (nameLower.includes("банкет")) return "Полная сервировка торжественного стола: холодные и горячие закуски, салаты, шашлык на углях и напитки для ваших гостей.";
+    if (nameLower.includes("пицца")) return "Ароматная пицца на тонком тесте с хрустящим бортиком, тягучим сыром моцарелла и свежими ингредиентами.";
+    return "Приготовлено из отборных свежих продуктов по традиционным фирменным рецептам кафе «Белоснежка».";
+}
+
+function getDishTag(dish: Dish): string | undefined {
+    if (dish.tag) return dish.tag;
+    const nameLower = dish.name.toLowerCase();
+    if (nameLower.includes("садж") || nameLower.includes("белоснежка") || nameLower.includes("фирменн")) return "Фирменное";
+    if (nameLower.includes("шашлык свиной") || nameLower.includes("люля-кебаб") || nameLower.includes("цезарь с креветками") || nameLower.includes("банкет") || nameLower.includes("пепперони") || nameLower.includes("лонг айленд")) return "Хит";
+    if (nameLower.includes("сёмги") || nameLower.includes("рыбная") || nameLower.includes("стейк из говядины") || nameLower.includes("мохито")) return "Популярное";
+    return undefined;
+}
+
+// ─── Модальное окно детального просмотра блюда с фото ───────────────────────
+
+type DishModalData = {
+    dish: Dish;
+    categoryTitle: string;
+    categoryId: string;
+    allDishes: Dish[];
+    currentIndex: number;
+};
+
+function DishPhotoModal({
+    data,
+    onClose,
+    onBookTable,
+    onChangeDish,
+}: {
+    data: DishModalData;
+    onClose: () => void;
+    onBookTable: (dishName: string) => void;
+    onChangeDish: (index: number) => void;
+}) {
     const ref = useRef<HTMLDivElement>(null);
+    const { dish, categoryTitle, categoryId, allDishes, currentIndex } = data;
+    const currentDish = allDishes[currentIndex] || dish;
+
+    useEffect(() => {
+        const originalOverflow = document.body.style.overflow;
+        document.body.style.overflow = "hidden";
+        return () => {
+            document.body.style.overflow = originalOverflow;
+        };
+    }, []);
 
     useEffect(() => {
         ref.current?.focus();
-        const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+        const onKey = (e: KeyboardEvent) => {
+            if (e.key === "Escape") onClose();
+            if (e.key === "ArrowLeft" && allDishes.length > 1) {
+                onChangeDish((currentIndex - 1 + allDishes.length) % allDishes.length);
+            }
+            if (e.key === "ArrowRight" && allDishes.length > 1) {
+                onChangeDish((currentIndex + 1) % allDishes.length);
+            }
+        };
         document.addEventListener("keydown", onKey);
         return () => document.removeEventListener("keydown", onKey);
-    }, [onClose]);
+    }, [onClose, currentIndex, allDishes.length, onChangeDish]);
 
-    const parsePrice = (priceStr: string) => {
-        const hasFrom = priceStr.startsWith("от ");
-        const amount = hasFrom ? priceStr.replace(/^от\s+/, "") : priceStr;
-        return { hasFrom, amount };
+    const dishImg = getDishImage(currentDish, categoryId);
+    const dishDesc = getDishDescription(currentDish);
+    const dishTag = getDishTag(currentDish);
+
+    const prevDish = () => {
+        if (allDishes.length > 1) {
+            onChangeDish((currentIndex - 1 + allDishes.length) % allDishes.length);
+        }
+    };
+    const nextDish = () => {
+        if (allDishes.length > 1) {
+            onChangeDish((currentIndex + 1) % allDishes.length);
+        }
     };
 
     return (
         <div
             role="presentation"
-            className="fixed inset-0 z-50 flex items-center justify-center p-4"
-            style={{ background: "rgba(10,7,2,0.9)", backdropFilter: "blur(8px)" }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
+            style={{ background: "rgba(10,7,2,0.92)", backdropFilter: "blur(10px)", overscrollBehavior: "contain" }}
             onClick={onClose}
+            onWheel={(e) => e.stopPropagation()}
         >
             <div
                 ref={ref}
                 role="dialog"
                 aria-modal="true"
-                aria-labelledby="menu-modal-title"
+                aria-labelledby="dish-modal-title"
                 tabIndex={-1}
-                className="relative w-full max-w-lg rounded-2xl overflow-hidden outline-none flex flex-col"
-                style={{ background: "#231808", border: "1px solid #c8853a22", maxHeight: "90vh", boxShadow: "none" }}
+                className="relative w-full max-w-lg rounded-2xl overflow-hidden outline-none flex flex-col transition-all duration-300 shadow-2xl"
+                style={{ background: "#1f1406", border: "1px solid #c8853a33", maxHeight: "92vh" }}
                 onClick={(e) => e.stopPropagation()}
             >
-                <div className="relative shrink-0" style={{ height: 200 }}>
+                {/* Фотография блюда */}
+                <div className="relative shrink-0 select-none overflow-hidden" style={{ height: "260px", background: "#2c1f0e" }}>
                     <img
-                        src={item.img}
-                        alt={item.name}
-                        className="w-full h-full object-cover"
-                        style={{ filter: item.filter, objectPosition: item.pos, opacity: 0.85 }}
+                        src={dishImg}
+                        alt={currentDish.name}
+                        className="w-full h-full object-cover pointer-events-none transition-all duration-500"
+                        style={{ filter: "contrast(1.08) saturate(1.15) brightness(0.98)" }}
                     />
-                    <div className="absolute inset-0" style={{ background: "linear-gradient(to top, #231808 0%, transparent 60%)" }} />
-                    {item.tag && (
-                        <span className="absolute top-4 left-4 px-2.5 py-1 rounded-full text-xs" style={{ background: "#c8853a", color: "#1a1208", fontFamily: "var(--font-display)" }}>
-                            {item.tag}
+                    <div className="absolute inset-0" style={{ background: "linear-gradient(to top, #1f1406 0%, transparent 60%), linear-gradient(to bottom, rgba(10,7,2,0.4) 0%, transparent 40%)" }} />
+
+                    {/* Бейджи на фото */}
+                    <div className="absolute top-4 left-4 flex flex-wrap gap-2 items-center">
+                        {dishTag && (
+                            <span className="px-3 py-1 rounded-full text-xs font-semibold tracking-wide shadow-md" style={{ background: "#c8853a", color: "#1a1208", fontFamily: "var(--font-display)" }}>
+                                {dishTag}
+                            </span>
+                        )}
+                        <span className="px-2.5 py-0.5 rounded-full text-[11px] backdrop-blur-md" style={{ background: "rgba(26,18,8,0.75)", color: "#d9c9b0", border: "1px solid #c8853a33" }}>
+                            {categoryTitle}
                         </span>
-                    )}
+                    </div>
+
+                    {/* Кнопка закрытия */}
                     <button
                         onClick={onClose}
                         aria-label="Закрыть"
-                        className="absolute top-3 right-4 text-2xl leading-none opacity-50 hover:opacity-90 transition-opacity"
-                        style={{ color: "#f5ead8", fontFamily: "var(--font-display)" }}
-                    >×</button>
+                        className="absolute top-3 right-4 w-8 h-8 rounded-full flex items-center justify-center text-xl transition-all duration-200 hover:scale-110 active:scale-95"
+                        style={{ background: "rgba(26,18,8,0.75)", color: "#f5ead8", border: "1px solid #c8853a33" }}
+                    >
+                        ×
+                    </button>
+
+                    {/* Стрелки перелистывания на фото */}
+                    {allDishes.length > 1 && (
+                        <>
+                            <button
+                                type="button"
+                                onClick={prevDish}
+                                aria-label="Предыдущее блюдо"
+                                className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full flex items-center justify-center text-lg transition-all duration-200 hover:scale-110 active:scale-90 shadow-lg"
+                                style={{ background: "rgba(26,18,8,0.8)", color: "#f5ead8", border: "1px solid #c8853a44" }}
+                            >
+                                ‹
+                            </button>
+                            <button
+                                type="button"
+                                onClick={nextDish}
+                                aria-label="Следующее блюдо"
+                                className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full flex items-center justify-center text-lg transition-all duration-200 hover:scale-110 active:scale-90 shadow-lg"
+                                style={{ background: "rgba(26,18,8,0.8)", color: "#f5ead8", border: "1px solid #c8853a44" }}
+                            >
+                                ›
+                            </button>
+                            <div className="absolute bottom-3 right-4 px-2 py-0.5 rounded text-[11px] backdrop-blur-sm" style={{ background: "rgba(26,18,8,0.7)", color: "#d9c9b0" }}>
+                                {currentIndex + 1} из {allDishes.length}
+                            </div>
+                        </>
+                    )}
                 </div>
 
-                <div className="px-6 pt-4 pb-3 shrink-0">
-                    <h3 id="menu-modal-title" className="text-2xl mb-1" style={{ fontFamily: "var(--font-display)", color: "#f5ead8", fontStyle: "italic" }}>
-                        {item.name}
-                    </h3>
-                    <p className="text-sm leading-relaxed" style={{ color: "#b8a98e" }}>{item.description}</p>
-                </div>
-
-                <div className="overflow-y-auto px-6 pb-6" style={{ flex: 1, overscrollBehavior: "contain" }}>
-                    <div className="border-t pt-4" style={{ borderColor: "#c8853a22" }}>
-                        {item.dishes.map((dish, i) => {
-                            const { hasFrom, amount } = parsePrice(dish.price);
-                            return (
-                                <div
-                                    key={i}
-                                    className="flex items-baseline justify-between gap-4 py-3 border-b"
-                                    style={{ borderColor: "#c8853a11" }}
-                                >
-                                    <div className="flex flex-col gap-0.5 min-w-0 pr-2">
-                                        <span className="text-sm" style={{ color: "#f5ead8" }}>{dish.name}</span>
-                                        {dish.weight && (
-                                            <span className="text-xs" style={{ color: "#c8853a88", fontFamily: "var(--font-body)", fontVariantNumeric: "tabular-nums" }}>
-                                                {dish.weight}
-                                            </span>
-                                        )}
-                                        {dish.note && (
-                                            <span className="text-[11px] italic" style={{ color: "#b8a98e77" }}>
-                                                {dish.note}
-                                            </span>
-                                        )}
-                                    </div>
-
-                                    <div
-                                        className="shrink-0 flex items-baseline justify-between font-medium select-none"
-                                        style={{
-                                            color: "#c8853a",
-                                            width: "125px",
-                                            fontFamily: "var(--font-body)",
-                                            fontVariantNumeric: "tabular-nums lining-nums",
-                                            whiteSpace: "nowrap",
-                                        }}
-                                    >
-                                        <span className="text-sm">{hasFrom ? "от" : ""}</span>
-                                        <span className="text-sm">{amount}</span>
-                                    </div>
-                                </div>
-                            );
-                        })}
+                {/* Текстовая информация о блюде */}
+                <div className="p-6 overflow-y-auto flex flex-col gap-4" style={{ overscrollBehavior: "contain" }}>
+                    <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 pb-3 border-b" style={{ borderColor: "#c8853a22" }}>
+                        <div>
+                            <h3 id="dish-modal-title" className="text-2xl sm:text-3xl leading-snug" style={{ fontFamily: "var(--font-display)", color: "#f5ead8", fontStyle: "italic" }}>
+                                {currentDish.name}
+                            </h3>
+                            {currentDish.weight && (
+                                <span className="inline-block mt-1 text-xs font-mono font-medium px-2 py-0.5 rounded" style={{ background: "#2c1f0e", color: "#c8853a" }}>
+                                    Порция: {currentDish.weight}
+                                </span>
+                            )}
+                        </div>
+                        <div className="sm:text-right shrink-0">
+                            <span className="text-2xl sm:text-3xl font-normal" style={{ color: "#c8853a", fontFamily: "var(--font-body)", fontVariantNumeric: "tabular-nums" }}>
+                                {currentDish.price}
+                            </span>
+                        </div>
                     </div>
 
-                    <p className="mt-4 text-xs" style={{ color: "#b8a98e55" }}>
-                        Цены актуальны в зале. Уточняйте у администратора.
-                    </p>
+                    <div className="text-sm leading-relaxed" style={{ color: "#d9c9b0" }}>
+                        <p>{dishDesc}</p>
+                    </div>
+
+                    {currentDish.note && (
+                        <div className="p-3.5 rounded-xl text-xs leading-relaxed" style={{ background: "#271a09", border: "1px solid #c8853a22", color: "#e8d8c3" }}>
+                            <span className="font-semibold text-[#c8853a]">Состав / Ингредиенты: </span>
+                            {currentDish.note}
+                        </div>
+                    )}
+
+                    {/* Кнопки действий */}
+                    <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                        <button
+                            type="button"
+                            onClick={() => onBookTable(currentDish.name)}
+                            className="flex-1 py-3 px-5 rounded-xl text-xs uppercase tracking-widest font-semibold transition-all duration-200 hover:brightness-110 active:scale-[0.98] shadow-lg flex items-center justify-center gap-2 text-center"
+                            style={{ background: "#c8853a", color: "#1a1208", fontFamily: "var(--font-display)" }}
+                        >
+                            <span>🍽️</span>
+                            <span>Забронировать столик</span>
+                        </button>
+                        <a
+                            href="tel:+79184350245"
+                            className="py-3 px-5 rounded-xl text-xs uppercase tracking-wider font-medium transition-colors hover:bg-[#3a2e1e] flex items-center justify-center gap-2 border text-center"
+                            style={{ borderColor: "#c8853a44", color: "#f5ead8" }}
+                        >
+                            <span>📞</span>
+                            <span>+7 (918) 435-02-45</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -883,8 +1049,9 @@ function PrivacyModal({ onClose }: { onClose: () => void }) {
         <div
             role="presentation"
             className="fixed inset-0 z-50 flex items-center justify-center p-4"
-            style={{ background: "rgba(10,7,2,0.92)", backdropFilter: "blur(6px)" }}
+            style={{ background: "rgba(10,7,2,0.92)", backdropFilter: "blur(6px)", overscrollBehavior: "contain" }}
             onClick={onClose}
+            onWheel={(e) => e.stopPropagation()}
         >
             <div
                 ref={ref}
@@ -1034,7 +1201,7 @@ function ModalShell({
 
     return (
         <div role="presentation" className="fixed inset-0 z-50 flex items-center justify-center p-4"
-            style={{ background: "rgba(10,7,2,0.88)", backdropFilter: "blur(6px)" }} onClick={onClose}>
+            style={{ background: "rgba(10,7,2,0.88)", backdropFilter: "blur(6px)", overscrollBehavior: "contain" }} onClick={onClose} onWheel={(e) => e.stopPropagation()}>
             <div ref={modalRef} role="dialog" aria-modal="true" aria-labelledby={id}
                 className="relative w-full max-w-lg rounded-2xl p-8 md:p-10 overflow-y-auto"
                 style={{ background: "#231808", border: "1px solid #c8853a33", maxHeight: "90vh", overscrollBehavior: "contain", boxShadow: "none" }}
@@ -1469,7 +1636,6 @@ function BookingTableModal({
                                                         color: form.time === t ? "#c8853a" : "#f5ead8",
                                                         background: form.time === t ? "#2c1f0e" : "transparent",
                                                         fontFamily: "var(--font-body)",
-                                                        fontVariantNumeric: "tabular-nums lining-nums",
                                                         boxShadow: "none",
                                                     }}
                                                     onMouseEnter={(e) => {
@@ -2105,9 +2271,10 @@ export default function App() {
     const [bookingStep, setBookingStep] = useState<"choice" | "table" | "event" | null>(null);
     const [privacyOpen, setPrivacyOpen] = useState(false);
     const [lightbox, setLightbox] = useState<{ index: number } | null>(null);
-    const [selectedDish, setSelectedDish] = useState<MenuItem | null>(null);
     const [activePromoTab, setActivePromoTab] = useState<"all" | "birthday" | "banquet" | "wedding">("all");
     const [activeMenuCategory, setActiveMenuCategory] = useState<string>("mangal");
+    const [menuViewMode, setMenuViewMode] = useState<"cards" | "list">("cards");
+    const [activeDishModal, setActiveDishModal] = useState<DishModalData | null>(null);
     const [cookieOk, setCookieOk] = useState(() => {
         try { return localStorage.getItem("cookie_consent") === "1"; } catch { return false; }
     });
@@ -2153,6 +2320,32 @@ export default function App() {
         : PROMOTIONS.filter(p => p.category === activePromoTab);
 
     const currentCatalog = FULL_CATALOG.find((cat) => cat.id === activeMenuCategory) || FULL_CATALOG[0];
+    const allCategoryDishes = currentCatalog.sections.flatMap((s) => s.items);
+
+    const openDishDetails = (dish: Dish, dishIndexInCat?: number) => {
+        const idx =
+            dishIndexInCat !== undefined && dishIndexInCat >= 0
+                ? dishIndexInCat
+                : allCategoryDishes.findIndex((d) => d.name === dish.name);
+        setActiveDishModal({
+            dish,
+            categoryTitle: currentCatalog.title,
+            categoryId: currentCatalog.id,
+            allDishes: allCategoryDishes,
+            currentIndex: idx >= 0 ? idx : 0,
+        });
+    };
+
+    const handleChangeDishInModal = (nextIdx: number) => {
+        if (!activeDishModal) return;
+        const targetDish = activeDishModal.allDishes[nextIdx];
+        if (!targetDish) return;
+        setActiveDishModal({
+            ...activeDishModal,
+            dish: targetDish,
+            currentIndex: nextIdx,
+        });
+    };
 
     const parsePrice = (priceStr: string) => {
         const hasFrom = priceStr.startsWith("от ");
@@ -2174,16 +2367,31 @@ export default function App() {
             <div className="flex flex-col">
                 {section.items.map((dish, i) => {
                     const { hasFrom, amount } = parsePrice(dish.price);
+                    const isLast = i === section.items.length - 1;
+                    const dishTag = getDishTag(dish);
                     return (
-                        <div
+                        <button
                             key={i}
-                            className={`flex items-baseline justify-between gap-4 py-2${i < section.items.length - 1 ? " border-b" : ""}`}
-                            style={i < section.items.length - 1 ? { borderColor: "#c8853a11" } : undefined}
+                            type="button"
+                            onClick={() => openDishDetails(dish)}
+                            className={`group flex items-baseline justify-between gap-4 py-2.5 px-3 -mx-3 rounded-lg text-left transition-[background-color,color] hover:bg-[#2c1f0e]/70 active:scale-[0.99] cursor-pointer ${isLast ? "" : "border-b"}`}
+                            style={{ borderColor: "#c8853a11" }}
+                            title="Нажмите, чтобы посмотреть фото и описание блюда"
                         >
                             <div className="flex flex-col gap-0.5 min-w-0 pr-2">
-                                <span className="text-sm leading-snug" style={{ color: "#f5ead8" }}>
-                                    {dish.name}
-                                </span>
+                                <div className="flex items-center gap-2 flex-wrap">
+                                    <span className="text-sm leading-snug group-hover:text-amber-300 transition-colors" style={{ color: "#f5ead8" }}>
+                                        {dish.name}
+                                    </span>
+                                    {dishTag && (
+                                        <span className="text-[10px] px-1.5 py-0.2 rounded font-medium" style={{ background: "#c8853a22", color: "#c8853a", border: "1px solid #c8853a44" }}>
+                                            {dishTag}
+                                        </span>
+                                    )}
+                                    <span className="text-[11px] opacity-0 group-hover:opacity-80 transition-opacity" style={{ color: "#c8853a" }}>
+                                        📷 фото
+                                    </span>
+                                </div>
                                 <div className="flex gap-2 items-center flex-wrap">
                                     {dish.weight && (
                                         <span className="text-xs" style={{ color: "#c8853a99", fontFamily: "var(--font-body)", fontVariantNumeric: "tabular-nums" }}>
@@ -2199,7 +2407,7 @@ export default function App() {
                             </div>
 
                             <div
-                                className="shrink-0 flex items-baseline justify-between font-medium select-none"
+                                className="shrink-0 flex items-baseline justify-end font-medium select-none"
                                 style={{
                                     color: "#c8853a",
                                     width: "125px",
@@ -2208,10 +2416,10 @@ export default function App() {
                                     whiteSpace: "nowrap",
                                 }}
                             >
-                                <span className="text-sm">{hasFrom ? "от" : ""}</span>
+                                <span className="text-sm">{hasFrom ? "от " : ""}</span>
                                 <span className="text-sm">{amount}</span>
                             </div>
-                        </div>
+                        </button>
                     );
                 })}
             </div>
@@ -2381,113 +2589,216 @@ export default function App() {
                 </div>
             </section>
 
-            {/* ── MENU SECTION ── */}
-            <section id="menu" className="py-24 md:py-32" style={{ background: "#150e04" }}>
+            {/* ── UNIFIED MENU SECTION ── */}
+            <section id="menu" className="py-20 md:py-28" style={{ background: "#150e04" }}>
                 <div className="max-w-6xl mx-auto px-6">
-                    <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-12 gap-4">
+                    {/* Заголовок секции меню и переключатель вида */}
+                    <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-8 gap-6">
                         <div>
-                            <p className="mb-3 text-xs tracking-widest uppercase" style={{ color: "#c8853a", letterSpacing: "0.2em" }}>Кухня и бар</p>
-                            <h2 className="leading-tight" style={{ fontFamily: "var(--font-display)", fontSize: "clamp(2rem, 4vw, 3rem)", color: "#f5ead8", fontStyle: "italic" }}>
-                                Фирменные блюда
+                            <p className="mb-2 text-xs tracking-widest uppercase flex items-center gap-2" style={{ color: "#c8853a", letterSpacing: "0.2em" }}>
+                                <span>✦</span>
+                                <span>Гастрономия & Бар</span>
+                            </p>
+                            <h2 className="leading-tight" style={{ fontFamily: "var(--font-display)", fontSize: "clamp(2.2rem, 4.5vw, 3.2rem)", color: "#f5ead8", fontStyle: "italic" }}>
+                                Кухня и бар
                             </h2>
-                        </div>
-                        <a href="#full-menu" className="text-sm underline underline-offset-4 hover:text-amber-300 transition-colors" style={{ color: "#d9c9b0" }}>
-                            Перейти к полному каталогу цен ↓
-                        </a>
-                    </div>
-
-                    {/* 4 карточки быстрого просмотра */}
-                    <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
-                        {FEATURED_MENU_CARDS.map((item) => (
-                            <button
-                                key={item.name}
-                                type="button"
-                                onClick={() => setSelectedDish(item)}
-                                className="group rounded-2xl overflow-hidden flex flex-col transition-transform hover:-translate-y-1 active:scale-[0.98] text-left"
-                                style={{ background: "#231808", border: "1px solid #c8853a18", cursor: "pointer", boxShadow: "none" }}
-                                aria-label={`Открыть меню: ${item.name}`}
-                            >
-                                <div className="relative overflow-hidden" style={{ aspectRatio: "4/3", background: "#2c1f0e" }}>
-                                    <img
-                                        src={item.img}
-                                        alt={item.name}
-                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 outline outline-1 -outline-offset-1 outline-white/10"
-                                        style={{ opacity: 0.92, filter: item.filter, objectPosition: item.pos }}
-                                    />
-                                    {item.tag && (
-                                        <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs tracking-wide" style={{ background: "#c8853a", color: "#1a1208", fontFamily: "var(--font-display)" }}>
-                                            {item.tag}
-                                        </span>
-                                    )}
-                                    <span className="absolute bottom-3 right-3 text-xs opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: "#c8853a", fontFamily: "var(--font-display)" }}>
-                                        состав блюд →
-                                    </span>
-                                </div>
-                                <div className="p-5 flex flex-col flex-1">
-                                    <div className="flex items-start justify-between gap-2 mb-2">
-                                        <h3 className="text-base font-semibold leading-snug" style={{ fontFamily: "var(--font-display)", color: "#f5ead8" }}>
-                                            {item.name}
-                                        </h3>
-                                        <span
-                                            className="text-sm font-normal shrink-0 mt-0.5"
-                                            style={{
-                                                color: "#c8853a",
-                                                fontFamily: "var(--font-body)",
-                                                fontVariantNumeric: "tabular-nums lining-nums",
-                                                letterSpacing: "0.01em",
-                                            }}
-                                        >
-                                            {item.price}
-                                        </span>
-                                    </div>
-                                    <p className="text-sm leading-relaxed" style={{ color: "#b8a98e" }}>{item.description}</p>
-                                </div>
-                            </button>
-                        ))}
-                    </div>
-
-                    {/* ── ПОЛНОЕ ИНТЕРАКТИВНОЕ МЕНЮ (ПО КАТЕГОРИЯМ СО СТОЛБЦАМИ) ── */}
-                    <div id="full-menu" className="pt-8 border-t" style={{ borderColor: "#c8853a22" }}>
-                        <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-8 gap-4">
-                            <div>
-                                <p className="mb-2 text-xs tracking-widest uppercase" style={{ color: "#c8853a", letterSpacing: "0.2em" }}>
-                                    Основное меню
-                                </p>
-                                <h3 className="text-3xl font-normal leading-tight" style={{ fontFamily: "var(--font-display)", color: "#f5ead8", fontStyle: "italic" }}>
-                                    Полный прейскурант кафе
-                                </h3>
-                            </div>
-                            <p className="text-xs" style={{ color: "#b8a98e88" }}>
-                                Все цены приведены в рублях. Выберите интересующий раздел:
+                            <p className="mt-2 text-sm max-w-xl leading-relaxed" style={{ color: "#d9c9b0" }}>
+                                Традиционная русская и армянская кухня, сочные блюда на углях, деликатесные закуски и напитки. Нажмите на любую позицию для детального фото и состава.
                             </p>
                         </div>
 
-                        {/* Вкладки разделов меню */}
-                        <div className="flex gap-2 flex-wrap mb-10">
-                            {FULL_CATALOG.map((cat) => {
-                                const isActive = activeMenuCategory === cat.id;
+                        {/* Переключатель режима отображения: Фото-карточки vs Прейскурант */}
+                        <div className="flex items-center gap-2 p-1.5 rounded-2xl shrink-0 self-start md:self-end" style={{ background: "#231808", border: "1px solid #c8853a33" }}>
+                            <button
+                                type="button"
+                                onClick={() => setMenuViewMode("cards")}
+                                className="px-4 py-2 rounded-xl text-xs tracking-wider uppercase font-semibold transition-all duration-200 flex items-center gap-1.5 active:scale-95 cursor-pointer"
+                                style={{
+                                    background: menuViewMode === "cards" ? "#c8853a" : "transparent",
+                                    color: menuViewMode === "cards" ? "#1a1208" : "#d9c9b0",
+                                    fontFamily: "var(--font-display)",
+                                    boxShadow: menuViewMode === "cards" ? "0 2px 8px rgba(200,133,58,0.25)" : "none",
+                                }}
+                            >
+                                <span>⊞</span>
+                                <span>С фото</span>
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => setMenuViewMode("list")}
+                                className="px-4 py-2 rounded-xl text-xs tracking-wider uppercase font-semibold transition-all duration-200 flex items-center gap-1.5 active:scale-95 cursor-pointer"
+                                style={{
+                                    background: menuViewMode === "list" ? "#c8853a" : "transparent",
+                                    color: menuViewMode === "list" ? "#1a1208" : "#d9c9b0",
+                                    fontFamily: "var(--font-display)",
+                                    boxShadow: menuViewMode === "list" ? "0 2px 8px rgba(200,133,58,0.25)" : "none",
+                                }}
+                            >
+                                <span>☰</span>
+                                <span>Прейскурант</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Горизонтальные вкладки категорий */}
+                    <div className="flex gap-2.5 overflow-x-auto pb-3 mb-8 scrollbar-thin">
+                        {[
+                            { id: "mangal", label: "Мангал и Стейки", icon: "🔥", badge: "Хит" },
+                            { id: "salads", label: "Салаты", icon: "🥗" },
+                            { id: "starters", label: "Закуски", icon: "🍤" },
+                            { id: "hot", label: "Горячие блюда", icon: "🍲" },
+                            { id: "pizza_sauces", label: "Пицца и Соусы", icon: "🍕" },
+                            { id: "tea_coffee", label: "Чай & Десерты", icon: "☕" },
+                            { id: "bar", label: "Бар и Напитки", icon: "🍹" },
+                            { id: "banquet", label: "Банкеты", icon: "🎉", badge: "от 15 чел." },
+                        ].map((cat) => {
+                            const isActive = activeMenuCategory === cat.id;
+                            return (
+                                <button
+                                    key={cat.id}
+                                    type="button"
+                                    onClick={() => setActiveMenuCategory(cat.id)}
+                                    className="px-4 py-2.5 rounded-xl text-xs tracking-wider uppercase font-medium transition-all duration-200 flex items-center gap-2 whitespace-nowrap shrink-0 active:scale-[0.96] cursor-pointer"
+                                    style={{
+                                        background: isActive ? "#c8853a" : "#231808",
+                                        color: isActive ? "#1a1208" : "#d9c9b0",
+                                        border: `1px solid ${isActive ? "#c8853a" : "#c8853a33"}`,
+                                        fontFamily: "var(--font-display)",
+                                        fontWeight: isActive ? 600 : 500,
+                                        boxShadow: isActive ? "0 2px 10px rgba(200,133,58,0.25)" : "none",
+                                    }}
+                                >
+                                    <span>{cat.icon}</span>
+                                    <span>{cat.label}</span>
+                                    {cat.badge && (
+                                        <span
+                                            className="px-1.5 py-0.2 rounded text-[10px]"
+                                            style={{
+                                                background: isActive ? "#1a1208" : "#c8853a22",
+                                                color: isActive ? "#f5ead8" : "#c8853a",
+                                            }}
+                                        >
+                                            {cat.badge}
+                                        </span>
+                                    )}
+                                </button>
+                            );
+                        })}
+                    </div>
+
+                    {/* Информационная плашка раздела */}
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-3 border-b" style={{ borderColor: "#c8853a22" }}>
+                        <div className="flex items-center gap-3">
+                            <h3 className="text-xl font-medium tracking-wide" style={{ fontFamily: "var(--font-display)", color: "#f5ead8", fontStyle: "italic" }}>
+                                {currentCatalog.title}
+                            </h3>
+                            <span className="text-xs px-2.5 py-0.5 rounded-full font-mono" style={{ background: "#2c1f0e", color: "#c8853a" }}>
+                                {allCategoryDishes.length} поз.
+                            </span>
+                        </div>
+                        <p className="text-xs flex items-center gap-1.5" style={{ color: "#b8a98e99" }}>
+                            <span>✦</span>
+                            <span>Нажмите на любую позицию, чтобы посмотреть увеличенное фото и состав</span>
+                        </p>
+                    </div>
+
+                    {/* ── РЕЖИМ 1: КАРТОЧКИ С ФОТОГРАФИЯМИ ── */}
+                    {menuViewMode === "cards" && (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {allCategoryDishes.map((dish, idx) => {
+                                const img = getDishImage(dish, currentCatalog.id);
+                                const tag = getDishTag(dish);
+                                const { hasFrom, amount } = parsePrice(dish.price);
+                                const desc = getDishDescription(dish);
                                 return (
-                                    <button
-                                        key={cat.id}
-                                        type="button"
-                                        onClick={() => setActiveMenuCategory(cat.id)}
-                                        className="px-4 py-2 rounded-full text-xs tracking-wider uppercase font-medium transition-[background-color,color,border-color,transform] active:scale-[0.96]"
+                                    <div
+                                        key={idx}
+                                        onClick={() => openDishDetails(dish, idx)}
+                                        className="group rounded-2xl overflow-hidden flex flex-col cursor-pointer transition-all duration-300 hover:-translate-y-1.5 active:scale-[0.98]"
                                         style={{
-                                            background: isActive ? "#c8853a" : "#231808",
-                                            color: isActive ? "#1a1208" : "#d9c9b0",
-                                            border: `1px solid ${isActive ? "#c8853a" : "#c8853a33"}`,
-                                            fontFamily: "var(--font-display)",
-                                            letterSpacing: "0.08em",
+                                            background: "#231808",
+                                            border: "1px solid #c8853a26",
                                             boxShadow: "none",
                                         }}
                                     >
-                                        {cat.title}
-                                    </button>
+                                        <div className="relative overflow-hidden shrink-0 select-none" style={{ height: "200px", background: "#2c1f0e" }}>
+                                            <img
+                                                src={img}
+                                                alt={dish.name}
+                                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-108"
+                                                style={{ filter: "contrast(1.1) saturate(1.2) brightness(0.96)" }}
+                                                loading="lazy"
+                                            />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-[#231808] via-transparent to-transparent opacity-80" />
+
+                                            {tag && (
+                                                <span
+                                                    className="absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-semibold tracking-wide shadow-md"
+                                                    style={{ background: "#c8853a", color: "#1a1208", fontFamily: "var(--font-display)" }}
+                                                >
+                                                    {tag}
+                                                </span>
+                                            )}
+                                            {dish.weight && (
+                                                <span
+                                                    className="absolute top-3 right-3 px-2 py-0.5 rounded-md text-[11px] font-mono backdrop-blur-md"
+                                                    style={{ background: "rgba(26,18,8,0.75)", color: "#f5ead8", border: "1px solid #c8853a33" }}
+                                                >
+                                                    {dish.weight}
+                                                </span>
+                                            )}
+
+                                            <div
+                                                className="absolute bottom-2.5 right-3 px-2.5 py-1 rounded-lg text-xs font-medium opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center gap-1.5 backdrop-blur-sm shadow-md"
+                                                style={{ background: "rgba(26,18,8,0.88)", color: "#c8853a", border: "1px solid #c8853a44", fontFamily: "var(--font-display)" }}
+                                            >
+                                                <span>🔍</span>
+                                                <span>Открыть фото</span>
+                                            </div>
+                                        </div>
+
+                                        <div className="p-5 flex flex-col flex-1 justify-between gap-4">
+                                            <div>
+                                                <div className="flex items-start justify-between gap-3 mb-2">
+                                                    <h4
+                                                        className="text-base font-semibold leading-snug group-hover:text-amber-300 transition-colors"
+                                                        style={{ fontFamily: "var(--font-display)", color: "#f5ead8" }}
+                                                    >
+                                                        {dish.name}
+                                                    </h4>
+                                                    <span
+                                                        className="text-base font-semibold shrink-0"
+                                                        style={{
+                                                            color: "#c8853a",
+                                                            fontFamily: "var(--font-body)",
+                                                            fontVariantNumeric: "tabular-nums lining-nums",
+                                                            whiteSpace: "nowrap",
+                                                        }}
+                                                    >
+                                                        {hasFrom ? "от " : ""}{amount}
+                                                    </span>
+                                                </div>
+
+                                                <p className="text-xs leading-relaxed line-clamp-2" style={{ color: "#b8a98e" }}>
+                                                    {desc}
+                                                </p>
+                                            </div>
+
+                                            {dish.note && (
+                                                <div className="pt-2 border-t text-[11px] italic truncate" style={{ borderColor: "#c8853a18", color: "#b8a98e88" }}>
+                                                    <span className="text-[#c8853a88] not-italic">Состав: </span>
+                                                    {dish.note}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
                                 );
                             })}
                         </div>
+                    )}
 
-                        {/* Контейнер блюд */}
+                    {/* ── РЕЖИМ 2: КЛАССИЧЕСКИЙ ПРЕЙСКУРАНТ ── */}
+                    {menuViewMode === "list" && (
                         <div
                             className="rounded-2xl p-6 md:p-8"
                             style={{
@@ -2496,7 +2807,7 @@ export default function App() {
                                 boxShadow: "none",
                             }}
                         >
-                            {/* Десктопная сетка: строго 2 параллельные колонки с независимым потоком */}
+                            {/* Десктопная сетка: строго 2 параллельные колонки */}
                             <div className="hidden md:grid md:grid-cols-2 gap-x-12 gap-y-8 items-start">
                                 <div className="flex flex-col gap-8">
                                     {currentCatalog.sections.filter(s => s.col === 1).map(renderSectionBlock)}
@@ -2512,26 +2823,48 @@ export default function App() {
                                     .sort((a, b) => (a.orderMobile ?? 0) - (b.orderMobile ?? 0))
                                     .map(renderSectionBlock)}
                             </div>
+                        </div>
+                    )}
 
-                            <div className="mt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                                <p className="text-xs" style={{ color: "#b8a98e66" }}>
-                                    ✦ Цены актуальны в зале кафе «Белоснежка». Желаем приятного отдыха!
-                                </p>
-                                <button
-                                    type="button"
-                                    onClick={openBooking}
-                                    className="px-6 py-2.5 rounded-full text-xs tracking-wider uppercase font-semibold transition-[filter,transform] hover:brightness-110 active:scale-[0.96]"
-                                    style={{
-                                        background: "#c8853a",
-                                        color: "#1a1208",
-                                        fontFamily: "var(--font-display)",
-                                        letterSpacing: "0.1em",
-                                        boxShadow: "none",
-                                    }}
-                                >
-                                    Забронировать
-                                </button>
-                            </div>
+                    {/* Нижняя сервисная плашка с бронированием столика */}
+                    <div
+                        className="mt-10 p-6 md:p-8 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6"
+                        style={{ background: "#231808", border: "1px solid #c8853a26" }}
+                    >
+                        <div>
+                            <p className="text-sm md:text-base font-medium" style={{ fontFamily: "var(--font-display)", color: "#f5ead8" }}>
+                                Желаете забронировать столик или согласовать праздничное банкетное меню?
+                            </p>
+                            <p className="mt-1 text-xs" style={{ color: "#b8a98e88" }}>
+                                ✦ Все блюда готовятся свежими из отборных продуктов. Ждём вас ежедневно в кафе «Белоснежка»!
+                            </p>
+                        </div>
+                        <div className="flex flex-wrap gap-3 items-center shrink-0">
+                            <button
+                                type="button"
+                                onClick={openBooking}
+                                className="px-6 py-3 rounded-full text-xs tracking-wider uppercase font-semibold transition-[filter,transform] hover:brightness-110 active:scale-[0.96] cursor-pointer"
+                                style={{
+                                    background: "#c8853a",
+                                    color: "#1a1208",
+                                    fontFamily: "var(--font-display)",
+                                    letterSpacing: "0.1em",
+                                    boxShadow: "none",
+                                }}
+                            >
+                                Забронировать столик
+                            </button>
+                            <a
+                                href="tel:+79184350245"
+                                className="px-5 py-3 rounded-full text-xs tracking-wider uppercase font-medium transition-colors hover:bg-amber-500/10 border text-center"
+                                style={{
+                                    borderColor: "#c8853a44",
+                                    color: "#f5ead8",
+                                    fontFamily: "var(--font-body)",
+                                }}
+                            >
+                                +7 (918) 435-02-45
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -2901,7 +3234,17 @@ export default function App() {
             </footer>
 
             {/* ── МОДАЛИ ── */}
-            {selectedDish && <MenuModal item={selectedDish} onClose={() => setSelectedDish(null)} />}
+            {activeDishModal && (
+                <DishPhotoModal
+                    data={activeDishModal}
+                    onClose={() => setActiveDishModal(null)}
+                    onBookTable={() => {
+                        setActiveDishModal(null);
+                        openBooking();
+                    }}
+                    onChangeDish={handleChangeDishInModal}
+                />
+            )}
 
             {bookingStep === "choice" && (
                 <BookingChoiceModal

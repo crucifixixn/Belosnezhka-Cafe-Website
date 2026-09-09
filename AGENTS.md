@@ -39,3 +39,9 @@ This project uses **Tailwind CSS v4** through the `@tailwindcss/vite` plugin con
 - Use double quotes for strings containing apostrophes (`"We're here to help"`), or escape them in single-quoted strings. An unescaped apostrophe in a single-quoted string breaks the build.
 - Ensure JSX tags are closed and braces are balanced.
 - Export components as default exports.
+
+## Backup Policy Before Changes
+
+- ALWAYS create a timestamped backup in `.backups/` before modifying any source code files.
+- Enable easy single-command rollback for the user at any point.
+
