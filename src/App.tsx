@@ -1539,7 +1539,7 @@ function DishPhotoModal({
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Фотография блюда */}
-                <div className="relative shrink-0 select-none overflow-hidden" style={{ height: "260px", background: "#2c1f0e" }}>
+                <div className="relative shrink-0 select-none overflow-hidden h-52 sm:h-64" style={{ background: "#2c1f0e" }}>
                     <img
                         src={dishImg}
                         alt={currentDish.name}
@@ -3279,57 +3279,93 @@ export default function App() {
                         className="relative rounded-2xl overflow-hidden mb-8 group"
                         style={{
                             border: "1px solid #c8853a33",
-                            background: "#231808",
+                            background: "#181005",
                         }}
                     >
-                        <div className="relative h-56 sm:h-72 md:h-80 w-full overflow-hidden">
-                            <img
-                                src={currentCatMeta.heroImg}
-                                alt={currentCatMeta.label}
-                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                                style={{ filter: "contrast(1.08) saturate(1.18) brightness(0.92)" }}
-                            />
-                            <div
-                                className="absolute inset-0"
-                                style={{
-                                    background: "linear-gradient(to top, rgba(21, 14, 4, 0.95) 0%, rgba(21, 14, 4, 0.45) 50%, rgba(21, 14, 4, 0.2) 100%)",
-                                }}
-                            />
-                            <div className="absolute inset-0 p-6 sm:p-8 flex flex-col justify-end">
-                                <div className="flex items-center gap-2 mb-2 flex-wrap">
+                        {/* Фоновое фото */}
+                        <img
+                            src={currentCatMeta.heroImg}
+                            alt={currentCatMeta.label}
+                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 pointer-events-none"
+                            style={{ filter: "contrast(1.08) saturate(1.15) brightness(0.82)" }}
+                        />
+
+                        {/* Базовое плотное затемнение для гарантированной читаемости на любом фоне */}
+                        <div
+                            className="absolute inset-0 pointer-events-none"
+                            style={{
+                                background: "rgba(16, 10, 4, 0.65)",
+                            }}
+                        />
+
+                        {/* Градиент снизу вверх для контраста заголовка и подсказки */}
+                        <div
+                            className="absolute inset-0 pointer-events-none"
+                            style={{
+                                background: "linear-gradient(to top, rgba(14, 9, 3, 0.98) 0%, rgba(14, 9, 3, 0.88) 50%, rgba(14, 9, 3, 0.6) 100%)",
+                            }}
+                        />
+
+                        {/* Контент карточки — безопасные отступы, никогда не вылезает за пределы */}
+                        <div className="relative z-10 min-h-[330px] sm:min-h-[290px] p-5 sm:p-8 flex flex-col justify-between">
+                            {/* Верхняя строка с бейджами — прижата к верхнему краю с внутренним отступом */}
+                            <div className="flex items-center justify-between gap-2 mb-4 flex-wrap">
+                                <div className="flex items-center gap-2 flex-wrap">
                                     <span
-                                        className="text-[11px] uppercase tracking-widest font-bold px-2.5 py-1 rounded-full backdrop-blur-md"
+                                        className="text-[11px] uppercase tracking-widest font-bold px-2.5 py-1 rounded-full backdrop-blur-md shadow-sm"
                                         style={{ background: "#c8853a", color: "#1a1208", fontFamily: "var(--font-display)", fontWeight: 700 }}
                                     >
                                         Раздел
                                     </span>
                                     {currentCatMeta.badge && (
                                         <span
-                                            className="text-[11px] px-2.5 py-1 rounded-full backdrop-blur-md"
-                                            style={{ background: "rgba(26,18,8,0.75)", color: "#f5ead8", border: "1px solid #c8853a44" }}
+                                            className="text-[11px] px-2.5 py-1 rounded-full backdrop-blur-md font-medium"
+                                            style={{ background: "rgba(26,18,8,0.85)", color: "#f5ead8", border: "1px solid #c8853a44" }}
                                         >
                                             {currentCatMeta.badge}
                                         </span>
                                     )}
-                                    <span
-                                        className="text-xs px-2.5 py-1 rounded-full font-mono ml-auto backdrop-blur-md"
-                                        style={{ background: "rgba(26,18,8,0.75)", color: "#c8853a", border: "1px solid #c8853a33" }}
-                                    >
-                                        {allCategoryDishes.length} поз.
-                                    </span>
                                 </div>
+                                <span
+                                    className="text-xs px-2.5 py-1 rounded-full font-mono shrink-0 backdrop-blur-md font-medium"
+                                    style={{ background: "rgba(26,18,8,0.85)", color: "#e4a55a", border: "1px solid #c8853a33" }}
+                                >
+                                    {allCategoryDishes.length} поз.
+                                </span>
+                            </div>
+
+                            {/* Нижняя часть: заголовок, описание и подсказка */}
+                            <div className="mt-auto">
                                 <h3
-                                    className="text-2xl sm:text-4xl font-semibold leading-tight mb-2"
-                                    style={{ fontFamily: "var(--font-display)", color: "#f5ead8", fontStyle: "italic" }}
+                                    className="text-2xl sm:text-3xl md:text-4xl font-semibold leading-tight mb-2"
+                                    style={{
+                                        fontFamily: "var(--font-display)",
+                                        color: "#f5ead8",
+                                        fontStyle: "italic",
+                                        textShadow: "0 2px 10px rgba(0,0,0,0.9), 0 1px 3px rgba(0,0,0,0.95)",
+                                    }}
                                 >
                                     {currentCatMeta.label}
                                 </h3>
-                                <p className="text-xs sm:text-sm max-w-2xl leading-relaxed" style={{ color: "#d9c9b0" }}>
+                                <p
+                                    className="text-xs sm:text-sm max-w-2xl leading-relaxed mb-3"
+                                    style={{
+                                        color: "#f0e4d0",
+                                        textShadow: "0 1px 6px rgba(0,0,0,0.95), 0 1px 2px rgba(0,0,0,0.95)",
+                                    }}
+                                >
                                     {currentCatMeta.tagline}
                                 </p>
-                                <div className="mt-3 flex items-center gap-2 text-xs" style={{ color: "#c8853a" }}>
-                                    <span>✦</span>
-                                    <span>Нажмите на любую позицию в прейскуранте ниже, чтобы посмотреть детальное фото и состав</span>
+                                <div
+                                    className="inline-flex items-center gap-2 text-xs py-1 px-2.5 rounded-lg backdrop-blur-md"
+                                    style={{
+                                        background: "rgba(26, 18, 8, 0.7)",
+                                        border: "1px solid #c8853a44",
+                                        color: "#e4a55a",
+                                    }}
+                                >
+                                    <span className="text-amber-400 shrink-0">✦</span>
+                                    <span className="leading-snug">Нажмите на любую позицию ниже для просмотра фото и состава</span>
                                 </div>
                             </div>
                         </div>
