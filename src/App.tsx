@@ -174,6 +174,67 @@ type MenuCategory = {
     sections: MenuSection[];
 };
 
+type CategoryMeta = {
+    id: string;
+    label: string;
+    badge?: string;
+    heroImg: string;
+    tagline: string;
+};
+
+const MENU_CATEGORIES_META: CategoryMeta[] = [
+    {
+        id: "mangal",
+        label: "Мангал и стейки",
+        badge: "Хит",
+        heroImg: foodShashlikPork,
+        tagline: "Сочные блюда на открытом огне, традиционный кавказский шашлык, люля-кебабы и стейки из отборного мяса и рыбы",
+    },
+    {
+        id: "salads",
+        label: "Салаты",
+        heroImg: imgHero,
+        tagline: "Свежие фирменные и классические салаты со свежими овощами, птицей, морепродуктами и авторскими заправками",
+    },
+    {
+        id: "starters",
+        label: "Закуски",
+        heroImg: foodMeatPlate,
+        tagline: "Холодные и горячие банкетные закуски, нарезки мясных и рыбных деликатесов, сырные тарелки и запеченные роллы",
+    },
+    {
+        id: "hot",
+        label: "Горячие блюда",
+        heroImg: foodZharkoeArmenia,
+        tagline: "Наваристые первые и сытные вторые блюда русской и армянской кухни, домашнее жаркое и аппетитные гарниры",
+    },
+    {
+        id: "pizza_sauces",
+        label: "Пицца и соусы",
+        heroImg: foodPizzaGribnaya,
+        tagline: "Фирменная горячая пицца на тонком тесте с хрустящим бортиком, тягучим сыром моцарелла и домашние соусы",
+    },
+    {
+        id: "tea_coffee",
+        label: "Чай и десерты",
+        heroImg: imgHeroOld,
+        tagline: "Традиционные чайные наборы с мёдом и сухофруктами, натуральный кофе, гляссе и освежающее мороженое",
+    },
+    {
+        id: "bar",
+        label: "Бар и напитки",
+        heroImg: foodCocktails7,
+        tagline: "Авторские коктейли, шоты, освежающие лимонады, разливное пиво и богатая барная карта для праздничного вечера",
+    },
+    {
+        id: "banquet",
+        label: "Банкеты",
+        badge: "до 150 мест",
+        heroImg: foodBanquetHall,
+        tagline: "Полная банкетная сервировка любого торжества до 150 посадочных мест: свадьбы, юбилеи, дни рождения и памятные даты",
+    },
+];
+
 const FULL_CATALOG: MenuCategory[] = [
     {
         id: "mangal",
@@ -1078,10 +1139,9 @@ function DishPhotoModal({
                         <button
                             type="button"
                             onClick={() => onBookTable(currentDish.name)}
-                            className="flex-1 py-3 px-5 rounded-xl text-xs uppercase tracking-widest font-semibold transition-all duration-200 hover:brightness-110 active:scale-[0.98] shadow-lg flex items-center justify-center gap-2 text-center"
+                            className="flex-1 py-3 px-5 rounded-xl text-xs uppercase tracking-widest font-semibold transition-all duration-200 hover:brightness-110 active:scale-[0.98] shadow-lg flex items-center justify-center gap-2 text-center cursor-pointer"
                             style={{ background: "#c8853a", color: "#1a1208", fontFamily: "var(--font-display)" }}
                         >
-                            <span>🍽️</span>
                             <span>Забронировать столик</span>
                         </button>
                         <a
@@ -1089,7 +1149,6 @@ function DishPhotoModal({
                             className="py-3 px-5 rounded-xl text-xs uppercase tracking-wider font-medium transition-colors hover:bg-[#3a2e1e] flex items-center justify-center gap-2 border text-center"
                             style={{ borderColor: "#c8853a44", color: "#f5ead8" }}
                         >
-                            <span>📞</span>
                             <span>+7 (918) 435-02-45</span>
                         </a>
                     </div>
@@ -2347,7 +2406,6 @@ export default function App() {
     const [lightbox, setLightbox] = useState<{ index: number } | null>(null);
     const [activePromoTab, setActivePromoTab] = useState<"all" | "birthday" | "banquet" | "wedding">("all");
     const [activeMenuCategory, setActiveMenuCategory] = useState<string>("mangal");
-    const [menuViewMode, setMenuViewMode] = useState<"cards" | "list">("cards");
     const [activeDishModal, setActiveDishModal] = useState<DishModalData | null>(null);
     const [cookieOk, setCookieOk] = useState(() => {
         try { return localStorage.getItem("cookie_consent") === "1"; } catch { return false; }
@@ -2394,6 +2452,7 @@ export default function App() {
         : PROMOTIONS.filter(p => p.category === activePromoTab);
 
     const currentCatalog = FULL_CATALOG.find((cat) => cat.id === activeMenuCategory) || FULL_CATALOG[0];
+    const currentCatMeta = MENU_CATEGORIES_META.find((c) => c.id === activeMenuCategory) || MENU_CATEGORIES_META[0];
     const allCategoryDishes = currentCatalog.sections.flatMap((s) => s.items);
 
     const openDishDetails = (dish: Dish, dishIndexInCat?: number) => {
@@ -2462,8 +2521,11 @@ export default function App() {
                                             {dishTag}
                                         </span>
                                     )}
-                                    <span className="text-[11px] opacity-0 group-hover:opacity-80 transition-opacity" style={{ color: "#c8853a" }}>
-                                        📷 фото
+                                    <span
+                                        className="text-[10px] uppercase tracking-wider px-1.5 py-0.5 rounded opacity-40 group-hover:opacity-100 transition-opacity font-medium"
+                                        style={{ border: "1px solid #c8853a33", color: "#c8853a" }}
+                                    >
+                                        фото
                                     </span>
                                 </div>
                                 <div className="flex gap-2 items-center flex-wrap">
@@ -2666,73 +2728,34 @@ export default function App() {
             {/* ── UNIFIED MENU SECTION ── */}
             <section id="menu" className="py-20 md:py-28" style={{ background: "#150e04" }}>
                 <div className="max-w-6xl mx-auto px-6">
-                    {/* Заголовок секции меню и переключатель вида */}
-                    <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-8 gap-6">
-                        <div>
-                            <p className="mb-2 text-xs tracking-widest uppercase flex items-center gap-2" style={{ color: "#c8853a", letterSpacing: "0.2em" }}>
-                                <span>✦</span>
-                                <span>Гастрономия & Бар</span>
-                            </p>
-                            <h2 className="leading-tight" style={{ fontFamily: "var(--font-display)", fontSize: "clamp(2.2rem, 4.5vw, 3.2rem)", color: "#f5ead8", fontStyle: "italic" }}>
-                                Кухня и бар
-                            </h2>
-                            <p className="mt-2 text-sm max-w-xl leading-relaxed" style={{ color: "#d9c9b0" }}>
-                                Традиционная русская и армянская кухня, сочные блюда на углях, деликатесные закуски и напитки. Нажмите на любую позицию для детального фото и состава.
-                            </p>
-                        </div>
-
-                        {/* Переключатель режима отображения: Фото-карточки vs Прейскурант */}
-                        <div className="flex items-center gap-2 p-1.5 rounded-2xl shrink-0 self-start md:self-end" style={{ background: "#231808", border: "1px solid #c8853a33" }}>
-                            <button
-                                type="button"
-                                onClick={() => setMenuViewMode("cards")}
-                                className="px-4 py-2 rounded-xl text-xs tracking-wider uppercase font-semibold transition-all duration-200 flex items-center gap-1.5 active:scale-95 cursor-pointer"
-                                style={{
-                                    background: menuViewMode === "cards" ? "#c8853a" : "transparent",
-                                    color: menuViewMode === "cards" ? "#1a1208" : "#d9c9b0",
-                                    fontFamily: "var(--font-display)",
-                                    boxShadow: menuViewMode === "cards" ? "0 2px 8px rgba(200,133,58,0.25)" : "none",
-                                }}
-                            >
-                                <span>⊞</span>
-                                <span>С фото</span>
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => setMenuViewMode("list")}
-                                className="px-4 py-2 rounded-xl text-xs tracking-wider uppercase font-semibold transition-all duration-200 flex items-center gap-1.5 active:scale-95 cursor-pointer"
-                                style={{
-                                    background: menuViewMode === "list" ? "#c8853a" : "transparent",
-                                    color: menuViewMode === "list" ? "#1a1208" : "#d9c9b0",
-                                    fontFamily: "var(--font-display)",
-                                    boxShadow: menuViewMode === "list" ? "0 2px 8px rgba(200,133,58,0.25)" : "none",
-                                }}
-                            >
-                                <span>☰</span>
-                                <span>Прейскурант</span>
-                            </button>
+                    {/* Заголовок секции меню */}
+                    <div className="mb-8">
+                        <p className="mb-2 text-xs tracking-widest uppercase flex items-center gap-2" style={{ color: "#c8853a", letterSpacing: "0.2em" }}>
+                            <span>✦</span>
+                            <span>Гастрономия & Бар</span>
+                        </p>
+                        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                            <div>
+                                <h2 className="leading-tight" style={{ fontFamily: "var(--font-display)", fontSize: "clamp(2.2rem, 4.5vw, 3.2rem)", color: "#f5ead8", fontStyle: "italic" }}>
+                                    Кухня и бар
+                                </h2>
+                                <p className="mt-2 text-sm max-w-2xl leading-relaxed" style={{ color: "#d9c9b0" }}>
+                                    Традиционная русская и армянская кухня, сочные блюда на углях, деликатесные банкетные закуски и авторский бар. Нажмите на любое блюдо в прейскуранте, чтобы открыть фото и состав.
+                                </p>
+                            </div>
                         </div>
                     </div>
 
-                    {/* Горизонтальные вкладки категорий */}
-                    <div className="flex gap-2.5 overflow-x-auto pb-3 mb-8 scrollbar-thin">
-                        {[
-                            { id: "mangal", label: "Мангал и Стейки", icon: "🔥", badge: "Хит" },
-                            { id: "salads", label: "Салаты", icon: "🥗" },
-                            { id: "starters", label: "Закуски", icon: "🍤" },
-                            { id: "hot", label: "Горячие блюда", icon: "🍲" },
-                            { id: "pizza_sauces", label: "Пицца и Соусы", icon: "🍕" },
-                            { id: "tea_coffee", label: "Чай & Десерты", icon: "☕" },
-                            { id: "bar", label: "Бар и Напитки", icon: "🍹" },
-                            { id: "banquet", label: "Банкеты", icon: "🎉", badge: "от 15 чел." },
-                        ].map((cat) => {
+                    {/* Вкладки разделов меню — аккуратный перенос строк без горизонтального ползунка */}
+                    <div className="flex flex-wrap gap-2 sm:gap-2.5 mb-8">
+                        {MENU_CATEGORIES_META.map((cat) => {
                             const isActive = activeMenuCategory === cat.id;
                             return (
                                 <button
                                     key={cat.id}
                                     type="button"
                                     onClick={() => setActiveMenuCategory(cat.id)}
-                                    className="px-4 py-2.5 rounded-xl text-xs tracking-wider uppercase font-medium transition-all duration-200 flex items-center gap-2 whitespace-nowrap shrink-0 active:scale-[0.96] cursor-pointer"
+                                    className="px-4 py-2.5 rounded-xl text-xs tracking-wider uppercase font-medium transition-all duration-200 flex items-center gap-2 active:scale-[0.97] cursor-pointer"
                                     style={{
                                         background: isActive ? "#c8853a" : "#231808",
                                         color: isActive ? "#1a1208" : "#d9c9b0",
@@ -2742,7 +2765,6 @@ export default function App() {
                                         boxShadow: isActive ? "0 2px 10px rgba(200,133,58,0.25)" : "none",
                                     }}
                                 >
-                                    <span>{cat.icon}</span>
                                     <span>{cat.label}</span>
                                     {cat.badge && (
                                         <span
@@ -2760,145 +2782,93 @@ export default function App() {
                         })}
                     </div>
 
-                    {/* Информационная плашка раздела */}
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-3 border-b" style={{ borderColor: "#c8853a22" }}>
-                        <div className="flex items-center gap-3">
-                            <h3 className="text-xl font-medium tracking-wide" style={{ fontFamily: "var(--font-display)", color: "#f5ead8", fontStyle: "italic" }}>
-                                {currentCatalog.title}
-                            </h3>
-                            <span className="text-xs px-2.5 py-0.5 rounded-full font-mono" style={{ background: "#2c1f0e", color: "#c8853a" }}>
-                                {allCategoryDishes.length} поз.
-                            </span>
+                    {/* Главное фото активного раздела */}
+                    <div
+                        className="relative rounded-2xl overflow-hidden mb-8 group"
+                        style={{
+                            border: "1px solid #c8853a33",
+                            background: "#231808",
+                        }}
+                    >
+                        <div className="relative h-56 sm:h-72 md:h-80 w-full overflow-hidden">
+                            <img
+                                src={currentCatMeta.heroImg}
+                                alt={currentCatMeta.label}
+                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                style={{ filter: "contrast(1.08) saturate(1.18) brightness(0.92)" }}
+                            />
+                            <div
+                                className="absolute inset-0"
+                                style={{
+                                    background: "linear-gradient(to top, rgba(21, 14, 4, 0.95) 0%, rgba(21, 14, 4, 0.45) 50%, rgba(21, 14, 4, 0.2) 100%)",
+                                }}
+                            />
+                            <div className="absolute inset-0 p-6 sm:p-8 flex flex-col justify-end">
+                                <div className="flex items-center gap-2 mb-2 flex-wrap">
+                                    <span
+                                        className="text-[11px] uppercase tracking-widest font-semibold px-2.5 py-1 rounded-full backdrop-blur-md"
+                                        style={{ background: "#c8853a", color: "#1a1208", fontFamily: "var(--font-display)" }}
+                                    >
+                                        Раздел
+                                    </span>
+                                    {currentCatMeta.badge && (
+                                        <span
+                                            className="text-[11px] px-2.5 py-1 rounded-full backdrop-blur-md"
+                                            style={{ background: "rgba(26,18,8,0.75)", color: "#f5ead8", border: "1px solid #c8853a44" }}
+                                        >
+                                            {currentCatMeta.badge}
+                                        </span>
+                                    )}
+                                    <span
+                                        className="text-xs px-2.5 py-1 rounded-full font-mono ml-auto backdrop-blur-md"
+                                        style={{ background: "rgba(26,18,8,0.75)", color: "#c8853a", border: "1px solid #c8853a33" }}
+                                    >
+                                        {allCategoryDishes.length} поз.
+                                    </span>
+                                </div>
+                                <h3
+                                    className="text-2xl sm:text-4xl font-semibold leading-tight mb-2"
+                                    style={{ fontFamily: "var(--font-display)", color: "#f5ead8", fontStyle: "italic" }}
+                                >
+                                    {currentCatMeta.label}
+                                </h3>
+                                <p className="text-xs sm:text-sm max-w-2xl leading-relaxed" style={{ color: "#d9c9b0" }}>
+                                    {currentCatMeta.tagline}
+                                </p>
+                                <div className="mt-3 flex items-center gap-2 text-xs" style={{ color: "#c8853a" }}>
+                                    <span>✦</span>
+                                    <span>Нажмите на любую позицию в прейскуранте ниже, чтобы посмотреть детальное фото и состав</span>
+                                </div>
+                            </div>
                         </div>
-                        <p className="text-xs flex items-center gap-1.5" style={{ color: "#b8a98e99" }}>
-                            <span>✦</span>
-                            <span>Нажмите на любую позицию, чтобы посмотреть увеличенное фото и состав</span>
-                        </p>
                     </div>
 
-                    {/* ── РЕЖИМ 1: КАРТОЧКИ С ФОТОГРАФИЯМИ ── */}
-                    {menuViewMode === "cards" && (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {allCategoryDishes.map((dish, idx) => {
-                                const img = getDishImage(dish, currentCatalog.id);
-                                const tag = getDishTag(dish);
-                                const { hasFrom, amount } = parsePrice(dish.price);
-                                const desc = getDishDescription(dish);
-                                return (
-                                    <div
-                                        key={idx}
-                                        onClick={() => openDishDetails(dish, idx)}
-                                        className="group rounded-2xl overflow-hidden flex flex-col cursor-pointer transition-all duration-300 hover:-translate-y-1.5 active:scale-[0.98]"
-                                        style={{
-                                            background: "#231808",
-                                            border: "1px solid #c8853a26",
-                                            boxShadow: "none",
-                                        }}
-                                    >
-                                        <div className="relative overflow-hidden shrink-0 select-none" style={{ height: "200px", background: "#2c1f0e" }}>
-                                            <img
-                                                src={img}
-                                                alt={dish.name}
-                                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-108"
-                                                style={{ filter: "contrast(1.1) saturate(1.2) brightness(0.96)" }}
-                                                loading="lazy"
-                                            />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-[#231808] via-transparent to-transparent opacity-80" />
-
-                                            {tag && (
-                                                <span
-                                                    className="absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-semibold tracking-wide shadow-md"
-                                                    style={{ background: "#c8853a", color: "#1a1208", fontFamily: "var(--font-display)" }}
-                                                >
-                                                    {tag}
-                                                </span>
-                                            )}
-                                            {dish.weight && (
-                                                <span
-                                                    className="absolute top-3 right-3 px-2 py-0.5 rounded-md text-[11px] font-mono backdrop-blur-md"
-                                                    style={{ background: "rgba(26,18,8,0.75)", color: "#f5ead8", border: "1px solid #c8853a33" }}
-                                                >
-                                                    {dish.weight}
-                                                </span>
-                                            )}
-
-                                            <div
-                                                className="absolute bottom-2.5 right-3 px-2.5 py-1 rounded-lg text-xs font-medium opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center gap-1.5 backdrop-blur-sm shadow-md"
-                                                style={{ background: "rgba(26,18,8,0.88)", color: "#c8853a", border: "1px solid #c8853a44", fontFamily: "var(--font-display)" }}
-                                            >
-                                                <span>🔍</span>
-                                                <span>Открыть фото</span>
-                                            </div>
-                                        </div>
-
-                                        <div className="p-5 flex flex-col flex-1 justify-between gap-4">
-                                            <div>
-                                                <div className="flex items-start justify-between gap-3 mb-2">
-                                                    <h4
-                                                        className="text-base font-semibold leading-snug group-hover:text-amber-300 transition-colors"
-                                                        style={{ fontFamily: "var(--font-display)", color: "#f5ead8" }}
-                                                    >
-                                                        {dish.name}
-                                                    </h4>
-                                                    <span
-                                                        className="text-base font-semibold shrink-0"
-                                                        style={{
-                                                            color: "#c8853a",
-                                                            fontFamily: "var(--font-body)",
-                                                            fontVariantNumeric: "tabular-nums lining-nums",
-                                                            whiteSpace: "nowrap",
-                                                        }}
-                                                    >
-                                                        {hasFrom ? "от " : ""}{amount}
-                                                    </span>
-                                                </div>
-
-                                                <p className="text-xs leading-relaxed line-clamp-2" style={{ color: "#b8a98e" }}>
-                                                    {desc}
-                                                </p>
-                                            </div>
-
-                                            {dish.note && (
-                                                <div className="pt-2 border-t text-[11px] italic truncate" style={{ borderColor: "#c8853a18", color: "#b8a98e88" }}>
-                                                    <span className="text-[#c8853a88] not-italic">Состав: </span>
-                                                    {dish.note}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    )}
-
-                    {/* ── РЕЖИМ 2: КЛАССИЧЕСКИЙ ПРЕЙСКУРАНТ ── */}
-                    {menuViewMode === "list" && (
-                        <div
-                            className="rounded-2xl p-6 md:p-8"
-                            style={{
-                                background: "#231808",
-                                border: "1px solid #c8853a26",
-                                boxShadow: "none",
-                            }}
-                        >
-                            {/* Десктопная сетка: строго 2 параллельные колонки */}
-                            <div className="hidden md:grid md:grid-cols-2 gap-x-12 gap-y-8 items-start">
-                                <div className="flex flex-col gap-8">
-                                    {currentCatalog.sections.filter(s => s.col === 1).map(renderSectionBlock)}
-                                </div>
-                                <div className="flex flex-col gap-8">
-                                    {currentCatalog.sections.filter(s => s.col === 2).map(renderSectionBlock)}
-                                </div>
+                    {/* Единый классический прейскурант раздела */}
+                    <div
+                        className="rounded-2xl p-6 md:p-8"
+                        style={{
+                            background: "#231808",
+                            border: "1px solid #c8853a26",
+                            boxShadow: "none",
+                        }}
+                    >
+                        {/* Десктопная сетка: строго 2 параллельные колонки */}
+                        <div className="hidden md:grid md:grid-cols-2 gap-x-12 gap-y-8 items-start">
+                            <div className="flex flex-col gap-8">
+                                {currentCatalog.sections.filter(s => s.col === 1).map(renderSectionBlock)}
                             </div>
-
-                            {/* Мобильный вид: строго упорядоченная последовательность */}
-                            <div className="flex flex-col md:hidden gap-8">
-                                {[...currentCatalog.sections]
-                                    .sort((a, b) => (a.orderMobile ?? 0) - (b.orderMobile ?? 0))
-                                    .map(renderSectionBlock)}
+                            <div className="flex flex-col gap-8">
+                                {currentCatalog.sections.filter(s => s.col === 2).map(renderSectionBlock)}
                             </div>
                         </div>
-                    )}
+
+                        {/* Мобильный вид: строго упорядоченная последовательность */}
+                        <div className="flex flex-col md:hidden gap-8">
+                            {[...currentCatalog.sections]
+                                .sort((a, b) => (a.orderMobile ?? 0) - (b.orderMobile ?? 0))
+                                .map(renderSectionBlock)}
+                        </div>
+                    </div>
 
                     {/* Нижняя сервисная плашка с бронированием столика */}
                     <div
