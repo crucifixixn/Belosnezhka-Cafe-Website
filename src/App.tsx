@@ -8,11 +8,40 @@ import imgAbout from "@/imports/78fbcdfe1f953147d3df00cc39271f49.jpeg.jpg";
 import imgCocktailsWide from "@/imports/zUkhRB7wYUE.jpg";
 import imgExterior from "@/imports/____________.jpg";
 import imgWeddingHall from "@/imports/images__1_.jpg";
-// меню — новые фото
+// меню — базовые фото
 import imgMenuShashlik from "@/imports/images__3__1.png";
 import imgMenuPlatter from "@/imports/images__2__1.png";
 import imgMenuCocktails from "@/imports/zUkhRB7wYUE_1.png";
 import imgMenuBanquet from "@/imports/78fbcdfe1f953147d3df00cc39271f49.jpeg_1.png";
+
+// подлинные фотографии блюд кафе «Белоснежка»
+import foodShashlikPork from "@/imports/food/shashlik_pork_platter.jpg";
+import foodShashlikChicken from "@/imports/food/shashlik_chicken.jpg";
+import foodShashlikChickenVeg from "@/imports/food/shashlik_chicken_veg.jpg";
+import foodLyulyaBeef from "@/imports/food/lyulya_beef.jpg";
+import foodLyulyaChicken from "@/imports/food/lyulya_chicken.jpg";
+import foodLyulyaPromo from "@/imports/food/lyulya_promo.jpg";
+import foodSteakSalmon from "@/imports/food/steak_salmon.jpg";
+import foodSteakBeefPotato from "@/imports/food/steak_beef_potato.jpg";
+import foodSteakBeefRibeye from "@/imports/food/steak_beef_ribeye.jpg";
+import foodSteakPork from "@/imports/food/steak_pork.jpg";
+import foodSteakPork2 from "@/imports/food/steak_pork_2.jpg";
+import foodSadzhAssorti from "@/imports/food/sadzh_assorti.jpg";
+import foodFishPlate from "@/imports/food/fish_plate.jpg";
+import foodMeatPlate from "@/imports/food/meat_plate.jpg";
+import foodCaesarRoll from "@/imports/food/caesar_roll_baked.jpg";
+import foodDishDragon from "@/imports/food/dish_dragon.jpg";
+import foodZharkoeArmenia from "@/imports/food/zharkoe_armenia.jpg";
+import foodPorkRibsVeg from "@/imports/food/pork_ribs_veg.jpg";
+import foodPorkMushroomSauce from "@/imports/food/pork_mushroom_sauce.jpg";
+import foodChickenFestive from "@/imports/food/chicken_festive.jpg";
+import foodPizzaGribnaya from "@/imports/food/pizza_gribnaya.jpg";
+import foodPizzaGavayskaya from "@/imports/food/pizza_gavayskaya.jpg";
+import foodPizzaMargarita from "@/imports/food/pizza_margarita.jpg";
+import foodCocktails5 from "@/imports/food/bar_cocktails_5.jpg";
+import foodCocktails7 from "@/imports/food/bar_cocktails_7.jpg";
+import foodBanquetTable from "@/imports/food/banquet_table_top.jpg";
+import foodBanquetHall from "@/imports/food/banquet_hall_wide.jpg";
 
 const NAV_LINKS = [
     { label: "Меню", href: "#menu" },
@@ -55,20 +84,20 @@ const FEATURED_MENU_CARDS: MenuItem[] = [
         description: "Сочный шашлык из свинины, курицы или крыльев, люля-кебабы и стейки на открытом огне.",
         price: "от 300 ₽",
         tag: "Хит",
-        img: imgMenuShashlik,
-        filter: "contrast(1.1) saturate(1.2) brightness(1.0)",
+        img: foodShashlikPork,
+        filter: "contrast(1.08) saturate(1.18) brightness(1.0)",
         pos: "center 40%",
         dishes: [
-            { name: "Шашлык свиной", weight: "100 г", price: "400 ₽" },
-            { name: "Шашлык куриный", weight: "100 г", price: "350 ₽" },
-            { name: "Шашлык из курицы с овощами", weight: "100 г", price: "350 ₽" },
-            { name: "Шашлык из крыльев", weight: "100 г", price: "300 ₽" },
-            { name: "Люля-кебаб с говядиной", weight: "100 г", price: "350 ₽" },
-            { name: "Люля-кебаб куриный", weight: "100 г", price: "300 ₽" },
-            { name: "Стейк из сёмги", weight: "100 г", price: "650 ₽" },
-            { name: "Стейк из говядины", weight: "100 г", price: "650 ₽" },
-            { name: "Стейк из свинины", weight: "100 г", price: "450 ₽" },
-            { name: "Садж фирменный (на компанию)", weight: "1200 г", price: "3200 ₽" },
+            { name: "Шашлык свиной", weight: "100 г", price: "400 ₽", img: foodShashlikPork },
+            { name: "Шашлык куриный", weight: "100 г", price: "350 ₽", img: foodShashlikChicken },
+            { name: "Шашлык из курицы с овощами", weight: "100 г", price: "350 ₽", img: foodShashlikChickenVeg },
+            { name: "Шашлык из крыльев", weight: "100 г", price: "300 ₽", img: foodShashlikChicken },
+            { name: "Люля-кебаб с говядиной", weight: "100 г", price: "350 ₽", img: foodLyulyaBeef },
+            { name: "Люля-кебаб куриный", weight: "100 г", price: "300 ₽", img: foodLyulyaChicken },
+            { name: "Стейк из сёмги", weight: "100 г", price: "650 ₽", img: foodSteakSalmon },
+            { name: "Стейк из говядины", weight: "100 г", price: "650 ₽", img: foodSteakBeefRibeye },
+            { name: "Стейк из свинины", weight: "100 г", price: "450 ₽", img: foodSteakPork },
+            { name: "Садж фирменный (на компанию)", weight: "1200 г", price: "3200 ₽", img: foodSadzhAssorti },
         ],
     },
     {
@@ -76,16 +105,16 @@ const FEATURED_MENU_CARDS: MenuItem[] = [
         description: "Праздничные нарезки деликатесов, сырные и рыбные тарелки, креветки и рулетики из баклажана.",
         price: "от 200 ₽",
         tag: "Фирменное",
-        img: imgMenuPlatter,
-        filter: "contrast(1.22) saturate(1.18) brightness(0.84)",
+        img: foodMeatPlate,
+        filter: "contrast(1.12) saturate(1.15) brightness(0.95)",
         pos: "center 45%",
         dishes: [
-            { name: "Рыбная тарелка", weight: "250 г", price: "850 ₽" },
-            { name: "Мясная тарелка", weight: "250 г", price: "800 ₽" },
+            { name: "Рыбная тарелка", weight: "250 г", price: "850 ₽", img: foodFishPlate },
+            { name: "Мясная тарелка", weight: "250 г", price: "800 ₽", img: foodMeatPlate },
             { name: "Сырная тарелка", weight: "250 г", price: "700 ₽" },
             { name: "Сельдь с гарниром", weight: "500 г", price: "700 ₽" },
             { name: "Креветки в пикантном соусе", weight: "175 г", price: "750 ₽" },
-            { name: "Цезарь-ролл запечённый", weight: "150 г", price: "450 ₽" },
+            { name: "Цезарь-ролл запечённый", weight: "150 г", price: "450 ₽", img: foodCaesarRoll },
             { name: "Закуска «Мексиканская»", weight: "190 г", price: "500 ₽" },
             { name: "Овощная тарелка", weight: "250 г", price: "400 ₽" },
             { name: "Фруктовая тарелка", weight: "250 г", price: "350 ₽" },
@@ -97,18 +126,18 @@ const FEATURED_MENU_CARDS: MenuItem[] = [
         description: "Авторские коктейли, шоты, свежие лимонады, разливное и бутылочное пиво.",
         price: "от 250 ₽",
         tag: "Бар",
-        img: imgMenuCocktails,
+        img: foodCocktails7,
         filter: "contrast(1.08) saturate(1.12) brightness(0.96)",
         pos: "center 60%",
         dishes: [
-            { name: "Лонг Айленд", weight: "300 мл", price: "700 ₽", note: "кола, сироп, джин, ром, текила, водка" },
-            { name: "Текила Санрайз", weight: "300 мл", price: "600 ₽", note: "апельсиновый сок, гренадин, текила" },
-            { name: "Джон Коллинз", weight: "300 мл", price: "600 ₽", note: "джин, сахарный сироп, содовая" },
-            { name: "Мохито", weight: "300 мл", price: "600 ₽", note: "ром, содовая, сироп мохито, лайм, мята" },
-            { name: "Виски с колой", weight: "300 мл", price: "600 ₽" },
-            { name: "Голубая лагуна", weight: "300 мл", price: "550 ₽" },
-            { name: "Шоты (Баунти / Баблгам / Энерджи)", weight: "50 мл", price: "250 ₽" },
-            { name: "Апельсиновый лимонад (б/а)", weight: "300 мл", price: "350 ₽" },
+            { name: "Лонг Айленд", weight: "300 мл", price: "700 ₽", note: "кола, сироп, джин, ром, текила, водка", img: foodCocktails5 },
+            { name: "Текила Санрайз", weight: "300 мл", price: "600 ₽", note: "апельсиновый сок, гренадин, текила", img: foodCocktails7 },
+            { name: "Джон Коллинз", weight: "300 мл", price: "600 ₽", note: "джин, сахарный сироп, содовая", img: foodCocktails5 },
+            { name: "Мохито", weight: "300 мл", price: "600 ₽", note: "ром, содовая, сироп мохито, лайм, мята", img: foodCocktails7 },
+            { name: "Виски с колой", weight: "300 мл", price: "600 ₽", img: foodCocktails7 },
+            { name: "Голубая лагуна", weight: "300 мл", price: "550 ₽", img: foodCocktails5 },
+            { name: "Шоты (Баунти / Баблгам / Энерджи)", weight: "50 мл", price: "250 ₽", img: foodCocktails5 },
+            { name: "Апельсиновый лимонад (б/а)", weight: "300 мл", price: "350 ₽", img: foodCocktails5 },
             { name: "Молочный коктейль в ассортименте", weight: "300 мл", price: "300 ₽" },
         ],
     },
@@ -117,15 +146,15 @@ const FEATURED_MENU_CARDS: MenuItem[] = [
         description: "Сервировка любого торжества до 150 мест: юбилеи, свадьбы, дни рождения и поминальные обеды.",
         price: "от 2200 ₽/чел.",
         tag: "Торжества",
-        img: imgMenuBanquet,
+        img: foodBanquetHall,
         filter: "contrast(1.12) saturate(1.22) brightness(0.92)",
         pos: "center 55%",
         dishes: [
-            { name: "Бизнес-ланч (пн–пт, 12:00–18:00)", price: "от 250 ₽/чел." },
-            { name: "Банкет", price: "от 2200 ₽/чел." },
-            { name: "Свадебный банкет", price: "от 3000 ₽/чел." },
-            { name: "Поминальный обед", price: "от 800 ₽/чел." },
-            { name: "Детский праздник", price: "от 900 ₽/чел." },
+            { name: "Бизнес-ланч (пн–пт, 12:00–18:00)", price: "от 250 ₽/чел.", img: foodBanquetTable },
+            { name: "Банкет", price: "от 2200 ₽/чел.", img: foodBanquetTable },
+            { name: "Свадебный банкет", price: "от 3000 ₽/чел.", img: foodBanquetHall },
+            { name: "Поминальный обед", price: "от 800 ₽/чел.", img: foodBanquetTable },
+            { name: "Детский праздник", price: "от 900 ₽/чел.", img: foodBanquetTable },
         ],
     },
 ];
@@ -155,12 +184,12 @@ const FULL_CATALOG: MenuCategory[] = [
                 col: 1,
                 orderMobile: 1,
                 items: [
-                    { name: "Шашлык свиной", weight: "100 г", price: "400 ₽" },
-                    { name: "Шашлык куриный", weight: "100 г", price: "350 ₽" },
-                    { name: "Шашлык из курицы с овощами", weight: "100 г", price: "350 ₽" },
-                    { name: "Шашлык из крыльев", weight: "100 г", price: "300 ₽" },
-                    { name: "Люля-кебаб с говядиной", weight: "100 г", price: "350 ₽" },
-                    { name: "Люля-кебаб куриный", weight: "100 г", price: "300 ₽" },
+                    { name: "Шашлык свиной", weight: "100 г", price: "400 ₽", img: foodShashlikPork },
+                    { name: "Шашлык куриный", weight: "100 г", price: "350 ₽", img: foodShashlikChicken },
+                    { name: "Шашлык из курицы с овощами", weight: "100 г", price: "350 ₽", img: foodShashlikChickenVeg },
+                    { name: "Шашлык из крыльев", weight: "100 г", price: "300 ₽", img: foodShashlikChicken },
+                    { name: "Люля-кебаб с говядиной", weight: "100 г", price: "350 ₽", img: foodLyulyaBeef },
+                    { name: "Люля-кебаб куриный", weight: "100 г", price: "300 ₽", img: foodLyulyaChicken },
                 ],
             },
             {
@@ -168,10 +197,10 @@ const FULL_CATALOG: MenuCategory[] = [
                 col: 2,
                 orderMobile: 2,
                 items: [
-                    { name: "Стейк из сёмги", weight: "100 г", price: "650 ₽" },
-                    { name: "Стейк из говядины", weight: "100 г", price: "650 ₽" },
-                    { name: "Стейк из свинины", weight: "100 г", price: "450 ₽" },
-                    { name: "Садж фирменный на компанию", weight: "1200 г", price: "3200 ₽" },
+                    { name: "Стейк из сёмги", weight: "100 г", price: "650 ₽", img: foodSteakSalmon },
+                    { name: "Стейк из говядины", weight: "100 г", price: "650 ₽", img: foodSteakBeefRibeye },
+                    { name: "Стейк из свинины", weight: "100 г", price: "450 ₽", img: foodSteakPork },
+                    { name: "Садж фирменный на компанию", weight: "1200 г", price: "3200 ₽", img: foodSadzhAssorti },
                 ],
             },
         ],
@@ -222,8 +251,8 @@ const FULL_CATALOG: MenuCategory[] = [
                 col: 1,
                 orderMobile: 1,
                 items: [
-                    { name: "Рыбная тарелка", weight: "250 г", price: "850 ₽" },
-                    { name: "Мясная тарелка", weight: "250 г", price: "800 ₽" },
+                    { name: "Рыбная тарелка", weight: "250 г", price: "850 ₽", img: foodFishPlate },
+                    { name: "Мясная тарелка", weight: "250 г", price: "800 ₽", img: foodMeatPlate },
                     { name: "Сырная тарелка", weight: "250 г", price: "700 ₽" },
                     { name: "Сельдь с гарниром", weight: "500 г", price: "700 ₽" },
                     { name: "Овощная тарелка", weight: "250 г", price: "400 ₽" },
@@ -238,7 +267,7 @@ const FULL_CATALOG: MenuCategory[] = [
                 orderMobile: 2,
                 items: [
                     { name: "Креветки в пикантном соусе", weight: "175 г", price: "750 ₽" },
-                    { name: "Цезарь-ролл запечённый", weight: "150 г", price: "450 ₽" },
+                    { name: "Цезарь-ролл запечённый", weight: "150 г", price: "450 ₽", img: foodCaesarRoll },
                     { name: "Конвертики с курицей", weight: "170 г", price: "400 ₽" },
                     { name: "Конвертики с грибами", weight: "170 г", price: "350 ₽" },
                     { name: "Сырные палочки", weight: "100 г", price: "250 ₽" },
@@ -269,16 +298,16 @@ const FULL_CATALOG: MenuCategory[] = [
                 col: 2,
                 orderMobile: 2,
                 items: [
-                    { name: "Чанахи с говядиной", weight: "250 г", price: "750 ₽" },
-                    { name: "Жаркое по-армянски", weight: "250 г", price: "650 ₽" },
-                    { name: "Свинина с овощами", weight: "150 г", price: "650 ₽" },
-                    { name: "Свинина в соусе с грибами", weight: "150 г", price: "630 ₽" },
-                    { name: "Печень по-татарски", weight: "150 г", price: "600 ₽" },
-                    { name: "Куриная грудка с овощами", weight: "200 г", price: "550 ₽" },
+                    { name: "Чанахи с говядиной", weight: "250 г", price: "750 ₽", img: foodZharkoeArmenia },
+                    { name: "Жаркое по-армянски", weight: "250 г", price: "650 ₽", img: foodZharkoeArmenia },
+                    { name: "Свинина с овощами", weight: "150 г", price: "650 ₽", img: foodPorkRibsVeg },
+                    { name: "Свинина в соусе с грибами", weight: "150 г", price: "630 ₽", img: foodPorkMushroomSauce },
+                    { name: "Печень по-татарски", weight: "150 г", price: "600 ₽", img: foodSteakPork2 },
+                    { name: "Куриная грудка с овощами", weight: "200 г", price: "550 ₽", img: foodShashlikChickenVeg },
                     { name: "Рагу овощное с курицей", weight: "250 г", price: "550 ₽" },
-                    { name: "Китайский дракон", weight: "170 г", price: "500 ₽" },
-                    { name: "Курица по-гавайски", weight: "150 г", price: "500 ₽" },
-                    { name: "Курица по-французски", weight: "150 г", price: "450 ₽" },
+                    { name: "Китайский дракон", weight: "170 г", price: "500 ₽", img: foodDishDragon },
+                    { name: "Курица по-гавайски", weight: "150 г", price: "500 ₽", img: foodChickenFestive },
+                    { name: "Курица по-французски", weight: "150 г", price: "450 ₽", img: foodChickenFestive },
                     { name: "Дорадо запечённая", weight: "100 г", price: "450 ₽" },
                     { name: "Горбуша под овощами", weight: "150 г", price: "400 ₽" },
                     { name: "Удон с креветками", weight: "150 г", price: "400 ₽" },
@@ -295,10 +324,10 @@ const FULL_CATALOG: MenuCategory[] = [
                 items: [
                     { name: "Булгур с овощами", weight: "200 г", price: "300 ₽" },
                     { name: "Овощи запечённые на огне", weight: "100 г", price: "250 ₽" },
-                    { name: "Картофель с чесноком", weight: "150 г", price: "220 ₽" },
-                    { name: "Запечённый картофель", weight: "150 г", price: "200 ₽" },
+                    { name: "Картофель с чесноком", weight: "150 г", price: "220 ₽", img: foodSteakBeefPotato },
+                    { name: "Запечённый картофель", weight: "150 г", price: "200 ₽", img: foodSteakBeefPotato },
                     { name: "Фасоль стручковая", weight: "150 г", price: "200 ₽" },
-                    { name: "Картофель фри", weight: "100 г", price: "170 ₽" },
+                    { name: "Картофель фри", weight: "100 г", price: "170 ₽", img: foodLyulyaChicken },
                 ],
             },
             {
@@ -322,11 +351,11 @@ const FULL_CATALOG: MenuCategory[] = [
                 col: 1,
                 orderMobile: 1,
                 items: [
-                    { name: "Пицца «Пепперони»", weight: "фирменная", price: "550 ₽" },
-                    { name: "Пицца «Грибная поляна»", weight: "фирменная", price: "550 ₽" },
-                    { name: "Пицца «Гавайская»", weight: "фирменная", price: "550 ₽" },
-                    { name: "Пицца «Сырная»", weight: "фирменная", price: "550 ₽" },
-                    { name: "Пицца «Маргарита»", weight: "фирменная", price: "500 ₽" },
+                    { name: "Пицца «Пепперони»", weight: "фирменная", price: "550 ₽", img: foodPizzaMargarita },
+                    { name: "Пицца «Грибная поляна»", weight: "фирменная", price: "550 ₽", img: foodPizzaGribnaya },
+                    { name: "Пицца «Гавайская»", weight: "фирменная", price: "550 ₽", img: foodPizzaGavayskaya },
+                    { name: "Пицца «Сырная»", weight: "фирменная", price: "550 ₽", img: foodPizzaMargarita },
+                    { name: "Пицца «Маргарита»", weight: "фирменная", price: "500 ₽", img: foodPizzaMargarita },
                 ],
             },
             {
@@ -482,12 +511,12 @@ const FULL_CATALOG: MenuCategory[] = [
                 col: 2,
                 orderMobile: 6,
                 items: [
-                    { name: "Коктейль «Лонг Айленд»", weight: "300 мл", price: "700 ₽", note: "кола, сахарный сироп, джин, ром, текила, водка" },
-                    { name: "Коктейль «Текила Санрайз»", weight: "300 мл", price: "600 ₽", note: "апельсиновый сок, гренадин, текила" },
-                    { name: "Коктейль «Джон Коллинз»", weight: "300 мл", price: "600 ₽", note: "джин, сахарный сироп, содовая" },
-                    { name: "Коктейль «Мохито»", weight: "300 мл", price: "600 ₽", note: "ром, содовая, сироп мохито, лайм, мята" },
-                    { name: "Коктейль «Виски с колой»", weight: "300 мл", price: "600 ₽", note: "виски, кола" },
-                    { name: "Коктейль «Голубая лагуна»", weight: "300 мл", price: "550 ₽", note: "водка, блю курасао, содовая" },
+                    { name: "Коктейль «Лонг Айленд»", weight: "300 мл", price: "700 ₽", note: "кола, сахарный сироп, джин, ром, текила, водка", img: foodCocktails5 },
+                    { name: "Коктейль «Текила Санрайз»", weight: "300 мл", price: "600 ₽", note: "апельсиновый сок, гренадин, текила", img: foodCocktails7 },
+                    { name: "Коктейль «Джон Коллинз»", weight: "300 мл", price: "600 ₽", note: "джин, сахарный сироп, содовая", img: foodCocktails5 },
+                    { name: "Коктейль «Мохито»", weight: "300 мл", price: "600 ₽", note: "ром, содовая, сироп мохито, лайм, мята", img: foodCocktails7 },
+                    { name: "Коктейль «Виски с колой»", weight: "300 мл", price: "600 ₽", note: "виски, кола", img: foodCocktails7 },
+                    { name: "Коктейль «Голубая лагуна»", weight: "300 мл", price: "550 ₽", note: "водка, блю курасао, содовая", img: foodCocktails5 },
                 ],
             },
             {
@@ -495,9 +524,9 @@ const FULL_CATALOG: MenuCategory[] = [
                 col: 2,
                 orderMobile: 7,
                 items: [
-                    { name: "Шот «Баунти»", weight: "50 мл", price: "250 ₽", note: "водка, ананасовый сок, кокосовый сироп" },
-                    { name: "Шот «Баблгам»", weight: "50 мл", price: "250 ₽", note: "водка, клубника, вишневый сироп" },
-                    { name: "Шот «Энерджи»", weight: "50 мл", price: "250 ₽", note: "водка, энергетик" },
+                    { name: "Шот «Баунти»", weight: "50 мл", price: "250 ₽", note: "водка, ананасовый сок, кокосовый сироп", img: foodCocktails5 },
+                    { name: "Шот «Баблгам»", weight: "50 мл", price: "250 ₽", note: "водка, клубника, вишневый сироп", img: foodCocktails5 },
+                    { name: "Шот «Энерджи»", weight: "50 мл", price: "250 ₽", note: "водка, энергетик", img: foodCocktails5 },
                 ],
             },
             {
@@ -505,8 +534,8 @@ const FULL_CATALOG: MenuCategory[] = [
                 col: 2,
                 orderMobile: 8,
                 items: [
-                    { name: "Апельсиновый лимонад", weight: "300 мл", price: "350 ₽", note: "апельсин, сироп банана, содовая" },
-                    { name: "Голубая лагуна (б/а)", weight: "300 мл", price: "250 ₽", note: "сироп блю кюрасао, спрайт" },
+                    { name: "Апельсиновый лимонад", weight: "300 мл", price: "350 ₽", note: "апельсин, сироп банана, содовая", img: foodCocktails5 },
+                    { name: "Голубая лагуна (б/а)", weight: "300 мл", price: "250 ₽", note: "сироп блю кюрасао, спрайт", img: foodCocktails5 },
                     { name: "Молочный коктейль в ассортименте", weight: "300 мл", price: "300 ₽" },
                     { name: "Соки в ассортименте", weight: "1 л", price: "300 ₽" },
                     { name: "Кола", weight: "1 л", price: "250 ₽" },
@@ -523,8 +552,8 @@ const FULL_CATALOG: MenuCategory[] = [
                 col: 1,
                 orderMobile: 1,
                 items: [
-                    { name: "Бизнес-ланч (пн–пт, 12:00–18:00)", price: "от 250 ₽/чел." },
-                    { name: "Банкет", price: "от 2200 ₽/чел." },
+                    { name: "Бизнес-ланч (пн–пт, 12:00–18:00)", price: "от 250 ₽/чел.", img: foodBanquetTable },
+                    { name: "Банкет", price: "от 2200 ₽/чел.", img: foodBanquetTable },
                 ],
             },
             {
@@ -532,9 +561,9 @@ const FULL_CATALOG: MenuCategory[] = [
                 col: 2,
                 orderMobile: 2,
                 items: [
-                    { name: "Свадебный банкет", price: "от 3000 ₽/чел." },
-                    { name: "Детский праздник", price: "от 900 ₽/чел." },
-                    { name: "Поминальный обед", price: "от 800 ₽/чел." },
+                    { name: "Свадебный банкет", price: "от 3000 ₽/чел.", img: foodBanquetHall },
+                    { name: "Детский праздник", price: "от 900 ₽/чел.", img: foodBanquetTable },
+                    { name: "Поминальный обед", price: "от 800 ₽/чел.", img: foodBanquetTable },
                 ],
             },
         ],
@@ -542,11 +571,11 @@ const FULL_CATALOG: MenuCategory[] = [
 ];
 
 const GALLERY_IMGS = [
-    { src: imgHeroOld, alt: "Банкетный зал «Белоснежки» в праздничном убранстве", span: "col-span-2 row-span-2", pos: "center center", filter: ENHANCE_WARM },
-    { src: imgCocktailsWide, alt: "Бар кафе — коктейли на стойке, зал с фресками на фоне", span: "col-span-1 row-span-1", pos: "center", filter: ENHANCE_DARK },
-    { src: imgMenuPlatter, alt: "Праздничная нарезка из рыбы и мясных деликатесов", span: "col-span-1 row-span-1", pos: "center 45%", filter: "contrast(1.22) saturate(1.18) brightness(0.84)" },
+    { src: foodBanquetHall, alt: "Банкетный зал «Белоснежки» в праздничном убранстве", span: "col-span-2 row-span-2", pos: "center center", filter: ENHANCE_WARM },
+    { src: foodCocktails7, alt: "Бар кафе — коктейли на стойке, зал с фресками на фоне", span: "col-span-1 row-span-1", pos: "center", filter: ENHANCE_DARK },
+    { src: foodMeatPlate, alt: "Праздничная нарезка из рыбы и мясных деликатесов", span: "col-span-1 row-span-1", pos: "center 45%", filter: "contrast(1.12) saturate(1.15) brightness(0.95)" },
     { src: imgExterior, alt: "Фасад кафе «Белоснежка» в г. Октябрьский", span: "col-span-1 row-span-2", pos: "center", filter: ENHANCE_EXTERN },
-    { src: imgWeddingHall, alt: "Зал, украшенный для свадебного банкета", span: "col-span-1 row-span-1", pos: "center center", filter: ENHANCE_WARM },
+    { src: foodShashlikPork, alt: "Сочный шашлык на углях от шеф-повара", span: "col-span-1 row-span-1", pos: "center center", filter: ENHANCE_FOOD },
 ];
 
 // ─── Акции и спецпредложения ───────────────────────────────────────────────
@@ -767,34 +796,64 @@ function Lightbox({ items, index, onClose }: { items: LightboxItem[]; index: num
 function getDishImage(dish: Dish, categoryId?: string): string {
     if (dish.img) return dish.img;
     const nameLower = dish.name.toLowerCase();
-    if (nameLower.includes("шашлык") || nameLower.includes("люля") || nameLower.includes("стейк") || nameLower.includes("садж")) {
-        return imgMenuShashlik;
-    }
+    // Мангал и мясо
+    if (nameLower.includes("шашлык свиной") || (nameLower.includes("шашлык") && !nameLower.includes("куриц") && !nameLower.includes("курин") && !nameLower.includes("крыл"))) return foodShashlikPork;
+    if (nameLower.includes("шашлык из курицы с овощами")) return foodShashlikChickenVeg;
+    if (nameLower.includes("шашлык куриный") || nameLower.includes("крыл")) return foodShashlikChicken;
+    if (nameLower.includes("люля-кебаб куриный")) return foodLyulyaChicken;
+    if (nameLower.includes("люля-кебаб")) return foodLyulyaBeef;
+    if (nameLower.includes("садж")) return foodSadzhAssorti;
+    if (nameLower.includes("сёмг") || nameLower.includes("семг")) return foodSteakSalmon;
+    if (nameLower.includes("стейк из говядины")) return foodSteakBeefRibeye;
+    if (nameLower.includes("стейк из свинины")) return foodSteakPork;
+    // Закуски
+    if (nameLower.includes("рыбная тарелка")) return foodFishPlate;
+    if (nameLower.includes("мясная тарелка")) return foodMeatPlate;
+    if (nameLower.includes("цезарь-ролл")) return foodCaesarRoll;
+    // Горячие вторые блюда
+    if (nameLower.includes("жаркое по-армянски") || nameLower.includes("чанахи")) return foodZharkoeArmenia;
+    if (nameLower.includes("свинина в соусе с грибами")) return foodPorkMushroomSauce;
+    if (nameLower.includes("свинина с овощами")) return foodPorkRibsVeg;
+    if (nameLower.includes("дракон")) return foodDishDragon;
+    if (nameLower.includes("курица по-гавайски") || nameLower.includes("курица по-французски")) return foodChickenFestive;
+    if (nameLower.includes("куриная грудка с овощами")) return foodShashlikChickenVeg;
+    if (nameLower.includes("печень")) return foodSteakPork2;
+    // Гарниры
+    if (nameLower.includes("картофель фри")) return foodLyulyaChicken;
+    if (nameLower.includes("картофель")) return foodSteakBeefPotato;
+    // Пицца
+    if (nameLower.includes("грибная поляна")) return foodPizzaGribnaya;
+    if (nameLower.includes("гавайская")) return foodPizzaGavayskaya;
+    if (nameLower.includes("маргарита") || nameLower.includes("пицца")) return foodPizzaMargarita;
+    // Напитки и бар
+    if (nameLower.includes("санрайз") || nameLower.includes("мохито") || nameLower.includes("виски")) return foodCocktails7;
+    if (nameLower.includes("коктейль") || nameLower.includes("айленд") || nameLower.includes("коллинз") || nameLower.includes("лагуна") || nameLower.includes("шот") || nameLower.includes("лимонад")) return foodCocktails5;
+    // Банкеты
+    if (nameLower.includes("свадебный банкет")) return foodBanquetHall;
+    if (nameLower.includes("банкет") || nameLower.includes("ланч") || nameLower.includes("обед") || nameLower.includes("праздник")) return foodBanquetTable;
+
+    // Фоллбэки по категориям
     if (nameLower.includes("тарелка") || nameLower.includes("закуск") || nameLower.includes("сельдь") || nameLower.includes("рулет") || nameLower.includes("креветк") || nameLower.includes("палочки") || nameLower.includes("гренки") || nameLower.includes("наггетс") || nameLower.includes("кольца")) {
-        return imgMenuPlatter;
-    }
-    if (nameLower.includes("коктейль") || nameLower.includes("мохито") || nameLower.includes("шот") || nameLower.includes("лимонад") || nameLower.includes("санрайз") || nameLower.includes("айленд") || nameLower.includes("лагуна") || nameLower.includes("кола") || nameLower.includes("сок")) {
-        return imgMenuCocktails;
-    }
-    if (nameLower.includes("банкет") || nameLower.includes("праздник") || nameLower.includes("свадебн") || nameLower.includes("обед")) {
-        return imgMenuBanquet;
+        return foodMeatPlate;
     }
     if (nameLower.includes("пиво") || nameLower.includes("водка") || nameLower.includes("коньяк") || nameLower.includes("виски") || nameLower.includes("вино") || nameLower.includes("бар")) {
-        return imgCocktailsWide;
+        return foodCocktails7;
     }
     if (nameLower.includes("салат")) {
         return imgHero;
     }
-    if (nameLower.includes("пицца") || nameLower.includes("соус")) {
+    if (nameLower.includes("соус")) {
         return imgHero;
     }
     if (nameLower.includes("чай") || nameLower.includes("кофе") || nameLower.includes("мороженое") || nameLower.includes("пломбир") || nameLower.includes("шоколад")) {
         return imgHeroOld;
     }
-    if (categoryId === "mangal") return imgMenuShashlik;
-    if (categoryId === "starters") return imgMenuPlatter;
-    if (categoryId === "bar") return imgMenuCocktails;
-    if (categoryId === "banquet") return imgMenuBanquet;
+    if (categoryId === "mangal") return foodShashlikPork;
+    if (categoryId === "starters") return foodMeatPlate;
+    if (categoryId === "hot") return foodZharkoeArmenia;
+    if (categoryId === "pizza_sauces") return foodPizzaMargarita;
+    if (categoryId === "bar") return foodCocktails7;
+    if (categoryId === "banquet") return foodBanquetHall;
     if (categoryId === "salads") return imgHero;
     return imgHero;
 }
@@ -803,16 +862,31 @@ function getDishDescription(dish: Dish): string {
     if (dish.description) return dish.description;
     if (dish.note) return `Особенности / состав: ${dish.note}`;
     const nameLower = dish.name.toLowerCase();
-    if (nameLower.includes("шашлык свиной")) return "Сочный шашлык из отборной свиной шейки, маринованный по традиционному кавказскому рецепту и обжаренный на древесных углях.";
-    if (nameLower.includes("шашлык куриный")) return "Нежное куриное филе в авторском маринаде, приготовленное на открытом огне до румяной золотистой корочки.";
-    if (nameLower.includes("люля-кебаб")) return "Классический сочный кебаб из рубленого мяса со свежей зеленью, луком и восточными специями на мангале.";
-    if (nameLower.includes("садж")) return "Праздничное кавказское блюдо на компанию, подается на традиционной подогреваемой чугунной сковороде с мясом, овощами и лавашом.";
-    if (nameLower.includes("салат «белоснежка»")) return "Фирменный салат кафе из нежного филе, свежих овощей, отборного сыра и фирменного соуса от шеф-повара.";
-    if (nameLower.includes("цезарь с креветками")) return "Хрустящие листья салата, обжаренные тигровые креветки, томаты черри, перепелиные яйца, пармезан и классический соус «Цезарь».";
-    if (nameLower.includes("цезарь с курицей")) return "Классический салат с нежным филе цыпленка на гриле, листьями романо, чесночными крутонами и пармезаном.";
-    if (nameLower.includes("рыбная тарелка")) return "Деликатесное ассорти благородной рыбы: слабосолёная сёмга, масляная рыба, лимон, свежая зелень и оливки.";
-    if (nameLower.includes("мясная тарелка")) return "Аппетитная нарезка деликатесного мяса: буженина, сыровяленая колбаса, бастурма и домашний рулет.";
+    if (nameLower.includes("шашлык свиной")) return "Сочный шашлык из отборной свиной шейки, маринованный по традиционному кавказскому рецепту и обжаренный на древесных углях с маринованным луком и лавашом.";
+    if (nameLower.includes("шашлык из курицы с овощами")) return "Аппетитный шашлык из сочного куриного филе с болгарским перцем, томатами и репчатым луком на мангале.";
+    if (nameLower.includes("шашлык куриный")) return "Нежное куриное филе в авторском маринаде со свежими пряностями, приготовленное на открытом огне до румяной корочки.";
+    if (nameLower.includes("шашлык из крыльев")) return "Хрустящие куриные крылышки в пикантном маринаде, обжаренные на мангале до золотистого цвета.";
+    if (nameLower.includes("люля-кебаб с говядиной")) return "Классический сочный кебаб из рубленой говядины со свежей кинзой, луком и восточными специями на шампуре.";
+    if (nameLower.includes("люля-кебаб куриный")) return "Нежный кебаб из рубленого куриного филе со специями, подается с хрустящим картофелем фри, зеленью и лавашом.";
+    if (nameLower.includes("садж")) return "Праздничное кавказское блюдо на компанию: сочное ассорти мяса, запечённый картофель, грибы, баклажаны и перцы на подогреваемой сковороде.";
+    if (nameLower.includes("стейк из сёмги")) return "Филе атлантической сёмги на гриле с золотистой корочкой, долькой лимона, маслинами и свежей зеленью.";
+    if (nameLower.includes("стейк из говядины")) return "Сочный стейк из мраморной говядины с пряным розмарином, идеальной прожаркой и нежным запечённым картофелем.";
+    if (nameLower.includes("стейк из свинины")) return "Стейк из свиной корейки на гриле с ароматом дымка, подается со свежими овощами и фирменным соусом.";
+    if (nameLower.includes("рыбная тарелка")) return "Изысканное деликатесное ассорти благородной рыбы: слабосолёная сёмга, масляная рыба, лимон, свежая зелень и оливки.";
+    if (nameLower.includes("мясная тарелка")) return "Торжественная нарезка мясных деликатесов: ароматная буженина, бастурма, сыровяленая колбаса и острый перчик.";
     if (nameLower.includes("сырная тарелка")) return "Ассорти традиционных и европейских сыров с грецкими орехами, мёдом и свежим виноградом.";
+    if (nameLower.includes("цезарь-ролл запечённый")) return "Горячий запечённый ролл с хрустящей аппетитной корочкой, начинкой из нежного филе цыпленка, томатов и фирменного сырного соуса.";
+    if (nameLower.includes("жаркое по-армянски")) return "Традиционное ароматное жаркое из отборного мяса, томленого с картофелем, томатами, сладким перцем и кавказскими травами.";
+    if (nameLower.includes("свинина в соусе с грибами")) return "Сочные кусочки свинины, обжаренные до золотистого цвета и томленые в густом ароматном сливочно-грибном соусе.";
+    if (nameLower.includes("свинина с овощами")) return "Ароматная свинина, приготовленная со сладким болгарским перцем, луком и восточными пряностями.";
+    if (nameLower.includes("китайский дракон")) return "Хрустящие кусочки нежного филе в пряном кисло-сладком соусе со свежей зеленью и обжаренным кунжутом.";
+    if (nameLower.includes("курица по-гавайски")) return "Нежное куриное филе, запечённое с ломтиками сладкого ананаса под золотистой сырной корочкой.";
+    if (nameLower.includes("пицца «грибная поляна»")) return "Пышная горячая пицца на тонком тесте со свежими лесными шампиньонами, сливочным соусом и сыром моцарелла.";
+    if (nameLower.includes("пицца «гавайская»")) return "Любимая классика: сочное куриное филе, кусочки спелого ананаса, томатный соус и тягучий сыр моцарелла.";
+    if (nameLower.includes("пицца «маргарита»")) return "Традиционная итальянская пицца со спелыми томатами, ароматным орегано, свежим базиликом и сыром моцарелла.";
+    if (nameLower.includes("салат «белоснежка»")) return "Фирменный салат кафе из нежного филе, свежих овощей, отборного сыра и авторской заправки от шеф-повара.";
+    if (nameLower.includes("цезарь с креветками")) return "Хрустящие листья салата, обжаренные тигровые креветки, томаты черри, перепелиные яйца, пармезан и соус «Цезарь».";
+    if (nameLower.includes("цезарь с курицей")) return "Классический салат с нежным филе цыпленка на гриле, листьями романо, чесночными крутонами и пармезаном.";
     if (nameLower.includes("банкет")) return "Полная сервировка торжественного стола: холодные и горячие закуски, салаты, шашлык на углях и напитки для ваших гостей.";
     if (nameLower.includes("пицца")) return "Ароматная пицца на тонком тесте с хрустящим бортиком, тягучим сыром моцарелла и свежими ингредиентами.";
     return "Приготовлено из отборных свежих продуктов по традиционным фирменным рецептам кафе «Белоснежка».";
