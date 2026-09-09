@@ -1375,6 +1375,80 @@ type DishModalData = {
     currentIndex: number;
 };
 
+function fallbackCopy(text: string) {
+    try {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        textArea.style.position = "fixed";
+        textArea.style.opacity = "0";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textArea);
+    } catch (_) {}
+}
+
+function renderRefinedPrice(priceStr: string) {
+    const formatted = formatPrice(priceStr);
+    const match = formatted.match(/^(от\u00A0)?(.*?)((\/чел\.?)|\/.*)?$/i);
+    if (!match) {
+        return (
+            <span
+                className="text-2xl sm:text-3xl font-normal tracking-wide"
+                style={{
+                    color: "#c8853a",
+                    fontFamily: "var(--font-display)",
+                    fontVariantNumeric: "tabular-nums lining-nums",
+                }}
+            >
+                {formatted}
+            </span>
+        );
+    }
+    const hasFrom = !!match[1];
+    const amount = match[2];
+    const unit = match[3];
+
+    return (
+        <div className="inline-flex items-baseline justify-end select-none">
+            {hasFrom && (
+                <span
+                    className="text-xs uppercase tracking-widest mr-1"
+                    style={{
+                        color: "#b8a98e",
+                        fontFamily: "var(--font-body)",
+                        letterSpacing: "0.14em",
+                    }}
+                >
+                    от
+                </span>
+            )}
+            <span
+                className="text-2xl sm:text-3xl font-medium tracking-tight"
+                style={{
+                    color: "#c8853a",
+                    fontFamily: "var(--font-display)",
+                    fontVariantNumeric: "tabular-nums lining-nums",
+                }}
+            >
+                {amount}
+            </span>
+            {unit && (
+                <span
+                    className="text-xs tracking-wider ml-1"
+                    style={{
+                        color: "#b8a98e",
+                        fontFamily: "var(--font-body)",
+                    }}
+                >
+                    {unit}
+                </span>
+            )}
+        </div>
+    );
+}
+
 function DishPhotoModal({
     data,
     onClose,
@@ -1389,6 +1463,24 @@ function DishPhotoModal({
     const ref = useRef<HTMLDivElement>(null);
     const { dish, categoryTitle, categoryId, allDishes, currentIndex } = data;
     const currentDish = allDishes[currentIndex] || dish;
+    const [copiedPhone, setCopiedPhone] = useState(false);
+
+    const handlePhoneClick = (e: React.MouseEvent) => {
+        try {
+            window.location.href = "tel:+79378435505";
+        } catch (_) {}
+
+        const phoneNumber = "+7 (937) 843-55-05";
+        if (navigator?.clipboard?.writeText) {
+            navigator.clipboard.writeText(phoneNumber).catch(() => {
+                fallbackCopy(phoneNumber);
+            });
+        } else {
+            fallbackCopy(phoneNumber);
+        }
+        setCopiedPhone(true);
+        setTimeout(() => setCopiedPhone(false), 3000);
+    };
 
     useEffect(() => {
         const originalOverflow = document.body.style.overflow;
@@ -1509,37 +1601,20 @@ function DishPhotoModal({
 
                 {/* Текстовая информация о блюде */}
                 <div className="p-6 overflow-y-auto flex flex-col gap-4" style={{ overscrollBehavior: "contain" }}>
-                    <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 pb-3 border-b" style={{ borderColor: "#c8853a22" }}>
-                        <div className="flex-1 pr-2">
-                            <h3 id="dish-modal-title" className="text-2xl sm:text-3xl leading-snug" style={{ fontFamily: "var(--font-display)", color: "#f5ead8", fontStyle: "italic" }}>
+                    <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-3 pb-4 border-b" style={{ borderColor: "#c8853a22" }}>
+                        <div className="flex-1 min-w-0 pr-3">
+                            <h3 id="dish-modal-title" className="text-2xl sm:text-3xl leading-snug font-normal" style={{ fontFamily: "var(--font-display)", color: "#f5ead8", fontStyle: "italic" }}>
                                 {currentDish.name}
                             </h3>
                             {currentDish.weight && (
-                                <span className="inline-block mt-2 text-xs font-medium px-2.5 py-0.5 rounded-md border" style={{ background: "#271a09", borderColor: "#c8853a33", color: "#d9c9b0", fontFamily: "var(--font-body)" }}>
-                                    Порция: <span style={{ color: "#e4a55a", fontVariantNumeric: "tabular-nums" }}>{currentDish.weight}</span>
-                                </span>
+                                <p className="mt-1.5 text-xs tracking-wider" style={{ color: "#b8a98e", fontFamily: "var(--font-body)" }}>
+                                    <span style={{ color: "#c8853a99" }}>Порция: </span>
+                                    <span style={{ color: "#e4a55a", fontVariantNumeric: "tabular-nums" }}>{currentDish.weight}</span>
+                                </p>
                             )}
                         </div>
-                        <div className="sm:text-right shrink-0 self-start mt-1 sm:mt-0">
-                            <div
-                                className="inline-flex items-baseline px-4 py-1.5 rounded-full border shadow-sm"
-                                style={{
-                                    background: "linear-gradient(135deg, rgba(44, 31, 14, 0.9) 0%, rgba(35, 24, 8, 0.9) 100%)",
-                                    borderColor: "rgba(200, 133, 58, 0.4)",
-                                }}
-                            >
-                                <span
-                                    className="text-xl sm:text-2xl font-bold tracking-tight"
-                                    style={{
-                                        color: "#e4a55a",
-                                        fontFamily: "var(--font-display)",
-                                        fontVariantNumeric: "tabular-nums lining-nums",
-                                        letterSpacing: "0.02em",
-                                    }}
-                                >
-                                    {formatPrice(currentDish.price)}
-                                </span>
-                            </div>
+                        <div className="sm:text-right shrink-0 self-start sm:self-center select-none">
+                            {renderRefinedPrice(currentDish.price)}
                         </div>
                     </div>
 
@@ -1548,8 +1623,8 @@ function DishPhotoModal({
                     </div>
 
                     {currentDish.note && (
-                        <div className="p-3.5 rounded-xl text-xs leading-relaxed" style={{ background: "#271a09", border: "1px solid #c8853a22", color: "#e8d8c3" }}>
-                            <span className="font-semibold text-[#c8853a]">Состав / Ингредиенты: </span>
+                        <div className="p-3.5 rounded-xl text-xs leading-relaxed border" style={{ background: "rgba(35, 24, 8, 0.6)", borderColor: "#c8853a26", color: "#d9c9b0" }}>
+                            <span className="font-medium" style={{ color: "#c8853a" }}>Состав / ингредиенты: </span>
                             {currentDish.note}
                         </div>
                     )}
@@ -1566,10 +1641,30 @@ function DishPhotoModal({
                         </button>
                         <a
                             href="tel:+79378435505"
-                            className="py-3 px-5 rounded-xl text-xs uppercase tracking-wider font-semibold transition-colors hover:bg-[#3a2e1e] flex items-center justify-center gap-2 border text-center"
-                            style={{ borderColor: "#c8853a44", color: "#f5ead8" }}
+                            onClick={handlePhoneClick}
+                            className="py-3 px-5 rounded-xl text-xs uppercase tracking-wider font-semibold transition-all duration-200 hover:bg-[#3a2e1e] active:scale-[0.98] flex items-center justify-center gap-2 border text-center cursor-pointer select-none shrink-0"
+                            style={{
+                                borderColor: copiedPhone ? "#c8853a" : "#c8853a44",
+                                background: copiedPhone ? "rgba(200, 133, 58, 0.18)" : "transparent",
+                                color: copiedPhone ? "#e4a55a" : "#f5ead8",
+                                fontFamily: "var(--font-body)",
+                                letterSpacing: "0.06em",
+                            }}
+                            title="Позвонить или скопировать номер"
                         >
-                            <span>+7 (937) 843-55-05</span>
+                            {copiedPhone ? (
+                                <>
+                                    <span className="text-sm leading-none" style={{ color: "#c8853a" }}>✓</span>
+                                    <span>Номер скопирован!</span>
+                                </>
+                            ) : (
+                                <>
+                                    <svg className="w-3.5 h-3.5 shrink-0" style={{ color: "#c8853a" }} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                        <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.57a1 1 0 01-.25 1.02l-2.2 2.2z" />
+                                    </svg>
+                                    <span style={{ fontVariantNumeric: "tabular-nums" }}>+7 (937) 843-55-05</span>
+                                </>
+                            )}
                         </a>
                     </div>
                 </div>
