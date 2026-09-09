@@ -185,10 +185,10 @@ type CategoryMeta = {
 const MENU_CATEGORIES_META: CategoryMeta[] = [
     {
         id: "mangal",
-        label: "Мангал и стейки",
+        label: "Мангал и Стейки",
         badge: "Хит",
         heroImg: foodShashlikPork,
-        tagline: "Сочные блюда на открытом огне, традиционный кавказский шашлык, люля-кебабы и стейки из отборного мяса и рыбы",
+        tagline: "Сочные блюда на открытом огне, традиционный кавказский шашлык, люля-кебабы, стейки и садж на компанию из отборного мяса и рыбы",
     },
     {
         id: "salads",
@@ -198,40 +198,40 @@ const MENU_CATEGORIES_META: CategoryMeta[] = [
     },
     {
         id: "starters",
-        label: "Закуски",
+        label: "Холодные и горячие закуски",
         heroImg: foodMeatPlate,
-        tagline: "Холодные и горячие банкетные закуски, нарезки мясных и рыбных деликатесов, сырные тарелки и запеченные роллы",
+        tagline: "Холодные банкетные тарелки, нарезки мясных и рыбных деликатесов, сырные плато, горячие закуски, запечённые роллы и снеки",
     },
     {
         id: "hot",
-        label: "Горячие блюда",
+        label: "Первые и Вторые блюда",
         heroImg: foodZharkoeArmenia,
-        tagline: "Наваристые первые и сытные вторые блюда русской и армянской кухни, домашнее жаркое и аппетитные гарниры",
+        tagline: "Наваристые супы, сытная солянка, домашнее жаркое, вторые горячие блюда русской и армянской кухни, аппетитные гарниры и свежая выпечка",
     },
     {
         id: "pizza_sauces",
-        label: "Пицца и соусы",
+        label: "Пицца и Соусы",
         heroImg: foodPizzaGribnaya,
-        tagline: "Фирменная горячая пицца на тонком тесте с хрустящим бортиком, тягучим сыром моцарелла и домашние соусы",
+        tagline: "Горячая фирменная пицца на тонком тесте с хрустящим бортиком, тягучим сыром моцарелла и домашние соусы от шеф-повара",
     },
     {
         id: "tea_coffee",
-        label: "Чай и десерты",
+        label: "Чай, Кофе и Мороженое",
         heroImg: imgHeroOld,
-        tagline: "Традиционные чайные наборы с мёдом и сухофруктами, натуральный кофе, гляссе и освежающее мороженое",
+        tagline: "Традиционные чайные наборы с мёдом и сухофруктами, натуральный кофе, гляссе, горячий шоколад и освежающий пломбир",
     },
     {
         id: "bar",
-        label: "Бар и напитки",
+        label: "Барная карта и Напитки",
         heroImg: foodCocktails7,
-        tagline: "Авторские коктейли, шоты, освежающие лимонады, разливное пиво и богатая барная карта для праздничного вечера",
+        tagline: "Авторские коктейли, шоты, богатый выбор благородных крепких напитков, вин, разливного пива, а также лимонады и соки",
     },
     {
         id: "banquet",
-        label: "Банкеты",
+        label: "Банкеты и Торжества",
         badge: "до 150 мест",
         heroImg: foodBanquetHall,
-        tagline: "Полная банкетная сервировка любого торжества до 150 посадочных мест: свадьбы, юбилеи, дни рождения и памятные даты",
+        tagline: "Полная банкетная сервировка любого торжества до 150 посадочных мест: свадьбы, юбилеи, дни рождения и корпоративы",
     },
 ];
 
@@ -305,7 +305,7 @@ const FULL_CATALOG: MenuCategory[] = [
     },
     {
         id: "starters",
-        title: "Закуски",
+        title: "Холодные и горячие закуски",
         sections: [
             {
                 title: "Холодные закуски и тарелки",
@@ -2746,8 +2746,8 @@ export default function App() {
                         </div>
                     </div>
 
-                    {/* Вкладки разделов меню — аккуратный перенос строк без горизонтального ползунка */}
-                    <div className="flex flex-wrap gap-2 sm:gap-2.5 mb-8">
+                    {/* Вкладки разделов меню в соответствии с дизайн-системой сайта */}
+                    <div className="flex gap-2 flex-wrap mb-10">
                         {MENU_CATEGORIES_META.map((cat) => {
                             const isActive = activeMenuCategory === cat.id;
                             return (
@@ -2755,28 +2755,17 @@ export default function App() {
                                     key={cat.id}
                                     type="button"
                                     onClick={() => setActiveMenuCategory(cat.id)}
-                                    className="px-4 py-2.5 rounded-xl text-xs tracking-wider uppercase font-medium transition-all duration-200 flex items-center gap-2 active:scale-[0.97] cursor-pointer"
+                                    className="px-5 py-2 rounded-full text-xs tracking-wider uppercase font-medium transition-[background-color,color,border-color,transform] active:scale-[0.96] cursor-pointer"
                                     style={{
                                         background: isActive ? "#c8853a" : "#231808",
                                         color: isActive ? "#1a1208" : "#d9c9b0",
                                         border: `1px solid ${isActive ? "#c8853a" : "#c8853a33"}`,
                                         fontFamily: "var(--font-display)",
-                                        fontWeight: isActive ? 600 : 500,
-                                        boxShadow: isActive ? "0 2px 10px rgba(200,133,58,0.25)" : "none",
+                                        letterSpacing: "0.08em",
+                                        boxShadow: "none",
                                     }}
                                 >
-                                    <span>{cat.label}</span>
-                                    {cat.badge && (
-                                        <span
-                                            className="px-1.5 py-0.2 rounded text-[10px]"
-                                            style={{
-                                                background: isActive ? "#1a1208" : "#c8853a22",
-                                                color: isActive ? "#f5ead8" : "#c8853a",
-                                            }}
-                                        >
-                                            {cat.badge}
-                                        </span>
-                                    )}
+                                    {cat.label}
                                 </button>
                             );
                         })}
