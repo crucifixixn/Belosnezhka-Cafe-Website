@@ -3282,27 +3282,19 @@ export default function App() {
                             background: "#181005",
                         }}
                     >
-                        {/* Фоновое фото */}
+                        {/* Фоновое фото — натуральное, без искусственного глобального затемнения */}
                         <img
                             src={currentCatMeta.heroImg}
                             alt={currentCatMeta.label}
                             className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 pointer-events-none"
-                            style={{ filter: "contrast(1.08) saturate(1.15) brightness(0.82)" }}
+                            style={{ filter: "contrast(1.05) saturate(1.1)" }}
                         />
 
-                        {/* Базовое плотное затемнение для гарантированной читаемости на любом фоне */}
+                        {/* Линейный градиент с затемнением ТОЛЬКО за текстом в нижней части. Там, где текста нет — картинка полностью дефолтная */}
                         <div
-                            className="absolute inset-0 pointer-events-none"
+                            className="absolute inset-x-0 bottom-0 h-[72%] sm:h-[62%] pointer-events-none"
                             style={{
-                                background: "rgba(16, 10, 4, 0.65)",
-                            }}
-                        />
-
-                        {/* Градиент снизу вверх для контраста заголовка и подсказки */}
-                        <div
-                            className="absolute inset-0 pointer-events-none"
-                            style={{
-                                background: "linear-gradient(to top, rgba(14, 9, 3, 0.98) 0%, rgba(14, 9, 3, 0.88) 50%, rgba(14, 9, 3, 0.6) 100%)",
+                                background: "linear-gradient(to top, rgba(14, 9, 3, 0.94) 0%, rgba(14, 9, 3, 0.78) 45%, rgba(14, 9, 3, 0.3) 78%, transparent 100%)",
                             }}
                         />
 
