@@ -965,6 +965,55 @@ function PlyrVideo({ src }: { src: string }) {
     );
 }
 
+// ─── Менеджер блокировки скролла (исключение layout shift и залипания) ─────────
+
+let scrollLockCount = 0;
+let originalBodyOverflow = "";
+let originalBodyPaddingRight = "";
+
+function lockScroll() {
+    if (typeof document === "undefined") return;
+    if (scrollLockCount === 0) {
+        originalBodyOverflow = document.body.style.overflow;
+        // Проверяем поддержку scrollbar-gutter: stable для точной компенсации в старых браузерах
+        const supportsGutter = window.CSS && CSS.supports && CSS.supports("scrollbar-gutter", "stable");
+        if (!supportsGutter) {
+            const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+            if (scrollbarWidth > 0) {
+                originalBodyPaddingRight = document.body.style.paddingRight;
+                document.body.style.paddingRight = `${scrollbarWidth}px`;
+            }
+        }
+        document.body.style.overflow = "hidden";
+    }
+    scrollLockCount++;
+}
+
+function unlockScroll() {
+    if (typeof document === "undefined") return;
+    scrollLockCount = Math.max(0, scrollLockCount - 1);
+    if (scrollLockCount === 0) {
+        document.body.style.overflow = originalBodyOverflow;
+        if (originalBodyPaddingRight) {
+            document.body.style.paddingRight = originalBodyPaddingRight;
+        } else {
+            document.body.style.removeProperty("padding-right");
+        }
+        originalBodyOverflow = "";
+        originalBodyPaddingRight = "";
+    }
+}
+
+function useScrollLock(active: boolean = true) {
+    useEffect(() => {
+        if (!active) return;
+        lockScroll();
+        return () => {
+            unlockScroll();
+        };
+    }, [active]);
+}
+
 // ─── Лайтбокс ───────────────────────────────────────────────────────────────
 
 type LightboxItem =
@@ -984,13 +1033,7 @@ function Lightbox({ items, index, onClose }: { items: LightboxItem[]; index: num
     const hasMoved = useRef(false);
     const wheelLock = useRef(false);
 
-    useEffect(() => {
-        const originalOverflow = document.body.style.overflow;
-        document.body.style.overflow = "hidden";
-        return () => {
-            document.body.style.overflow = originalOverflow;
-        };
-    }, []);
+    useScrollLock();
 
     const prev = () => setCurrent((c) => (c - 1 + items.length) % items.length);
     const next = () => setCurrent((c) => (c + 1) % items.length);
@@ -2326,13 +2369,8 @@ function DishPhotoModal({
         setTimeout(() => setCopiedPhone(false), 3000);
     };
 
-    useEffect(() => {
-        const originalOverflow = document.body.style.overflow;
-        document.body.style.overflow = "hidden";
-        return () => {
-            document.body.style.overflow = originalOverflow;
-        };
-    }, []);
+    useScrollLock();
+
 
     const prevDish = () => {
         if (allDishes.length > 1) {
@@ -2711,13 +2749,8 @@ function PrivacyModal({ onClose }: { onClose: () => void }) {
         };
     }, []);
 
-    useEffect(() => {
-        const originalOverflow = document.body.style.overflow;
-        document.body.style.overflow = "hidden";
-        return () => {
-            document.body.style.overflow = originalOverflow;
-        };
-    }, []);
+    useScrollLock();
+
 
     useEffect(() => {
         ref.current?.focus();
@@ -2875,13 +2908,8 @@ function ModalShell({
         };
     }, []);
 
-    useEffect(() => {
-        const originalOverflow = document.body.style.overflow;
-        document.body.style.overflow = "hidden";
-        return () => {
-            document.body.style.overflow = originalOverflow;
-        };
-    }, []);
+    useScrollLock();
+
 
     useEffect(() => {
         const modal = modalRef.current;
@@ -4582,6 +4610,8 @@ export default function App() {
         window.addEventListener("scroll", onScroll, { passive: true });
         return () => window.removeEventListener("scroll", onScroll);
     }, []);
+
+    useScrollLock(menuOpen);
 
     useEffect(() => {
         if (!menuOpen) return;

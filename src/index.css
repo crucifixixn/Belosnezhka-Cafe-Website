@@ -60,7 +60,11 @@ button, input, select, textarea {
 
 html {
   scroll-behavior: smooth;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: #c8853a44 transparent;
 }
+
 
 /* Plyr — цвет под тему кафе */
 :root {
