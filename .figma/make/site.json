@@ -1,7 +1,9 @@
 {
-  "description": "This user-friendly website for Beloslezhka cafe allows visitors to explore the menu, view ambiance, and easily book an evening for dining experiences.",
+  "title": "",
+  "description": "",
+  "language": "ru",
   "robots": {
-    "index": false
+    "index": true
   },
   "accessibility": {
     "addBypassLinks": false,
