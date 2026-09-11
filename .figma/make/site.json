@@ -1,0 +1,10 @@
+{
+  "description": "This user-friendly website for Beloslezhka cafe allows visitors to explore the menu, view ambiance, and easily book an evening for dining experiences.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
