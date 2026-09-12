@@ -2559,7 +2559,7 @@ function DishPhotoModal({
                                     {dishTag}
                                 </span>
                             )}
-                            <span className="px-2.5 py-0.5 rounded-full text-xs sm:text-sm backdrop-blur-md" style={{ background: "rgba(26,18,8,0.75)", color: "#d9c9b0", border: "1px solid #c8853a33" }}>
+                            <span className="px-2.5 py-0.5 rounded-full text-xs sm:text-sm backdrop-blur-md" style={{ background: "rgba(26,18,8,0.75)", color: "#d9c9b0", border: "1px solid #c8853a33", fontFamily: "var(--font-body)" }}>
                                 {categoryTitle}
                             </span>
                         </div>
@@ -3276,7 +3276,7 @@ function BookingChoiceModal({
                         <div className="pr-8">
                             <div className="flex items-center gap-2 mb-1">
                                 <span className="text-lg font-semibold" style={{ fontFamily: "var(--font-display)", color: "#f5ead8" }}>Большой банкетный зал</span>
-                                <span className="text-xs uppercase font-bold px-2.5 py-0.5 rounded-full" style={{ background: "#c8853a", color: "#1a1208" }}>до 150 человек</span>
+                                <span data-capacity-pill="true" className="capacity-pill text-xs uppercase font-bold px-2.5 py-0.5 rounded-full" style={{ background: "#c8853a", color: "#1a1208", fontFamily: "var(--font-body)", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" }}>ДО 150 ЧЕЛОВЕК</span>
                             </div>
                             <p className="text-sm sm:text-base" style={{ color: "#b8a98e" }}>Свадьбы, масштабные юбилеи, корпоративы: сцена, танцпол и профессиональный звук</p>
                         </div>
@@ -3294,7 +3294,7 @@ function BookingChoiceModal({
                         <div className="pr-8">
                             <div className="flex items-center gap-2 mb-1">
                                 <span className="text-lg font-semibold" style={{ fontFamily: "var(--font-display)", color: "#f5ead8" }}>Малый банкетный зал</span>
-                                <span className="text-xs uppercase font-bold px-2.5 py-0.5 rounded-full" style={{ background: "#c8853a", color: "#1a1208" }}>до 25 человек</span>
+                                <span data-capacity-pill="true" className="capacity-pill text-xs uppercase font-bold px-2.5 py-0.5 rounded-full" style={{ background: "#c8853a", color: "#1a1208", fontFamily: "var(--font-body)", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" }}>ДО 25 ЧЕЛОВЕК</span>
                             </div>
                             <p className="text-sm sm:text-base" style={{ color: "#b8a98e" }}>Камерные праздники, дни рождения, ужины в приватной обстановке с ТВ и барельефами</p>
                         </div>
@@ -4590,14 +4590,30 @@ function HallPhotoSlider({
                 {/* Бейджи */}
                 <div className="absolute top-4 left-4 flex flex-wrap gap-2 pointer-events-none z-10">
                     <span
-                        className="text-sm font-bold px-3 py-1 rounded-full uppercase tracking-wider"
-                        style={{ background: "#c8853a", color: "#1a1208", fontFamily: "var(--font-body)" }}
+                        data-capacity-pill="true"
+                        className="capacity-pill text-xs sm:text-sm px-3.5 py-1 rounded-full uppercase"
+                        style={{
+                            background: "#c8853a",
+                            color: "#1a1208",
+                            fontFamily: "var(--font-body)",
+                            fontWeight: 700,
+                            letterSpacing: "0.08em",
+                            textTransform: "uppercase",
+                        }}
                     >
                         {capacityBadge}
                     </span>
                     <span
-                        className="text-sm px-3 py-1 rounded-full backdrop-blur-md"
-                        style={{ background: "rgba(26,18,8,0.8)", color: "#f5ead8", border: "1px solid #c8853a33" }}
+                        className="text-xs sm:text-sm font-bold px-3.5 py-1 rounded-full backdrop-blur-md uppercase"
+                        style={{
+                            background: "rgba(26,18,8,0.8)",
+                            color: "#f5ead8",
+                            border: "1px solid #c8853a33",
+                            fontFamily: "var(--font-body)",
+                            fontWeight: 700,
+                            letterSpacing: "0.08em",
+                            textTransform: "uppercase",
+                        }}
                     >
                         {typeBadge}
                     </span>
@@ -5563,8 +5579,8 @@ export default function App() {
                                 photos={BIG_HALL_PHOTOS}
                                 photoIndex={bigHallPhotoIndex}
                                 setPhotoIndex={setBigHallPhotoIndex}
-                                capacityBadge="до 150 человек"
-                                typeBadge="Главный зал"
+                                capacityBadge="ДО 150 ЧЕЛОВЕК"
+                                typeBadge="ГЛАВНЫЙ ЗАЛ"
                                 onOpenLightbox={(idx) => setLightbox({
                                     items: BIG_HALL_PHOTOS.map((p) => ({ kind: "image" as const, src: p.src, alt: p.alt })),
                                     index: idx,
@@ -5623,8 +5639,8 @@ export default function App() {
                                 photos={SMALL_HALL_PHOTOS}
                                 photoIndex={smallHallPhotoIndex}
                                 setPhotoIndex={setSmallHallPhotoIndex}
-                                capacityBadge="до 25 человек"
-                                typeBadge="Камерный зал"
+                                capacityBadge="ДО 25 ЧЕЛОВЕК"
+                                typeBadge="КАМЕРНЫЙ ЗАЛ"
                                 onOpenLightbox={(idx) => setLightbox({
                                     items: SMALL_HALL_PHOTOS.map((p) => ({ kind: "image" as const, src: p.src, alt: p.alt })),
                                     index: idx,
