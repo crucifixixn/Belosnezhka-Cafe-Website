@@ -1,5 +1,4 @@
 node_modules/
-dist/
 build/
 .cache/
 .env*
@@ -12,6 +11,10 @@ logs/
 *.log
 .claude-replay.*
 .tmp-*
+scratch/
+.antigravity_done
+.cursorrules.txt
+instructions.md
 
 # Archives
 *.rar

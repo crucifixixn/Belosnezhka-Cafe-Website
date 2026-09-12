@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap&subset=cyrillic,cyrillic-ext');
 @import 'plyr/dist/plyr.css';
 @import 'tailwindcss';
 
@@ -11,7 +11,7 @@
   --color-cream-dim: #d9c9b0;
   --color-mist: #3a2e1e;
   --font-display: 'Playfair Display', Georgia, serif;
-  --font-body: 'Lora', 'PT Serif', Georgia, serif;
+  --font-body: 'Lora', Georgia, serif;
 }
 
 html, body, #root {
@@ -128,7 +128,6 @@ html {
               filter 180ms cubic-bezier(0.16, 1, 0.3, 1),
               background-color 180ms cubic-bezier(0.16, 1, 0.3, 1),
               border-color 180ms cubic-bezier(0.16, 1, 0.3, 1) !important;
-  will-change: transform, box-shadow;
   -webkit-tap-highlight-color: transparent;
   user-select: none;
 }
@@ -160,7 +159,6 @@ html {
               box-shadow 180ms cubic-bezier(0.16, 1, 0.3, 1),
               filter 180ms cubic-bezier(0.16, 1, 0.3, 1),
               background-color 180ms cubic-bezier(0.16, 1, 0.3, 1) !important;
-  will-change: transform, box-shadow;
   -webkit-tap-highlight-color: transparent;
   user-select: none;
 }
@@ -217,7 +215,6 @@ html {
               border-color 180ms cubic-bezier(0.16, 1, 0.3, 1),
               background-color 180ms cubic-bezier(0.16, 1, 0.3, 1),
               box-shadow 180ms cubic-bezier(0.16, 1, 0.3, 1) !important;
-  will-change: transform, box-shadow;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -361,7 +358,6 @@ html {
               border-color 200ms cubic-bezier(0.16, 1, 0.3, 1),
               box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1),
               transform 120ms cubic-bezier(0.2, 0.8, 0.2, 1) !important;
-  will-change: transform, background-color;
   -webkit-tap-highlight-color: transparent;
   user-select: none;
 }
@@ -417,7 +413,6 @@ html {
               border-color 200ms cubic-bezier(0.16, 1, 0.3, 1),
               box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1),
               transform 120ms cubic-bezier(0.2, 0.8, 0.2, 1) !important;
-  will-change: transform, background-color;
   -webkit-tap-highlight-color: transparent;
   user-select: none;
   cursor: pointer;
@@ -441,38 +436,48 @@ html {
   outline-offset: 2px !important;
 }
 
-/* ─── Анимация выбора блюда в меню (ПК и мобильная версия) ─────────────────── */
-
-.dish-card-btn {
+.menu-subtab-btn-new {
   position: relative;
-  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1),
-              background-color 200ms cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 200ms cubic-bezier(0.16, 1, 0.3, 1) !important;
-  will-change: transform, background-color;
-  -webkit-tap-highlight-color: transparent;
-  user-select: none;
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .dish-card-btn:hover {
-    background-color: rgba(44, 31, 14, 0.75) !important;
-    transform: translateX(4px);
-    box-shadow: 0 4px 16px -2px rgba(200, 133, 58, 0.15) !important;
-  }
-  .dish-card-btn:hover .dish-name {
-    color: #fce7b2 !important;
-  }
-  .dish-card-btn:hover .dish-price {
-    color: #f0a855 !important;
+  .menu-subtab-btn-new:not(.is-active):hover {
+    background: linear-gradient(135deg, #442a12 0%, #291a0a 100%) !important;
+    border-color: rgba(240, 168, 85, 0.85) !important;
+    color: #fff2cc !important;
+    box-shadow: 0 0 20px -1px rgba(240, 168, 85, 0.45), inset 0 0 14px rgba(240, 168, 85, 0.2) !important;
   }
 }
 
+/* ─── Кнопки выбора блюда в меню (Кухня и бар) ────────────────────────── */
+
+.dish-card-btn {
+  position: relative;
+  contain: layout paint;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  cursor: pointer;
+}
+
+/* При hover ничего не меняется: без фона, без рамок, без теней, без сдвигов и масштаба */
+.dish-card-btn:hover {
+  background-color: transparent !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.dish-card-btn:hover .dish-name {
+  color: #f5ead8 !important;
+}
+
+.dish-card-btn:hover .dish-price {
+  color: #c8853a !important;
+}
+
 .dish-card-btn:active {
-  transform: scale(0.985) translateX(2px) !important;
-  background-color: rgba(58, 40, 18, 0.9) !important;
-  box-shadow: 0 2px 8px -1px rgba(200, 133, 58, 0.25) !important;
-  transition-duration: 80ms !important;
+  transform: scale(0.99) !important;
+  background-color: rgba(58, 40, 18, 0.4) !important;
+  transition: transform 60ms ease, background-color 60ms ease;
 }
 
 .dish-card-btn:focus-visible {
@@ -480,23 +485,23 @@ html {
   outline-offset: 1px !important;
 }
 
-/* ─── Анимация модального окна карточки блюда ───────────────────────────── */
+/* ─── Анимация модального окна карточки блюда (мгновенное открытие) ───────── */
 
 .dish-modal-backdrop {
   background-color: rgba(10, 7, 2, 0.92);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  animation: dishBackdropIn 260ms cubic-bezier(0.16, 1, 0.3, 1) both;
-  will-change: opacity;
+  animation: none !important;
+  opacity: 1 !important;
 }
 
 .dish-modal-backdrop.closing {
-  animation: dishBackdropOut 200ms cubic-bezier(0.4, 0, 0.2, 1) both !important;
+  animation: dishBackdropOut 160ms cubic-bezier(0.4, 0, 0.2, 1) both !important;
 }
 
 @keyframes dishBackdropIn {
   0% {
-    opacity: 0;
+    opacity: 1;
   }
   100% {
     opacity: 1;
@@ -513,22 +518,23 @@ html {
 }
 
 .dish-modal-card {
-  animation: dishCardIn 280ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  will-change: transform, opacity;
+  animation: none !important;
+  transform: none !important;
+  opacity: 1 !important;
 }
 
 .dish-modal-card.closing {
-  animation: dishCardOut 200ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: dishCardOut 160ms cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
 }
 
 @keyframes dishCardIn {
   from {
-    opacity: 0;
-    transform: scale(0.94) translateY(14px);
+    opacity: 1;
+    transform: none;
   }
   to {
     opacity: 1;
-    transform: scale(1) translateY(0);
+    transform: none;
   }
 }
 
@@ -539,13 +545,12 @@ html {
   }
   to {
     opacity: 0;
-    transform: scale(0.95) translateY(10px);
+    transform: scale(0.96) translateY(8px);
   }
 }
 
 .dish-nutrition-cell {
   transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease;
-  will-change: transform;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -556,3 +561,26 @@ html {
   }
 }
 
+/* ─── Оптимизация производительности рендеринга ────────────────────────── */
+
+/* Отложенный рендеринг секций ниже первого экрана */
+.content-visibility-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 700px;
+}
+
+/* Изоляция слоёв для карточек */
+.contain-paint {
+  contain: layout paint;
+}
+
+/* Фолбэк для браузеров без поддержки backdrop-filter */
+@supports not (backdrop-filter: blur(1px)) {
+  .backdrop-blur,
+  .backdrop-blur-sm,
+  .backdrop-blur-md,
+  .backdrop-blur-lg,
+  [class*="backdrop-blur"] {
+    background-color: rgba(26, 18, 8, 0.95) !important;
+  }
+}

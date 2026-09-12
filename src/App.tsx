@@ -1,67 +1,69 @@
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
-import Plyr from "plyr";
-
-import imgHero from "@/imports/images_1.png";
+import ResponsiveImage, { type ImageAsset } from "./ResponsiveImage";
 import videoExterior from "@/imports/WhatsApp_Video_2026-08-11_at_18.10.31.mp4";
-import imgHeroOld from "@/imports/images.jpg";
-import imgAbout from "@/imports/78fbcdfe1f953147d3df00cc39271f49.jpeg.jpg";
-import imgCocktailsWide from "@/imports/zUkhRB7wYUE.jpg";
-import imgExterior from "@/imports/____________.jpg";
-import imgWeddingHall from "@/imports/images__1_.jpg";
-// меню — базовые фото
-import imgMenuShashlik from "@/imports/images__3__1.png";
-import imgMenuPlatter from "@/imports/images__2__1.png";
-import imgMenuCocktails from "@/imports/zUkhRB7wYUE_1.png";
-import imgMenuBanquet from "@/imports/78fbcdfe1f953147d3df00cc39271f49.jpeg_1.png";
 
-// подлинные фотографии блюд кафе «Белоснежка»
-import foodShashlikPork from "@/imports/food/shashlik_pork_platter.jpg";
-import foodShashlikChicken from "@/imports/food/shashlik_chicken.jpg";
-import foodShashlikChickenVeg from "@/imports/food/shashlik_chicken_veg.jpg";
-import foodLyulyaBeef from "@/imports/food/lyulya_beef.jpg";
-import foodLyulyaChicken from "@/imports/food/lyulya_chicken.jpg";
-import foodLyulyaPromo from "@/imports/food/lyulya_promo.jpg";
-import foodSteakSalmon from "@/imports/food/steak_salmon.jpg";
-import foodSteakBeefPotato from "@/imports/food/steak_beef_potato.jpg";
-import foodSteakBeefRibeye from "@/imports/food/steak_beef_ribeye.jpg";
-import foodSteakPork from "@/imports/food/steak_pork.jpg";
-import foodSteakPork2 from "@/imports/food/steak_pork_2.jpg";
-import foodSadzhAssorti from "@/imports/food/sadzh_assorti.jpg";
-import foodFishPlate from "@/imports/food/fish_plate.jpg";
-import foodMeatPlate from "@/imports/food/meat_plate.jpg";
-import foodCaesarRoll from "@/imports/food/caesar_roll_baked.jpg";
-import foodDishDragon from "@/imports/food/dish_dragon.jpg";
-import foodZharkoeArmenia from "@/imports/food/zharkoe_armenia.jpg";
-import foodPorkRibsVeg from "@/imports/food/pork_ribs_veg.jpg";
-import foodPorkMushroomSauce from "@/imports/food/pork_mushroom_sauce.jpg";
-import foodChickenFestive from "@/imports/food/chicken_festive.jpg";
-import foodPizzaGribnaya from "@/imports/food/pizza_gribnaya.jpg";
-import foodPizzaGavayskaya from "@/imports/food/pizza_gavayskaya.jpg";
-import foodPizzaMargarita from "@/imports/food/pizza_margarita.jpg";
-// Фирменные соусы кафе «Белоснежка»
-import sauceTartar from "@/imports/sauces/sauce_tartar.jpg";
-import sauceBbq from "@/imports/sauces/sauce_bbq.jpg";
-import sauceGarlic from "@/imports/sauces/sauce_garlic.jpg";
-import sauceCheese from "@/imports/sauces/sauce_cheese.jpg";
-import sauceTeriyaki from "@/imports/sauces/sauce_teriyaki.jpg";
-import sauceMangoChili from "@/imports/sauces/sauce_mango_chili.jpg";
-import sauceCaucasian from "@/imports/sauces/sauce_caucasian.jpg";
-import saucePomegranate from "@/imports/sauces/sauce_pomegranate.jpg";
-import sauceSoy from "@/imports/sauces/sauce_soy.jpg";
-import sauceSweetSour from "@/imports/sauces/sauce_sweet_sour.jpg";
-import sauceSweetChili from "@/imports/sauces/sauce_sweet_chili.jpg";
-import foodCocktails5 from "@/imports/food/bar_cocktails_5.jpg";
-import foodCocktails7 from "@/imports/food/bar_cocktails_7.jpg";
-import foodBanquetTable from "@/imports/food/banquet_table_top.jpg";
-import foodBanquetHall from "@/imports/food/banquet_hall_wide.jpg";
-
-// Подлинные фотографии Большого зала кафе «Белоснежка»
-import hallMainDancefloor from "@/imports/halls/hall_main_dancefloor.jpg";
-import hallMainStage from "@/imports/halls/hall_main_stage.jpg";
-import hallMainBar from "@/imports/halls/hall_main_bar.jpg";
-import hallMainTables from "@/imports/halls/hall_main_tables.jpg";
-import hallMainLounge from "@/imports/halls/hall_main_lounge.jpg";
-import hallMainPanorama from "@/imports/halls/hall_main_panorama.jpg";
+import {
+    imgHero,
+    imgHeroMobile,
+    imgHeroOld,
+    imgAbout,
+    imgCocktailsWide,
+    imgExterior,
+    imgWeddingHall,
+    imgMenuShashlik,
+    imgMenuPlatter,
+    imgMenuCocktails,
+    imgMenuBanquet,
+    foodShashlikPork,
+    foodShashlikChicken,
+    foodShashlikChickenVeg,
+    foodLyulyaBeef,
+    foodLyulyaChicken,
+    foodLyulyaPromo,
+    foodSteakSalmon,
+    foodSteakBeefPotato,
+    foodSteakBeefRibeye,
+    foodSteakPork,
+    foodSteakPork2,
+    foodSadzhAssorti,
+    foodFishPlate,
+    foodMeatPlate,
+    foodCaesarRoll,
+    foodDishDragon,
+    foodZharkoeArmenia,
+    foodPorkRibsVeg,
+    foodPorkMushroomSauce,
+    foodChickenFestive,
+    foodPizzaGribnaya,
+    foodPizzaGavayskaya,
+    foodPizzaMargarita,
+    sauceTartar,
+    sauceBbq,
+    sauceGarlic,
+    sauceCheese,
+    sauceTeriyaki,
+    sauceMangoChili,
+    sauceCaucasian,
+    saucePomegranate,
+    sauceSoy,
+    sauceSweetSour,
+    sauceSweetChili,
+    foodCocktails5,
+    foodCocktails7,
+    foodBanquetTable,
+    foodBanquetHall,
+    hallMainDancefloor,
+    hallMainStage,
+    hallMainBar,
+    hallMainTables,
+    hallMainLounge,
+    hallMainPanorama,
+    hallSmallOverview,
+    hallSmallBanquet,
+    hallSmallMirror,
+    hallSmallMuralStreet,
+    hallSmallMuralFeast,
+} from "./imageRegistry";
 
 const BIG_HALL_PHOTOS = [
     {
@@ -101,13 +103,6 @@ const BIG_HALL_PHOTOS = [
         desc: "Вместимость до 150 гостей, колонны и сияющие звёзды под потолком",
     },
 ];
-
-// Подлинные фотографии Малого зала кафе «Белоснежка»
-import hallSmallOverview from "@/imports/halls/hall_small_overview.jpg";
-import hallSmallBanquet from "@/imports/halls/hall_small_banquet.jpg";
-import hallSmallMirror from "@/imports/halls/hall_small_mirror.jpg";
-import hallSmallMuralStreet from "@/imports/halls/hall_small_mural_street.jpg";
-import hallSmallMuralFeast from "@/imports/halls/hall_small_mural_feast.jpg";
 
 const SMALL_HALL_PHOTOS = [
     {
@@ -170,7 +165,7 @@ type Dish = {
     price: string;
     note?: string;
     description?: string;
-    img?: string;
+    img?: string | ImageAsset;
     tag?: string;
     nutrition?: NutritionInfo;
 };
@@ -180,7 +175,7 @@ type MenuItem = {
     description: string;
     price: string;
     tag: string;
-    img: string;
+    img: string | ImageAsset;
     filter: string;
     pos: string;
     dishes: Dish[];
@@ -287,7 +282,7 @@ type CategoryMeta = {
     id: string;
     label: string;
     badge?: string;
-    heroImg: string;
+    heroImg: string | ImageAsset;
     tagline: string;
 };
 
@@ -295,7 +290,6 @@ const MENU_CATEGORIES_META: CategoryMeta[] = [
     {
         id: "new",
         label: "Новинки",
-        badge: "New",
         heroImg: foodPorkRibsVeg,
         tagline: "Свежие кулинарные премьеры кафе «Белоснежка»: авторские горячие блюда и сезонные новинки от нашего шеф-повара",
     },
@@ -325,10 +319,16 @@ const MENU_CATEGORIES_META: CategoryMeta[] = [
         tagline: "Наваристые супы, сытная солянка, домашнее жаркое, сытные горячие блюда, аппетитные гарниры и свежая выпечка",
     },
     {
-        id: "pizza_sauces",
-        label: "Пицца и Соусы",
+        id: "pizza",
+        label: "Пицца",
         heroImg: foodPizzaGribnaya,
-        tagline: "Горячая фирменная пицца на тонком тесте с хрустящим бортиком, тягучим сыром моцарелла и домашние соусы от шеф-повара",
+        tagline: "Горячая фирменная пицца на тонком тесте с хрустящим бортиком, тягучим сыром моцарелла и отборными начинками",
+    },
+    {
+        id: "sauces",
+        label: "Соусы",
+        heroImg: sauceTartar,
+        tagline: "Фирменные и классические соусы от шеф-повара: тар-тар, барбекю, чесночный, сырный, терияки и другие авторские заправки",
     },
     {
         id: "tea_coffee",
@@ -541,8 +541,8 @@ const FULL_CATALOG: MenuCategory[] = [
         ],
     },
     {
-        id: "pizza_sauces",
-        title: "Пицца и Соусы",
+        id: "pizza",
+        title: "Пицца",
         sections: [
             {
                 title: "Пицца",
@@ -556,10 +556,16 @@ const FULL_CATALOG: MenuCategory[] = [
                     { name: "Маргарита", price: "500 ₽", img: foodPizzaMargarita },
                 ],
             },
+        ],
+    },
+    {
+        id: "sauces",
+        title: "Соусы",
+        sections: [
             {
                 title: "Фирменные соусы",
-                col: 2,
-                orderMobile: 2,
+                col: 1,
+                orderMobile: 1,
                 items: [
                     { name: "Тар-тар", weight: "30 г", price: "70 ₽", img: sauceTartar },
                     { name: "Барбекю", weight: "30 г", price: "70 ₽", img: sauceBbq },
@@ -922,7 +928,7 @@ function SilentVideo({ src, className, style }: { src: string; className?: strin
 
 function PlyrVideo({ src }: { src: string }) {
     const wrapperRef = useRef<HTMLDivElement>(null);
-    const playerRef = useRef<Plyr | null>(null);
+    const playerRef = useRef<any>(null);
 
     useEffect(() => {
         const wrapper = wrapperRef.current;
@@ -931,17 +937,23 @@ function PlyrVideo({ src }: { src: string }) {
         const videoEl = wrapper.querySelector("video");
         if (!videoEl) return;
 
-        playerRef.current = new Plyr(videoEl, {
-            controls: ["play", "progress", "current-time", "fullscreen"],
-            muted: true,
-            volume: 0,
-            resetOnEnd: false,
-            invertTime: false,
+        let destroyed = false;
+        import("plyr").then((mod) => {
+            if (destroyed) return;
+            const PlyrConstructor = (mod as any).default || mod;
+            playerRef.current = new PlyrConstructor(videoEl, {
+                controls: ["play", "progress", "current-time", "fullscreen"],
+                muted: true,
+                volume: 0,
+                resetOnEnd: false,
+                invertTime: false,
+            });
+            videoEl.muted = true;
+            videoEl.volume = 0;
         });
-        videoEl.muted = true;
-        videoEl.volume = 0;
 
         return () => {
+            destroyed = true;
             playerRef.current?.destroy();
             playerRef.current = null;
         };
@@ -958,7 +970,7 @@ function PlyrVideo({ src }: { src: string }) {
 
     return (
         <div ref={wrapperRef} className="rounded-xl overflow-hidden w-full" style={{ maxHeight: "85vh", boxShadow: "none" }}>
-            <video controls playsInline muted className="w-full" style={{ maxHeight: "85vh" }}>
+            <video controls playsInline muted preload="none" className="w-full" style={{ maxHeight: "85vh" }}>
                 <source src={src} type="video/mp4" />
             </video>
         </div>
@@ -1254,12 +1266,16 @@ function Lightbox({ items, index, onClose }: { items: LightboxItem[]; index: num
                                     className="relative rounded-2xl overflow-hidden outline outline-1 -outline-offset-1 outline-white/15 max-h-[72vh] md:max-h-[78vh] flex items-center justify-center pointer-events-none select-none"
                                     style={{ borderRadius: "1rem" }}
                                 >
-                                    <img
-                                        src={item.src}
+                                    <ResponsiveImage
+                                        image={item.src}
                                         alt={item.alt}
                                         draggable={false}
                                         className="rounded-2xl object-contain max-h-[72vh] md:max-h-[78vh] max-w-[min(92vw,1200px)] w-auto h-auto block select-none pointer-events-none"
                                         style={{ filter: item.filter, borderRadius: "1rem" }}
+                                        width={1200}
+                                        height={900}
+                                        loading="lazy"
+                                        decoding="async"
                                     />
                                 </div>
                             ) : (
@@ -1369,8 +1385,8 @@ function getDishImage(dish: Dish, categoryId?: string): string {
     }
     if (nameLower.includes("тар-тар") || nameLower.includes("тартар")) return sauceTartar;
     if (nameLower.includes("барбекю") || nameLower.includes("bbq")) return sauceBbq;
-    if (nameLower.includes("чесночный") && (categoryId === "pizza_sauces" || dish.weight === "30 г")) return sauceGarlic;
-    if (nameLower.includes("сырный") && (categoryId === "pizza_sauces" || dish.weight === "30 г")) return sauceCheese;
+    if (nameLower.includes("чесночный") && (categoryId === "pizza_sauces" || categoryId === "sauces" || dish.weight === "30 г")) return sauceGarlic;
+    if (nameLower.includes("сырный") && (categoryId === "pizza_sauces" || categoryId === "sauces" || dish.weight === "30 г")) return sauceCheese;
     if (nameLower.includes("терияки")) return sauceTeriyaki;
     if (nameLower.includes("манго-чили")) return sauceMangoChili;
     if (nameLower.includes("кавказский")) return sauceCaucasian;
@@ -1384,6 +1400,8 @@ function getDishImage(dish: Dish, categoryId?: string): string {
     if (nameLower.includes("чай") || nameLower.includes("кофе") || nameLower.includes("мороженое") || nameLower.includes("пломбир") || nameLower.includes("шоколад")) {
         return imgHeroOld;
     }
+    if (categoryId === "pizza") return foodPizzaMargarita;
+    if (categoryId === "sauces") return sauceTartar;
     if (categoryId === "mangal") return imgMenuShashlik;
     if (categoryId === "starters") return imgMenuPlatter;
     if (categoryId === "bar") return imgMenuCocktails;
@@ -1656,8 +1674,8 @@ function getDishDescription(dish: Dish, categoryId?: string): string {
         }
     }
 
-    // ── 5. Категория "Пицца и Соусы" ──
-    if (categoryId === "pizza_sauces" || nameLower.includes("пицца") || nameLower.startsWith("соус")) {
+    // ── 5. Категории "Пицца" и "Соусы" ──
+    if (categoryId === "pizza_sauces" || categoryId === "pizza" || categoryId === "sauces" || nameLower.includes("пицца") || nameLower.startsWith("соус")) {
         if (nameLower.includes("пепперони")) {
             return "Фирменная пицца на тонком тесте с пикантной колбасой пепперони, томатным соусом и тягучим сыром моцарелла.";
         }
@@ -2225,7 +2243,7 @@ function getDishNutrition(dish: Dish, categoryId?: string): NutritionInfo | unde
     }
 
     // ── 5. Пицца и Соусы (на 100 г) ──
-    if (cat === "pizza_sauces" || nameLower.includes("пицца") || nameLower.includes("пепперони") || nameLower.includes("маргарита") || nameLower.includes("соус") || nameLower.includes("чили") || nameLower.includes("тар-тар")) {
+    if (cat === "pizza_sauces" || cat === "pizza" || cat === "sauces" || nameLower.includes("пицца") || nameLower.includes("пепперони") || nameLower.includes("маргарита") || nameLower.includes("соус") || nameLower.includes("чили") || nameLower.includes("тар-тар")) {
         if (nameLower.includes("пепперони")) return { calories: 268, protein: 11.8, fat: 12.5, carbs: 27.5, isPer100Ml: false };
         if (nameLower.includes("грибная поляна")) return { calories: 225, protein: 9.5, fat: 9.8, carbs: 25.2, isPer100Ml: false };
         if (nameLower.includes("гавайская")) return { calories: 235, protein: 11.0, fat: 8.5, carbs: 28.5, isPer100Ml: false };
@@ -2323,14 +2341,13 @@ function DishPhotoModal({
     const currentDish = allDishes[currentIndex] || dish;
     const [copiedPhone, setCopiedPhone] = useState(false);
     const [isClosing, setIsClosing] = useState(false);
-    const [dishAnim, setDishAnim] = useState<"enter" | "idle">("idle");
 
     const handleClose = () => {
         if (isClosing) return;
         setIsClosing(true);
         setTimeout(() => {
             onClose();
-        }, 200);
+        }, 160);
     };
 
     const handleBookTable = (dishName: string) => {
@@ -2338,14 +2355,8 @@ function DishPhotoModal({
         setIsClosing(true);
         setTimeout(() => {
             onBookTable(dishName);
-        }, 180);
+        }, 160);
     };
-
-    useEffect(() => {
-        setDishAnim("enter");
-        const t = setTimeout(() => setDishAnim("idle"), 220);
-        return () => clearTimeout(t);
-    }, [currentIndex]);
 
     const touchStartX = useRef<number>(0);
     const touchStartY = useRef<number>(0);
@@ -2489,8 +2500,8 @@ function DishPhotoModal({
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
         >
-            {/* Обертка с позиционированием кнопок навигации снаружи карточки на десктопе */}
-            <div className="relative w-full max-w-lg" onClick={(e) => e.stopPropagation()}>
+            {/* Обертка с фиксированной шириной 520px и внешними кнопками навигации */}
+            <div className="relative w-full mx-auto" style={{ maxWidth: "520px" }} onClick={(e) => e.stopPropagation()}>
                 {/* Внешние кнопки навигации на десктопе (как в блоке "Внутри Белоснежки") */}
                 {allDishes.length > 1 && (
                     <>
@@ -2521,18 +2532,22 @@ function DishPhotoModal({
                     aria-modal="true"
                     aria-labelledby="dish-modal-title"
                     tabIndex={-1}
-                    className={`dish-modal-card relative w-full rounded-2xl overflow-hidden outline-none flex flex-col ${isClosing ? "closing" : ""}`}
-                    style={{ background: "#1f1406", border: "1px solid #c8853a33", maxHeight: "92vh" }}
+                    className={`dish-modal-card relative w-full rounded-2xl overflow-hidden outline-none flex flex-col max-h-[92vh] md:max-h-[calc(100vh-48px)] ${isClosing ? "closing" : ""}`}
+                    style={{ background: "#1f1406", border: "1px solid #c8853a33", overscrollBehavior: "contain" }}
                 >
-                    {/* Фотография блюда — увеличенное пространство без затемнения снизу */}
-                    <div className="relative shrink-0 select-none overflow-hidden h-64 sm:h-80 md:h-96" style={{ background: "#2c1f0e" }}>
-                        <img
-                            src={dishImg}
+                    {/* Фотография блюда — фиксированные размеры в px */}
+                    <div className="relative shrink-0 select-none overflow-hidden h-[260px] sm:h-[320px] md:h-[384px]" style={{ background: "#2c1f0e" }}>
+                        <ResponsiveImage
+                            image={dishImg}
                             alt={currentDish.name}
-                            className={`w-full h-full object-cover pointer-events-none transition-all duration-300 ${
-                                dishAnim === "enter" ? "opacity-80 scale-[1.02]" : "opacity-100 scale-100"
-                            }`}
+                            className="w-full h-full object-cover pointer-events-none"
                             style={{ filter: "contrast(1.08) saturate(1.15) brightness(1.0)" }}
+                            width={900}
+                            height={675}
+                            aspectRatio="4 / 3"
+                            loading="eager"
+                            decoding="async"
+                            wrapperClassName="w-full h-full block"
                         />
                         {/* Только тонкий верхний полупрозрачный градиент для контраста кнопки закрытия и бейджей */}
                         <div className="absolute inset-x-0 top-0 h-16 pointer-events-none" style={{ background: "linear-gradient(to bottom, rgba(10,7,2,0.4) 0%, transparent 100%)" }} />
@@ -2591,9 +2606,7 @@ function DishPhotoModal({
                     {/* Текстовая информация о блюде */}
                     <div
                         ref={scrollContainerRef}
-                        className={`p-6 overflow-y-auto flex flex-col gap-4 transition-opacity duration-200 ${
-                            dishAnim === "enter" ? "opacity-85" : "opacity-100"
-                        }`}
+                        className="p-6 overflow-y-auto flex flex-col gap-4 flex-1"
                         style={{ overscrollBehavior: "contain" }}
                     >
                         <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-3 pb-4 border-b" style={{ borderColor: "#c8853a22" }}>
@@ -2773,29 +2786,31 @@ function PrivacyModal({ onClose }: { onClose: () => void }) {
                 aria-modal="true"
                 aria-labelledby="privacy-title"
                 tabIndex={-1}
-                className={`booking-modal-panel relative w-full max-w-2xl rounded-2xl p-8 overflow-y-auto cursor-default ${isClosing ? "closing" : ""}`}
+                className={`booking-modal-panel relative w-full max-w-2xl rounded-2xl overflow-hidden flex flex-col cursor-default max-h-[85vh] md:max-h-[calc(100vh-48px)] ${isClosing ? "closing" : ""}`}
                 style={{
                     background: "#231808",
                     border: "1px solid #c8853a33",
-                    maxHeight: "80vh",
                     overscrollBehavior: "contain",
                     boxShadow: "none",
                 }}
                 onClick={(e) => e.stopPropagation()}
             >
-                <div className="w-12 h-1.5 rounded-full bg-[#c8853a44] mx-auto -mt-3 mb-4 md:hidden pointer-events-none" aria-hidden="true" />
-                <button
-                    onClick={handleClose}
-                    className="absolute top-4 right-4 text-2xl leading-none opacity-40 hover:opacity-80 transition-opacity cursor-pointer"
-                    style={{ color: "#f5ead8", fontFamily: "var(--font-display)" }}
-                    aria-label="Закрыть"
-                >×</button>
+                {/* Sticky Header with Title and Close Button */}
+                <div className="sticky top-0 z-30 flex justify-between items-center px-6 sm:px-8 py-4 bg-[#231808] border-b shrink-0" style={{ borderColor: "#c8853a22" }}>
+                    <h2 id="privacy-title" className="text-lg sm:text-xl font-medium truncate pr-4" style={{ fontFamily: "var(--font-display)", color: "#c8853a", fontStyle: "italic" }}>
+                        Политика конфиденциальности
+                    </h2>
+                    <button
+                        onClick={handleClose}
+                        className="w-8 h-8 rounded-full flex items-center justify-center text-xl leading-none opacity-50 hover:opacity-100 hover:scale-110 active:scale-95 transition-all cursor-pointer shrink-0"
+                        style={{ background: "rgba(44, 31, 14, 0.7)", color: "#f5ead8", border: "1px solid #c8853a44" }}
+                        aria-label="Закрыть"
+                    >×</button>
+                </div>
 
-                <h2 id="privacy-title" className="text-2xl sm:text-3xl mb-4" style={{ fontFamily: "var(--font-display)", color: "#c8853a" }}>
-                    Политика конфиденциальности и обработки персональных данных
-                </h2>
+                <div className="p-6 sm:p-8 overflow-y-auto flex-1 flex flex-col gap-4 text-base leading-relaxed" style={{ color: "#d9c9b0", overscrollBehavior: "contain" }}>
+                    <div className="w-12 h-1.5 rounded-full bg-[#c8853a44] mx-auto -mt-2 mb-2 md:hidden pointer-events-none" aria-hidden="true" />
 
-                <div className="text-base leading-relaxed flex flex-col gap-4" style={{ color: "#d9c9b0" }}>
                     <p><strong style={{ color: "#f5ead8" }}>1. Оператор персональных данных</strong><br />
                         ООО «ЭМИ», ИНН 0265028241, ОГРН 1060265016349.<br />
                         Юридический адрес: 452616, Республика Башкортостан, г. Октябрьский, просп. Ленина, д. 57, помещ. 1.<br />
@@ -2821,15 +2836,15 @@ function PrivacyModal({ onClose }: { onClose: () => void }) {
 
                     <p><strong style={{ color: "#f5ead8" }}>8. Контактные данные</strong><br />
                         По вопросам обработки персональных данных обращайтесь: г. Октябрьский, просп. Ленина, 57 · +7 (34767) 3-55-05.</p>
-                </div>
 
-                <button
-                    onClick={handleClose}
-                    className="mt-6 px-6 py-2.5 rounded-full text-base font-bold active:scale-[0.96] transition-transform cursor-pointer"
-                    style={{ background: "#c8853a", color: "#1a1208", fontFamily: "var(--font-body)", fontWeight: 700, boxShadow: "none" }}
-                >
-                    Закрыть
-                </button>
+                    <button
+                        onClick={handleClose}
+                        className="mt-4 px-6 py-2.5 rounded-full text-base font-bold active:scale-[0.96] transition-transform cursor-pointer self-start"
+                        style={{ background: "#c8853a", color: "#1a1208", fontFamily: "var(--font-body)", fontWeight: 700, boxShadow: "none" }}
+                    >
+                        Закрыть
+                    </button>
+                </div>
             </div>
         </div>
     );
@@ -2941,17 +2956,25 @@ function ModalShell({
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby={id}
-                className={`booking-modal-panel relative w-full max-w-lg rounded-2xl p-6 sm:p-7 md:p-8 overflow-y-auto no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden cursor-default ${isActuallyClosing ? "closing" : ""}`}
-                style={{ background: "#231808", border: "1px solid #c8853a33", maxHeight: "92vh", overscrollBehavior: "contain", boxShadow: "none", scrollbarWidth: "none", msOverflowStyle: "none" }}
+                className={`booking-modal-panel relative w-full max-w-lg rounded-2xl overflow-hidden flex flex-col cursor-default max-h-[92vh] md:max-h-[calc(100vh-48px)] ${isActuallyClosing ? "closing" : ""}`}
+                style={{ background: "#231808", border: "1px solid #c8853a33", overscrollBehavior: "contain", boxShadow: "none" }}
                 onClick={e => e.stopPropagation()}
             >
-                <button
-                    onClick={handleClose}
-                    aria-label="Закрыть"
-                    className="absolute top-4 right-4 text-2xl leading-none opacity-40 hover:opacity-80 transition-opacity cursor-pointer"
-                    style={{ color: "#f5ead8", fontFamily: "var(--font-display)" }}
-                >×</button>
-                {children}
+                {/* Sticky Header с кнопкой закрытия внутри модалки */}
+                <div className="sticky top-0 z-30 flex justify-end items-center px-6 pt-4 pb-2 bg-[#231808] shrink-0">
+                    <button
+                        onClick={handleClose}
+                        aria-label="Закрыть"
+                        className="w-8 h-8 rounded-full flex items-center justify-center text-xl leading-none opacity-50 hover:opacity-100 hover:scale-110 active:scale-95 transition-all cursor-pointer"
+                        style={{ background: "rgba(44, 31, 14, 0.7)", color: "#f5ead8", border: "1px solid #c8853a44" }}
+                    >×</button>
+                </div>
+                <div
+                    className="px-6 pb-6 sm:px-7 sm:pb-7 md:px-8 md:pb-8 pt-0 overflow-y-auto no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden flex-1"
+                    style={{ overscrollBehavior: "contain", scrollbarWidth: "none", msOverflowStyle: "none" }}
+                >
+                    {children}
+                </div>
             </div>
         </div>
     );
@@ -2987,6 +3010,195 @@ function SuccessScreen({ onClose, text }: { onClose: () => void; text: string })
                 Закрыть
             </button>
         </div>
+    );
+}
+
+function FeedbackModal({
+    onClose,
+    triggerRef,
+    onShowPrivacy,
+}: {
+    onClose: () => void;
+    triggerRef?: React.RefObject<HTMLButtonElement | null>;
+    onShowPrivacy?: () => void;
+}) {
+    const [name, setName] = useState("");
+    const [contact, setContact] = useState("");
+    const [text, setText] = useState("");
+    const [rating, setRating] = useState(5);
+    const [consent, setConsent] = useState(true);
+    const [errors, setErrors] = useState<{ name?: string; contact?: string; text?: string; consent?: string }>({});
+    const [isSubmitted, setIsSubmitted] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        const errs: typeof errors = {};
+        if (!name.trim() || name.trim().length < 2) {
+            errs.name = "Пожалуйста, укажите ваше имя (не менее 2 символов)";
+        }
+        if (!contact.trim() || contact.trim().length < 5) {
+            errs.contact = "Укажите номер телефона или e-mail для связи";
+        }
+        if (!text.trim() || text.trim().length < 5) {
+            errs.text = "Напишите ваш отзыв или пожелание (не менее 5 символов)";
+        }
+        if (!consent) {
+            errs.consent = "Необходимо согласие на обработку персональных данных";
+        }
+
+        if (Object.keys(errs).length > 0) {
+            setErrors(errs);
+            return;
+        }
+
+        setErrors({});
+        setIsSubmitting(true);
+        setTimeout(() => {
+            setIsSubmitting(false);
+            setIsSubmitted(true);
+        }, 350);
+    };
+
+    return (
+        <ModalShell id="feedback-modal-title" onClose={onClose} triggerRef={triggerRef}>
+            {isSubmitted ? (
+                <div className="py-6 text-center flex flex-col items-center">
+                    <div className="w-16 h-16 rounded-full flex items-center justify-center text-3xl mb-4" style={{ background: "rgba(200, 133, 58, 0.2)", border: "1px solid #c8853a55", color: "#f5c378" }}>
+                        ✦
+                    </div>
+                    <h3 className="text-2xl sm:text-3xl mb-3" style={{ fontFamily: "var(--font-display)", color: "#f5ead8", fontStyle: "italic" }}>
+                        Благодарим за ваш отзыв!
+                    </h3>
+                    <p className="text-base leading-relaxed mb-6 max-w-sm mx-auto" style={{ color: "#d9c9b0" }}>
+                        Мы внимательно изучаем каждый отзыв, чтобы делать «Белоснежку» ещё уютнее и вкуснее. Ваше мнение очень ценно для нашей команды!
+                    </p>
+                    <button
+                        type="button"
+                        onClick={onClose}
+                        className="px-8 py-3 rounded-full text-base font-bold transition-all hover:brightness-110 active:scale-95 cursor-pointer"
+                        style={{ background: "#c8853a", color: "#1a1208", fontFamily: "var(--font-body)", fontWeight: 700 }}
+                    >
+                        Закрыть
+                    </button>
+                </div>
+            ) : (
+                <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
+                    <div>
+                        <span className="text-xs tracking-widest uppercase mb-1 block" style={{ color: "#c8853a", letterSpacing: "0.14em" }}>
+                            Обратная связь
+                        </span>
+                        <h3 id="feedback-modal-title" className="text-2xl sm:text-3xl mb-1.5" style={{ fontFamily: "var(--font-display)", color: "#f5ead8", fontStyle: "italic" }}>
+                            Оставить отзыв
+                        </h3>
+                        <p className="text-sm leading-relaxed" style={{ color: "#b8a98e" }}>
+                            Поделитесь вашими впечатлениями от визита, кухни или обслуживания
+                        </p>
+                    </div>
+
+                    {/* Оценка (звёзды) */}
+                    <div>
+                        <label className="text-xs tracking-wider uppercase mb-1.5 block" style={{ color: "#d9c9b0" }}>
+                            Ваша оценка:
+                        </label>
+                        <div className="flex items-center gap-1.5">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                                <button
+                                    key={star}
+                                    type="button"
+                                    onClick={() => setRating(star)}
+                                    aria-label={`Оценка ${star} из 5`}
+                                    className="text-2xl transition-transform hover:scale-125 active:scale-95 cursor-pointer"
+                                    style={{ color: star <= rating ? "#f5c378" : "rgba(200,133,58,0.25)" }}
+                                >
+                                    ★
+                                </button>
+                            ))}
+                            <span className="text-xs ml-2" style={{ color: "#e4a55a" }}>
+                                {rating === 5 ? "Отлично" : rating === 4 ? "Хорошо" : rating === 3 ? "Нормально" : "Есть замечания"}
+                            </span>
+                        </div>
+                    </div>
+
+                    {/* Поле Имя */}
+                    <div>
+                        <label className="text-xs tracking-wider uppercase mb-1 block" style={{ color: "#d9c9b0" }}>
+                            Ваше имя *
+                        </label>
+                        <input
+                            type="text"
+                            value={name}
+                            onChange={(e) => { setName(e.target.value); if (errors.name) setErrors(prev => ({ ...prev, name: undefined })); }}
+                            placeholder="Например, Александр"
+                            className="w-full px-4 py-3 rounded-xl outline-none transition-colors"
+                            style={{
+                                ...inputStyle,
+                                borderColor: errors.name ? "#ef4444" : "rgba(200, 133, 58, 0.3)",
+                            }}
+                        />
+                        {errors.name && <p className="text-xs text-red-400 mt-1">{errors.name}</p>}
+                    </div>
+
+                    {/* Поле Контакт */}
+                    <div>
+                        <label className="text-xs tracking-wider uppercase mb-1 block" style={{ color: "#d9c9b0" }}>
+                            Телефон или e-mail для связи *
+                        </label>
+                        <input
+                            type="text"
+                            value={contact}
+                            onChange={(e) => { setContact(e.target.value); if (errors.contact) setErrors(prev => ({ ...prev, contact: undefined })); }}
+                            placeholder="+7 (___) ___-__-__ или mail@example.ru"
+                            className="w-full px-4 py-3 rounded-xl outline-none transition-colors"
+                            style={{
+                                ...inputStyle,
+                                borderColor: errors.contact ? "#ef4444" : "rgba(200, 133, 58, 0.3)",
+                            }}
+                        />
+                        {errors.contact && <p className="text-xs text-red-400 mt-1">{errors.contact}</p>}
+                    </div>
+
+                    {/* Поле Текст отзыва */}
+                    <div>
+                        <label className="text-xs tracking-wider uppercase mb-1 block" style={{ color: "#d9c9b0" }}>
+                            Ваш отзыв или пожелание *
+                        </label>
+                        <textarea
+                            rows={4}
+                            value={text}
+                            onChange={(e) => { setText(e.target.value); if (errors.text) setErrors(prev => ({ ...prev, text: undefined })); }}
+                            placeholder="Расскажите, что вам понравилось или что можно улучшить..."
+                            className="w-full px-4 py-3 rounded-xl outline-none transition-colors resize-none"
+                            style={{
+                                ...inputStyle,
+                                borderColor: errors.text ? "#ef4444" : "rgba(200, 133, 58, 0.3)",
+                            }}
+                        />
+                        {errors.text && <p className="text-xs text-red-400 mt-1">{errors.text}</p>}
+                    </div>
+
+                    {/* Согласие */}
+                    <div>
+                        <ConsentCheckbox
+                            checked={consent}
+                            onChange={(v) => { setConsent(v); if (errors.consent) setErrors(prev => ({ ...prev, consent: undefined })); }}
+                            onShowPrivacy={onShowPrivacy || (() => {})}
+                        />
+                        {errors.consent && <p className="text-xs text-red-400 mt-1">{errors.consent}</p>}
+                    </div>
+
+                    {/* Кнопка отправки */}
+                    <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="w-full mt-2 py-3.5 rounded-full text-base font-bold tracking-wider uppercase transition-all hover:brightness-110 active:scale-[0.98] cursor-pointer disabled:opacity-50"
+                        style={{ background: "#c8853a", color: "#1a1208", fontFamily: "var(--font-body)", fontWeight: 700 }}
+                    >
+                        {isSubmitting ? "Отправка..." : "Отправить отзыв"}
+                    </button>
+                </form>
+            )}
+        </ModalShell>
     );
 }
 
@@ -4356,12 +4568,17 @@ function HallPhotoSlider({
                 >
                     {extendedPhotos.map((photo, idx) => (
                         <div key={photo.keyId || idx} className="w-full h-full shrink-0 relative overflow-hidden">
-                            <img
-                                src={photo.src}
+                            <ResponsiveImage
+                                image={photo.src}
                                 alt={photo.alt}
                                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 outline outline-1 -outline-offset-1 outline-white/10 pointer-events-none select-none"
                                 style={{ filter: "contrast(1.08) saturate(1.15) brightness(1.0)" }}
                                 loading={idx <= 2 ? "eager" : "lazy"}
+                                decoding="async"
+                                width={1200}
+                                height={900}
+                                aspectRatio="4 / 3"
+                                wrapperClassName="w-full h-full block"
                                 draggable={false}
                             />
                         </div>
@@ -4487,10 +4704,16 @@ function HallPhotoSlider({
                             }`}
                             title={photo.title}
                         >
-                            <img
-                                src={photo.src}
+                            <ResponsiveImage
+                                image={photo.src}
                                 alt={photo.alt}
                                 className="w-full h-full object-cover outline outline-1 -outline-offset-1 outline-white/10"
+                                width={160}
+                                height={100}
+                                aspectRatio="16 / 10"
+                                loading="lazy"
+                                decoding="async"
+                                wrapperClassName="w-full h-full block"
                             />
                         </button>
                     );
@@ -4507,6 +4730,8 @@ export default function App() {
     const [bookingStep, setBookingStep] = useState<"choice" | "table" | "event" | null>(null);
     const [selectedBookingHall, setSelectedBookingHall] = useState<"big" | "small">("big");
     const [privacyOpen, setPrivacyOpen] = useState(false);
+    const [feedbackOpen, setFeedbackOpen] = useState(false);
+    const feedbackTriggerRef = useRef<HTMLButtonElement>(null);
     const [lightbox, setLightbox] = useState<{ items?: LightboxItem[]; index: number } | null>(null);
     const [bigHallPhotoIndex, setBigHallPhotoIndex] = useState(0);
     const [smallHallPhotoIndex, setSmallHallPhotoIndex] = useState(0);
@@ -4532,7 +4757,7 @@ export default function App() {
             setMobileContainerHeight(null);
             setMobileFadeState("visible");
         };
-        window.addEventListener("resize", handleResize);
+        window.addEventListener("resize", handleResize, { passive: true });
         return () => {
             window.removeEventListener("resize", handleResize);
             if (mobileAnimTimerRef.current) clearTimeout(mobileAnimTimerRef.current);
@@ -4622,7 +4847,7 @@ export default function App() {
             if (window.innerWidth >= 768) setMenuOpen(false);
         };
         window.addEventListener("keydown", handleKeyDown);
-        window.addEventListener("resize", handleResize);
+        window.addEventListener("resize", handleResize, { passive: true });
         return () => {
             window.removeEventListener("keydown", handleKeyDown);
             window.removeEventListener("resize", handleResize);
@@ -4717,13 +4942,13 @@ export default function App() {
                             key={i}
                             type="button"
                             onClick={() => openDishDetails(dish, section)}
-                            className={`dish-card-btn group flex items-baseline justify-between gap-4 py-3 px-3 -mx-3 rounded-xl text-left cursor-pointer ${isLast ? "" : "border-b"}`}
+                            className={`dish-card-btn flex items-baseline justify-between gap-4 py-3 px-3 -mx-3 rounded-xl text-left cursor-pointer ${isLast ? "" : "border-b"}`}
                             style={{ borderColor: "#c8853a11" }}
                             title="Нажмите, чтобы посмотреть фото и описание блюда"
                         >
                             <div className="flex flex-col gap-1 min-w-0 pr-2">
                                 <div className="flex items-center gap-2 flex-wrap">
-                                    <span className="dish-name text-base sm:text-lg leading-snug font-medium transition-colors" style={{ color: "#f5ead8" }}>
+                                    <span className="dish-name text-base sm:text-lg leading-snug font-medium" style={{ color: "#f5ead8" }}>
                                         {dish.name}
                                     </span>
                                     {dishTag && (
@@ -4742,7 +4967,7 @@ export default function App() {
                             </div>
 
                             <div
-                                className="dish-price shrink-0 flex items-baseline justify-end font-semibold select-none transition-colors"
+                                className="dish-price shrink-0 flex items-baseline justify-end font-semibold select-none"
                                 style={{
                                     color: "#c8853a",
                                     minWidth: "125px",
@@ -4897,23 +5122,41 @@ export default function App() {
             {/* ── HERO ── */}
             <section className="relative min-h-screen min-h-[100dvh] flex items-start pt-[clamp(5rem,24vh,38vh)] md:pt-[42vh] lg:pt-[44vh] pb-16 md:pb-24">
                 <div className="absolute inset-0 bg-stone-900 overflow-hidden">
-                    <img
-                        src={imgHero}
+                    <ResponsiveImage
+                        image={{
+                            src: "./images/hero/hero-desktop.webp",
+                            webp: "./images/hero/hero-desktop.webp",
+                            avif: "./images/hero/hero-desktop.avif",
+                            width: 1600,
+                            height: 835,
+                            aspectRatio: "1600 / 835",
+                        }}
+                        srcSetAvif="./images/hero/hero-mobile.avif 800w, ./images/hero/hero-desktop.avif 1600w"
+                        srcSetWebp="./images/hero/hero-mobile.webp 800w, ./images/hero/hero-desktop.webp 1600w"
+                        srcSetJpg="./images/hero/hero-mobile.webp 800w, ./images/hero/hero-desktop.webp 1600w"
+                        sizes="100vw"
                         alt="Банкетный зал кафе «Белоснежка» — торжественное убранство"
+                        width={1600}
+                        height={835}
+                        aspectRatio="1600 / 835"
+                        fetchPriority="high"
+                        decoding="async"
+                        loading="eager"
                         className="w-full h-full object-cover"
                         style={{ opacity: 0.4, filter: ENHANCE_WARM, objectPosition: "center 30%" }}
+                        wrapperClassName="w-full h-full block"
                     />
                 </div>
                 <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(26,18,8,0.72) 0%, rgba(26,18,8,0.55) 30%, rgba(26,18,8,0.35) 55%, rgba(26,18,8,0.7) 80%, #1a1208 100%)" }} />
 
                 <div className="relative max-w-7xl mx-auto px-6 w-full">
-                    <div className="max-w-2xl">
+                    <div className="max-w-3xl">
                         <p className="mb-3 sm:mb-4 text-xs sm:text-sm tracking-wide uppercase" style={{ color: "#c8853a", letterSpacing: "0.14em" }}>
                             ✦ &nbsp; Октябрьский · Республика Башкортостан
                         </p>
                         <h1
                             className="mb-5 sm:mb-6 leading-[1.08]"
-                            style={{ fontFamily: "var(--font-display)", fontSize: "clamp(2.3rem, 6.2vw, 5.8rem)", color: "#f5ead8", fontStyle: "italic", fontWeight: 400, padding: 0 }}
+                            style={{ fontFamily: "var(--font-display)", fontSize: "clamp(2.7rem, 7.2vw, 6.8rem)", color: "#f5ead8", fontStyle: "italic", fontWeight: 400, padding: 0 }}
                         >
                             Там, где вечер
                             <br /><span className="inline-block whitespace-nowrap" style={{ color: "#c8853a", whiteSpace: "nowrap" }}>длится&nbsp;дольше.</span>
@@ -4949,7 +5192,7 @@ export default function App() {
             </section>
 
             {/* ── ABOUT ── */}
-            <section id="about" className="scroll-mt-20 py-20 md:py-32">
+            <section id="about" className="scroll-mt-20 py-20 md:py-32 content-visibility-auto">
                 <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-10 md:gap-20 items-center">
                     <div>
                         <p className="mb-3 text-sm tracking-wide uppercase" style={{ color: "#c8853a", letterSpacing: "0.14em" }}>Наша история</p>
@@ -4972,11 +5215,17 @@ export default function App() {
 
                     <div className="relative pb-6 md:pb-0">
                         <div className="rounded-2xl overflow-hidden" style={{ aspectRatio: "4/5", background: "#2c1f0e", boxShadow: "none" }}>
-                            <img
-                                src={imgAbout}
+                            <ResponsiveImage
+                                image={imgAbout}
                                 alt="Праздничный банкетный стол в кафе «Белоснежка»"
                                 className="w-full h-full object-cover outline outline-1 -outline-offset-1 outline-white/10"
                                 style={{ opacity: 0.9, filter: ENHANCE_WARM, objectPosition: "center 20%" }}
+                                width={960}
+                                height={1200}
+                                aspectRatio="4 / 5"
+                                loading="lazy"
+                                decoding="async"
+                                wrapperClassName="w-full h-full block"
                             />
                         </div>
 
@@ -4996,7 +5245,7 @@ export default function App() {
             </section>
 
             {/* ── UNIFIED MENU SECTION ── */}
-            <section id="menu" className="scroll-mt-20 py-20 md:py-28" style={{ background: "#150e04" }}>
+            <section id="menu" className="scroll-mt-20 py-20 md:py-28 content-visibility-auto" style={{ background: "#150e04" }}>
                 <div className="max-w-7xl mx-auto px-6">
                     {/* Заголовок секции меню */}
                     <div className="mb-8">
@@ -5020,44 +5269,73 @@ export default function App() {
                     <div className="flex gap-2 flex-wrap mb-10">
                         {MENU_CATEGORIES_META.map((cat) => {
                             const isActive = (selectedTabId || activeMenuCategory) === cat.id;
+                            const isNew = cat.id === "new";
                             return (
                                 <button
                                     key={cat.id}
                                     type="button"
                                     onClick={() => handleMenuCategoryChange(cat.id)}
-                                    className={`menu-subtab-btn px-6 py-2.5 text-sm sm:text-base ${isActive ? "is-active" : ""}`}
-                                    style={{
-                                        background: isActive ? "#c8853a" : "#231808",
-                                        color: isActive ? "#1a1208" : "#d9c9b0",
-                                        borderColor: isActive ? "#c8853a" : "rgba(200, 133, 58, 0.2)",
-                                        boxShadow: isActive ? "0 4px 14px -2px rgba(200, 133, 58, 0.35)" : "none",
-                                    }}
+                                    className={`menu-subtab-btn px-6 py-2.5 text-sm sm:text-base ${isNew ? "menu-subtab-btn-new" : ""} ${isActive ? "is-active" : ""}`}
+                                    style={
+                                        isNew
+                                            ? isActive
+                                                ? {
+                                                      background: "linear-gradient(135deg, #f0a855 0%, #c8853a 100%)",
+                                                      color: "#1a1208",
+                                                      borderColor: "#f5c378",
+                                                      boxShadow: "0 4px 18px -2px rgba(240, 168, 85, 0.5), 0 0 10px rgba(228, 165, 90, 0.35)",
+                                                  }
+                                                : {
+                                                      background: "linear-gradient(135deg, #36220e 0%, #201407 100%)",
+                                                      color: "#fce7b2",
+                                                      borderColor: "rgba(240, 168, 85, 0.6)",
+                                                      boxShadow: "0 0 16px -2px rgba(200, 133, 58, 0.35), inset 0 0 10px rgba(240, 168, 85, 0.12)",
+                                                  }
+                                            : {
+                                                  background: isActive ? "#c8853a" : "#231808",
+                                                  color: isActive ? "#1a1208" : "#d9c9b0",
+                                                  borderColor: isActive ? "#c8853a" : "rgba(200, 133, 58, 0.2)",
+                                                  boxShadow: isActive ? "0 4px 14px -2px rgba(200, 133, 58, 0.35)" : "none",
+                                              }
+                                    }
                                 >
-                                    {cat.label}
+                                    {isNew ? (
+                                        <span className="inline-flex items-center gap-1.5">
+                                            <span className="text-[#f5c378] text-xs font-bold animate-pulse">✦</span>
+                                            <span>{cat.label}</span>
+                                        </span>
+                                    ) : (
+                                        cat.label
+                                    )}
                                 </button>
                             );
                         })}
                     </div>
 
-                    {/* Главное фото активного раздела */}
+                    {/* Главное фото активного раздела (без зума/hover в Кухне и баре) */}
                     <div
-                        className="relative rounded-2xl overflow-hidden mb-8 group"
+                        className="relative rounded-2xl overflow-hidden mb-8"
                         style={{
                             border: "1px solid #c8853a33",
                             background: "#181005",
                         }}
                     >
                         {/* Фоновое фото — натуральное, без искусственного глобального затемнения */}
-                        <img
-                            src={currentCatMeta.heroImg}
+                        <ResponsiveImage
+                            image={currentCatMeta.heroImg}
                             alt={currentCatMeta.label}
-                            className={`absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 pointer-events-none ${
+                            className={`w-full h-full object-cover pointer-events-none ${
                                 mobileFadeState === "fading-out" ? "opacity-30 md:opacity-100" : "opacity-100"
                             }`}
                             style={{
                                 filter: "contrast(1.05) saturate(1.1)",
-                                transition: "opacity 150ms cubic-bezier(0.16, 1, 0.3, 1), transform 700ms ease",
+                                transition: "opacity 150ms cubic-bezier(0.16, 1, 0.3, 1)",
                             }}
+                            width={1200}
+                            height={600}
+                            loading="lazy"
+                            decoding="async"
+                            wrapperClassName="absolute inset-0 w-full h-full block pointer-events-none"
                         />
 
                         {/* Составной градиент: глубокое нижнее затемнение + горизонтальный подстилающий градиент слева под типографику */}
@@ -5258,7 +5536,7 @@ export default function App() {
             </section>
 
             {/* ── BANQUET HALLS SECTION ── */}
-            <section id="halls" className="scroll-mt-20 py-24 md:py-32" style={{ background: "#181005" }}>
+            <section id="halls" className="scroll-mt-20 py-24 md:py-32 content-visibility-auto" style={{ background: "#181005" }}>
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-12 gap-4">
                         <div>
@@ -5400,7 +5678,7 @@ export default function App() {
             </section>
 
             {/* ── PROMOTIONS & EVENTS ── */}
-            <section id="promotions" className="scroll-mt-20 py-24 md:py-32">
+            <section id="promotions" className="scroll-mt-20 py-24 md:py-32 content-visibility-auto">
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-10 gap-4">
                         <div>
@@ -5530,7 +5808,7 @@ export default function App() {
                     ...GALLERY_IMGS.map((img) => ({ kind: "image" as const, src: img.src, alt: img.alt, filter: img.filter })),
                 ];
                 return (
-                    <section id="gallery" className="scroll-mt-20 py-24 md:py-32" style={{ background: "#150e04" }}>
+                    <section id="gallery" className="scroll-mt-20 py-24 md:py-32 content-visibility-auto" style={{ background: "#150e04" }}>
                         <div className="max-w-7xl mx-auto px-6">
                             <p className="mb-3 text-sm tracking-widest uppercase" style={{ color: "#c8853a", letterSpacing: "0.2em" }}>Атмосфера</p>
                             <h2 className="mb-12 leading-tight" style={{ fontFamily: "var(--font-display)", fontSize: "clamp(2.4rem, 5vw, 3.8rem)", color: "#f5ead8", fontStyle: "italic" }}>
@@ -5565,11 +5843,14 @@ export default function App() {
                                             className={`${img.span} rounded-xl overflow-hidden relative group text-left`}
                                             style={{ background: "#2c1f0e", cursor: "pointer", boxShadow: "none" }}
                                         >
-                                            <img
-                                                src={img.src}
+                                            <ResponsiveImage
+                                                image={img.src}
                                                 alt={img.alt}
                                                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 outline outline-1 -outline-offset-1 outline-white/10"
                                                 style={{ opacity: 0.9, filter: img.filter, objectPosition: img.pos }}
+                                                loading="lazy"
+                                                decoding="async"
+                                                wrapperClassName="w-full h-full block"
                                             />
                                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-3 sm:p-4 pointer-events-none">
                                                 <p className="text-sm sm:text-base font-semibold text-[#f5ead8]" style={{ fontFamily: "var(--font-display)" }}>
@@ -5602,7 +5883,7 @@ export default function App() {
             )}
 
             {/* ── BOOK CTA ── */}
-            <section className="py-24 relative overflow-hidden" style={{ background: "#c8853a" }}>
+            <section className="py-24 relative overflow-hidden content-visibility-auto" style={{ background: "#c8853a" }}>
                 <div className="absolute inset-0 opacity-10" aria-hidden="true" style={{ backgroundImage: "repeating-linear-gradient(45deg, #1a1208 0, #1a1208 1px, transparent 0, transparent 50%)", backgroundSize: "20px 20px" }} />
                 <div className="relative max-w-4xl mx-auto px-6 text-center">
                     <h2 className="mb-4 leading-tight" style={{ fontFamily: "var(--font-display)", fontSize: "clamp(2.4rem, 5.5vw, 4rem)", color: "#1a1208", fontStyle: "italic" }}>
@@ -5623,7 +5904,7 @@ export default function App() {
             </section>
 
             {/* ── CONTACTS ── */}
-            <section id="contacts" className="scroll-mt-20 pt-24 md:pt-32 pb-0" style={{ background: "#150e04" }}>
+            <section id="contacts" className="scroll-mt-20 pt-24 md:pt-32 pb-0 content-visibility-auto" style={{ background: "#150e04" }}>
                 <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-12">
                     <div>
                         <p className="mb-3 text-sm tracking-widest uppercase" style={{ color: "#c8853a", letterSpacing: "0.2em" }}>Адрес</p>
@@ -5668,12 +5949,27 @@ export default function App() {
                         <div className="flex flex-col gap-2.5 text-base sm:text-lg" style={{ color: "#d9c9b0" }}>
                             <a href="tel:+73476735505" className="hover:text-amber-300 transition-colors">+7 (34767) 3-55-05</a>
                             <a href="tel:+79378435505" className="hover:text-amber-300 transition-colors">+7 (937) 843-55-05</a>
-                            <div className="flex gap-4 mt-3">
+                            <div className="flex flex-col sm:flex-row gap-3 mt-3 items-start sm:items-center flex-wrap">
+                                <button
+                                    ref={feedbackTriggerRef}
+                                    type="button"
+                                    onClick={() => setFeedbackOpen(true)}
+                                    className="px-5 py-2.5 rounded-full text-sm font-semibold tracking-wider uppercase transition-all duration-200 hover:brightness-110 active:scale-95 cursor-pointer"
+                                    style={{
+                                        background: "#c8853a",
+                                        color: "#1a1208",
+                                        fontFamily: "var(--font-body)",
+                                        letterSpacing: "0.08em",
+                                        fontWeight: 700,
+                                    }}
+                                >
+                                    Оставить отзыв
+                                </button>
                                 <a
                                     href="https://vk.ru/belka_kafe"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-sm tracking-widest uppercase underline underline-offset-4 hover:text-amber-300 transition-colors"
+                                    className="text-sm tracking-widest uppercase underline underline-offset-4 hover:text-amber-300 transition-colors py-2"
                                     style={{ color: "#c8853a", letterSpacing: "0.12em" }}
                                 >
                                     ВКонтакте
@@ -5685,7 +5981,7 @@ export default function App() {
             </section>
 
             {/* ── MAP SECTION ── */}
-            <section id="map" className="py-16 md:py-20" style={{ background: "#150e04" }}>
+            <section id="map" className="py-16 md:py-20 content-visibility-auto" style={{ background: "#150e04" }}>
                 <div className="max-w-7xl mx-auto px-6">
                     <div
                         className="relative w-full h-[320px] sm:h-[380px] md:h-[440px] lg:h-[460px] rounded-xl overflow-hidden"
@@ -5725,7 +6021,7 @@ export default function App() {
             </section>
 
             {/* ── FOOTER ── */}
-            <footer className="py-8 border-t" style={{ borderColor: "#c8853a18", background: "#1a1208" }}>
+            <footer className="py-8 border-t content-visibility-auto" style={{ borderColor: "#c8853a18", background: "#1a1208" }}>
                 <div className="max-w-7xl mx-auto px-6 flex flex-col gap-4">
                     <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                         <span className="text-xl" style={{ fontFamily: "var(--font-display)", color: "#c8853a", fontStyle: "italic" }}>Белоснежка</span>
@@ -5815,6 +6111,16 @@ export default function App() {
                 />
             )}
             {privacyOpen && <PrivacyModal onClose={() => setPrivacyOpen(false)} />}
+            {feedbackOpen && (
+                <FeedbackModal
+                    onClose={() => setFeedbackOpen(false)}
+                    triggerRef={feedbackTriggerRef}
+                    onShowPrivacy={() => {
+                        setFeedbackOpen(false);
+                        setPrivacyOpen(true);
+                    }}
+                />
+            )}
             {!cookieOk && <CookieBanner onAccept={acceptCookie} onShowPrivacy={() => setPrivacyOpen(true)} />}
         </div>
     );
