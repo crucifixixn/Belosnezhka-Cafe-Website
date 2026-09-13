@@ -167,6 +167,7 @@ type Dish = {
     description?: string;
     img?: string | ImageAsset;
     tag?: string;
+    tags?: string[];
     nutrition?: NutritionInfo;
 };
 
@@ -364,12 +365,43 @@ const FULL_CATALOG: MenuCategory[] = [
         title: "Новинки меню",
         sections: [
             {
-                title: "Фирменные новинки сезона",
+                title: "Салаты",
                 col: 1,
                 orderMobile: 1,
                 items: [
+                    { name: "Салат Каприз", weight: "150 г", price: "450 ₽", note: "куриная печень, листья салата, помидоры, апельсин, медово-горчичная заправка, кунжут", tag: "Новинка" },
+                    { name: "Салат Микс", weight: "150 г", price: "500 ₽", note: "отварная свёкла, листья салата, сёмга, апельсин, брынза, медово-горчичная заправка", tag: "Новинка" },
+                    { name: "Цезарь с креветками", weight: "150 г", price: "550 ₽", note: "креветки, салатные листья, помидоры, сыр голландский, сухари, соус цезарь", tags: ["Хит", "Новинка"], tag: "Хит · Новинка" },
+                ],
+            },
+            {
+                title: "Горячие блюда",
+                col: 2,
+                orderMobile: 2,
+                items: [
+                    { name: "Курица по-гавайски", weight: "150 г", price: "500 ₽", img: foodChickenFestive, tag: "Новинка" },
+                    { name: "Курица по-французски", weight: "150 г", price: "450 ₽", img: foodChickenFestive, tag: "Новинка" },
+                    { name: "Горбуша под овощами", weight: "150 г", price: "400 ₽", tag: "Новинка" },
                     { name: "Свинина с овощами", weight: "150 г", price: "650 ₽", note: "баклажаны, помидоры, свинина", img: foodPorkRibsVeg, tag: "Новинка" },
+                    { name: "Свинина в соусе с грибами", weight: "150 г", price: "630 ₽", img: foodPorkMushroomSauce, tag: "Новинка" },
+                    { name: "Удон с курицей, креветками и грибами", weight: "220 г", price: "550 ₽", note: "лапша удон ручной работы, куриное филе, тигровые креветки, шампиньоны, овощи, соус терияки, кунжут", img: foodDishDragon, tag: "Новинка" },
                     { name: "Китайские пельмени Цзяоцзы", weight: "150 г", price: "300 ₽", note: "домашние китайские пельмени цзяоцзы с сочной говяжьей начинкой", tag: "Новинка" },
+                ],
+            },
+            {
+                title: "Гарниры",
+                col: 1,
+                orderMobile: 3,
+                items: [
+                    { name: "Фасоль стручковая", weight: "150 г", price: "200 ₽", tag: "Новинка" },
+                ],
+            },
+            {
+                title: "Роллы",
+                col: 1,
+                orderMobile: 4,
+                items: [
+                    { name: "Цезарь-ролл запечённый", weight: "150 г", price: "450 ₽", img: foodCaesarRoll, tag: "Новинка" },
                 ],
             },
         ],
@@ -429,14 +461,14 @@ const FULL_CATALOG: MenuCategory[] = [
                 col: 2,
                 orderMobile: 2,
                 items: [
-                    { name: "Цезарь с креветками", weight: "150 г", price: "550 ₽", note: "креветки, салатные листья, помидоры, сыр голландский, сухари, соус цезарь" },
+                    { name: "Цезарь с креветками", weight: "150 г", price: "550 ₽", note: "креветки, салатные листья, помидоры, сыр голландский, сухари, соус цезарь", tags: ["Хит", "Новинка"], tag: "Хит · Новинка" },
                     { name: "Цезарь с сёмгой", weight: "150 г", price: "500 ₽", note: "слабосолёная сёмга, салатные листья, помидоры, сыр, сухари, соус цезарь" },
                     { name: "Парус", weight: "150 г", price: "500 ₽", note: "морковча, жареные грибы, обжаренное филе курицы, сыр, дольки куриного яйца, сметана" },
                     { name: "Царский", weight: "150 г", price: "500 ₽", note: "морковча, говядина обжаренная, перец, огурцы, заправка фирменная" },
                     { name: "Лагуна", weight: "150 г", price: "500 ₽", note: "креветки, свежие огурцы, помидоры, изысканная заправка" },
                     { name: "Престиж", weight: "150 г", price: "450 ₽", note: "отборное мясное филе, свежие овощи, маслины, фирменная заправка" },
-                    { name: "Салат Каприз", weight: "150 г", price: "450 ₽", note: "куриная печень, листья салата, помидоры, апельсин, медово-горчичная заправка, кунжут" },
-                    { name: "Салат Микс", weight: "150 г", price: "500 ₽", note: "отварная свёкла, листья салата, сёмга, апельсин, брынза, медово-горчичная заправка" },
+                    { name: "Салат Каприз", weight: "150 г", price: "450 ₽", note: "куриная печень, листья салата, помидоры, апельсин, медово-горчичная заправка, кунжут", tag: "Новинка" },
+                    { name: "Салат Микс", weight: "150 г", price: "500 ₽", note: "отварная свёкла, листья салата, сёмга, апельсин, брынза, медово-горчичная заправка", tag: "Новинка" },
                 ],
             },
         ],
@@ -466,7 +498,7 @@ const FULL_CATALOG: MenuCategory[] = [
                 orderMobile: 2,
                 items: [
                     { name: "Креветки в пикантном соусе", weight: "175 г", price: "750 ₽" },
-                    { name: "Цезарь-ролл запечённый", weight: "150 г", price: "450 ₽", img: foodCaesarRoll },
+                    { name: "Цезарь-ролл запечённый", weight: "150 г", price: "450 ₽", img: foodCaesarRoll, tag: "Новинка" },
                     { name: "Конвертики с курицей", weight: "170 г", price: "400 ₽", note: "тонкий лаваш, куриное филе, болгарский перец, сыр, специи" },
                     { name: "Конвертики с грибами", weight: "170 г", price: "350 ₽", note: "лаваш, грибы, сыр" },
                     { name: "Сырные палочки", weight: "100 г", price: "250 ₽" },
@@ -500,17 +532,18 @@ const FULL_CATALOG: MenuCategory[] = [
                     { name: "Чанахи с говядиной", weight: "250 г", price: "750 ₽", img: foodZharkoeArmenia },
                     { name: "Жаркое по-армянски", weight: "250 г", price: "650 ₽", note: "говядина, картофель, болгарский перец, лук, томаты, кавказские специи, зелень", img: foodZharkoeArmenia },
                     { name: "Свинина с овощами", weight: "150 г", price: "650 ₽", note: "баклажаны, помидоры, свинина", img: foodPorkRibsVeg, tag: "Новинка" },
-                    { name: "Свинина в соусе с грибами", weight: "150 г", price: "630 ₽", img: foodPorkMushroomSauce },
+                    { name: "Свинина в соусе с грибами", weight: "150 г", price: "630 ₽", img: foodPorkMushroomSauce, tag: "Новинка" },
                     { name: "Печень по-татарски", weight: "150 г", price: "600 ₽", note: "говяжья печень, лук репчатый, маринованные огурцы, томатный соус, зелень", img: foodSteakPork2 },
                     { name: "Куриная грудка с овощами", weight: "200 г", price: "550 ₽", note: "куриное филе, сочные овощи, яйцо и сыр перемешиваются и запекаются вместе с блюдом", img: foodShashlikChickenVeg },
                     { name: "Рагу овощное с курицей", weight: "250 г", price: "550 ₽" },
                     { name: "Китайский дракон", weight: "170 г", price: "500 ₽", note: "куриное филе, лук репчатый, перец болгарский, маринованные огурцы, зелень, кунжут", img: foodDishDragon },
-                    { name: "Курица по-гавайски", weight: "150 г", price: "500 ₽", img: foodChickenFestive },
-                    { name: "Курица по-французски", weight: "150 г", price: "450 ₽", img: foodChickenFestive },
+                    { name: "Курица по-гавайски", weight: "150 г", price: "500 ₽", img: foodChickenFestive, tag: "Новинка" },
+                    { name: "Курица по-французски", weight: "150 г", price: "450 ₽", img: foodChickenFestive, tag: "Новинка" },
                     { name: "Дорадо", weight: "100 г", price: "450 ₽" },
-                    { name: "Горбуша под овощами", weight: "150 г", price: "400 ₽" },
+                    { name: "Горбуша под овощами", weight: "150 г", price: "400 ₽", tag: "Новинка" },
                     { name: "Удон с креветками", weight: "150 г", price: "400 ₽" },
                     { name: "Удон с курицей", weight: "150 г", price: "350 ₽", note: "лапша удон ручной работы собственного приготовления, куриное филе, овощи, соус терияки" },
+                    { name: "Удон с курицей, креветками и грибами", weight: "220 г", price: "550 ₽", note: "лапша удон ручной работы, куриное филе, тигровые креветки, шампиньоны, овощи, соус терияки, кунжут", img: foodDishDragon, tag: "Новинка" },
                     { name: "Удон с грибами", weight: "150 г", price: "350 ₽" },
                     { name: "Китайские пельмени Цзяоцзы", weight: "150 г", price: "300 ₽", note: "домашние китайские пельмени цзяоцзы с сочной говяжьей начинкой" },
                     { name: "Жареные пельмени с курицей", weight: "150 г", price: "280 ₽" },
@@ -525,7 +558,7 @@ const FULL_CATALOG: MenuCategory[] = [
                     { name: "Овощи запечённые", weight: "100 г", price: "250 ₽" },
                     { name: "Картофель с чесноком", weight: "150 г", price: "220 ₽", img: foodSteakBeefPotato },
                     { name: "Запечённый картофель", weight: "150 г", price: "200 ₽", note: "картофель, ароматные специи, растительное масло", img: foodSteakBeefPotato },
-                    { name: "Фасоль стручковая", weight: "150 г", price: "200 ₽" },
+                    { name: "Фасоль стручковая", weight: "150 г", price: "200 ₽", tag: "Новинка" },
                     { name: "Картофель фри", weight: "100 г", price: "170 ₽", img: foodLyulyaChicken },
                 ],
             },
@@ -1902,13 +1935,43 @@ function getDishDescription(dish: Dish, categoryId?: string): string {
     return "Популярная позиция меню кафе «Белоснежка», приготовленная по проверенным рецептам.";
 }
 
+function getDishTags(dish: Dish): string[] {
+    if (dish.tags && dish.tags.length > 0) return dish.tags;
+    if (dish.tag) {
+        if (dish.tag.includes("·")) return dish.tag.split("·").map(s => s.trim()).filter(Boolean);
+        if (dish.tag.includes(",")) return dish.tag.split(",").map(s => s.trim()).filter(Boolean);
+        return [dish.tag];
+    }
+    const single = getDishTag(dish);
+    if (!single) return [];
+    if (single.includes("·")) return single.split("·").map(s => s.trim()).filter(Boolean);
+    if (single.includes(",")) return single.split(",").map(s => s.trim()).filter(Boolean);
+    return [single];
+}
+
 function getDishTag(dish: Dish): string | undefined {
     if (dish.tag) return dish.tag;
     const nameLower = dish.name.toLowerCase();
-    if (nameLower.includes("свинина с овощами")) return "Новинка";
-    if (nameLower.includes("цзяоцзы")) return "Новинка";
+    if (nameLower.includes("цезарь с креветками")) return "Хит · Новинка";
+    if (
+        nameLower.includes("курица по-гавайски") ||
+        nameLower.includes("курица по-французски") ||
+        nameLower.includes("горбуша под овощами") ||
+        nameLower.includes("цезарь-ролл") ||
+        nameLower.includes("цезарь ролл") ||
+        nameLower.includes("свинина с овощами") ||
+        nameLower.includes("свинина в соусе с грибами") ||
+        nameLower.includes("свинина в сливочном соусе") ||
+        (nameLower.includes("удон") && nameLower.includes("креветк") && nameLower.includes("куриц")) ||
+        nameLower.includes("каприз") ||
+        nameLower.includes("салат микс") ||
+        nameLower.includes("фасоль стручковая") ||
+        nameLower.includes("цзяоцзы")
+    ) {
+        return "Новинка";
+    }
     if (nameLower.includes("садж") || nameLower.includes("белоснежка") || nameLower.includes("фирменн")) return "Фирменное";
-    if (nameLower.includes("шашлык свиной") || nameLower.includes("люля-кебаб") || nameLower.includes("цезарь с креветками") || nameLower.includes("банкет") || nameLower.includes("пепперони") || nameLower.includes("лонг айленд")) return "Хит";
+    if (nameLower.includes("шашлык свиной") || nameLower.includes("люля-кебаб") || nameLower.includes("банкет") || nameLower.includes("пепперони") || nameLower.includes("лонг айленд")) return "Хит";
     if (nameLower.includes("сёмги") || nameLower.includes("рыбная") || nameLower.includes("стейк из говядины") || nameLower.includes("мохито")) return "Популярное";
     return undefined;
 }
@@ -1916,6 +1979,25 @@ function getDishTag(dish: Dish): string | undefined {
 function getDishNote(dish: Dish, categoryId?: string): string | undefined {
     if (dish.note) return dish.note;
     const nameLower = dish.name.toLowerCase();
+
+    if (nameLower.includes("удон") && nameLower.includes("креветк") && nameLower.includes("куриц")) {
+        return "лапша удон ручной работы, куриное филе, тигровые креветки, шампиньоны, овощи, соус терияки, кунжут";
+    }
+    if (nameLower.includes("фасоль стручковая")) {
+        return "зеленая стручковая фасоль, сливочное масло, чеснок, специи, свежая зелень";
+    }
+    if (nameLower.includes("горбуша под овощами")) {
+        return "филе горбуши, морковь, лук, сладкий перец, сыр, зелень";
+    }
+    if (nameLower.includes("курица по-гавайски")) {
+        return "куриное филе, сочный ананас, сыр моцарелла, специи";
+    }
+    if (nameLower.includes("курица по-французски")) {
+        return "куриное филе, спелые помидоры, сыр, репчатый лук, соус";
+    }
+    if (nameLower.includes("свинина в соусе с грибами") || nameLower.includes("свинина в сливочном соусе")) {
+        return "свиная вырезка, свежие шампиньоны, сливочный соус, лук, зелень";
+    }
 
     // Салаты
     if (nameLower.includes("белоснежка")) {
@@ -2228,6 +2310,7 @@ function getDishNutrition(dish: Dish, categoryId?: string): NutritionInfo | unde
         if (nameLower.includes("дорадо")) return { calories: 115, protein: 18.2, fat: 4.6, carbs: 0.2, isPer100Ml: false };
         if (nameLower.includes("горбуша")) return { calories: 138, protein: 15.5, fat: 7.2, carbs: 3.0, isPer100Ml: false };
         if (nameLower.includes("удон с креветками")) return { calories: 142, protein: 7.5, fat: 4.2, carbs: 19.0, isPer100Ml: false };
+        if (nameLower.includes("удон с курицей") && nameLower.includes("креветк")) return { calories: 155, protein: 11.2, fat: 4.8, carbs: 18.0, isPer100Ml: false };
         if (nameLower.includes("удон с курицей")) return { calories: 158, protein: 9.8, fat: 5.2, carbs: 18.5, isPer100Ml: false };
         if (nameLower.includes("удон с грибами")) return { calories: 128, protein: 4.5, fat: 3.8, carbs: 19.5, isPer100Ml: false };
         if (nameLower.includes("цзяоцзы") || nameLower.includes("жареные пельмени с говядиной")) return { calories: 275, protein: 11.2, fat: 14.5, carbs: 25.8, isPer100Ml: false };
@@ -2442,6 +2525,7 @@ function DishPhotoModal({
     const dishImg = getDishImage(currentDish, categoryId);
     const dishDesc = getDishDescription(currentDish, categoryId);
     const dishTag = getDishTag(currentDish);
+    const currentDishTags = getDishTags(currentDish);
     const dishNote = currentDish.note || getDishNote(currentDish, categoryId);
     const currentNutrition = currentDish.nutrition || getDishNutrition(currentDish, categoryId);
 
@@ -2535,8 +2619,63 @@ function DishPhotoModal({
                     className={`dish-modal-card relative w-full rounded-2xl overflow-hidden outline-none flex flex-col max-h-[92vh] md:max-h-[calc(100vh-48px)] ${isClosing ? "closing" : ""}`}
                     style={{ background: "#1f1406", border: "1px solid #c8853a33", overscrollBehavior: "contain" }}
                 >
-                    {/* Фотография блюда — фиксированные размеры в px */}
-                    <div className="relative shrink-0 select-none overflow-hidden h-[260px] sm:h-[320px] md:h-[384px]" style={{ background: "#2c1f0e" }}>
+                    {/* ─── ДЕСКТОП: Липкая шапка (название, бейджи, категория, порция, цена, закрыть) ─── */}
+                    <div
+                        className="hidden md:flex items-center justify-between px-6 py-4 border-b shrink-0 z-20"
+                        style={{ borderColor: "#c8853a22", background: "rgba(31, 20, 6, 0.96)", backdropFilter: "blur(8px)" }}
+                    >
+                        <div className="flex-1 min-w-0 pr-4">
+                            <div className="flex items-center gap-2.5 flex-wrap">
+                                <h3 id="dish-modal-title" className="text-2xl lg:text-3xl leading-snug font-normal" style={{ fontFamily: "var(--font-display)", color: "#f5ead8", fontStyle: "italic" }}>
+                                    {currentDish.name}
+                                </h3>
+                                {currentDishTags.map((tag, idx) => (
+                                    <span
+                                        key={idx}
+                                        className="px-2.5 py-0.5 rounded-full text-xs font-semibold tracking-wide"
+                                        style={{
+                                            background: tag === "Хит" ? "rgba(200, 133, 58, 0.25)" : "#c8853a",
+                                            color: tag === "Хит" ? "#f5ead8" : "#1a1208",
+                                            fontFamily: "var(--font-body)",
+                                            fontWeight: 700,
+                                            border: tag === "Хит" ? "1px solid rgba(200, 133, 58, 0.45)" : "none"
+                                        }}
+                                    >
+                                        {tag}
+                                    </span>
+                                ))}
+                                <span
+                                    className="px-2.5 py-0.5 rounded-full text-xs"
+                                    style={{ background: "rgba(26, 18, 8, 0.75)", color: "#d9c9b0", border: "1px solid #c8853a33", fontFamily: "var(--font-body)" }}
+                                >
+                                    {categoryTitle}
+                                </span>
+                            </div>
+                            {currentDish.weight && (
+                                <p className="mt-1 text-xs tracking-wider" style={{ color: "#b8a98e", fontFamily: "var(--font-body)" }}>
+                                    <span style={{ color: "#c8853a99" }}>{portionLabel} </span>
+                                    <span style={{ color: "#e4a55a", fontVariantNumeric: "tabular-nums" }}>{currentDish.weight}</span>
+                                </p>
+                            )}
+                        </div>
+                        <div className="flex items-center gap-4 shrink-0 select-none">
+                            <div className="text-right">
+                                {renderRefinedPrice(currentDish.price)}
+                            </div>
+                            <button
+                                type="button"
+                                onClick={handleClose}
+                                className="w-9 h-9 rounded-full flex items-center justify-center text-xl transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer"
+                                style={{ background: "rgba(26, 18, 8, 0.8)", color: "#f5ead8", border: "1px solid #c8853a44" }}
+                                aria-label="Закрыть"
+                            >
+                                ✕
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* ─── Фотография блюда — адаптивная высота на десктопе ─── */}
+                    <div className="relative shrink-0 select-none overflow-hidden h-[260px] sm:h-[320px] md:h-[32vh] md:max-h-[340px] md:min-h-[220px]" style={{ background: "#2c1f0e" }}>
                         <ResponsiveImage
                             image={dishImg}
                             alt={currentDish.name}
@@ -2549,27 +2688,37 @@ function DishPhotoModal({
                             decoding="async"
                             wrapperClassName="w-full h-full block"
                         />
-                        {/* Только тонкий верхний полупрозрачный градиент для контраста кнопки закрытия и бейджей */}
-                        <div className="absolute inset-x-0 top-0 h-16 pointer-events-none" style={{ background: "linear-gradient(to bottom, rgba(10,7,2,0.4) 0%, transparent 100%)" }} />
+                        {/* Только тонкий верхний полупрозрачный градиент для контраста кнопки закрытия и бейджей на мобильных */}
+                        <div className="md:hidden absolute inset-x-0 top-0 h-16 pointer-events-none" style={{ background: "linear-gradient(to bottom, rgba(10,7,2,0.4) 0%, transparent 100%)" }} />
 
-                        {/* Бейджи на фото */}
-                        <div className="absolute top-4 left-4 flex flex-wrap gap-2 items-center">
-                            {dishTag && (
-                                <span className="px-3 py-1 rounded-full text-sm font-semibold tracking-wide" style={{ background: "#c8853a", color: "#1a1208", fontFamily: "var(--font-body)", fontWeight: 700 }}>
-                                    {dishTag}
+                        {/* Бейджи на фото (только на мобильных) */}
+                        <div className="md:hidden absolute top-4 left-4 flex flex-wrap gap-2 items-center">
+                            {currentDishTags.map((tag, idx) => (
+                                <span
+                                    key={idx}
+                                    className="px-3 py-1 rounded-full text-sm font-semibold tracking-wide"
+                                    style={{
+                                        background: tag === "Хит" ? "rgba(200, 133, 58, 0.25)" : "#c8853a",
+                                        color: tag === "Хит" ? "#f5ead8" : "#1a1208",
+                                        fontFamily: "var(--font-body)",
+                                        fontWeight: 700,
+                                        border: tag === "Хит" ? "1px solid rgba(200, 133, 58, 0.45)" : "none"
+                                    }}
+                                >
+                                    {tag}
                                 </span>
-                            )}
-                            <span className="px-2.5 py-0.5 rounded-full text-xs sm:text-sm backdrop-blur-md" style={{ background: "rgba(26,18,8,0.75)", color: "#d9c9b0", border: "1px solid #c8853a33", fontFamily: "var(--font-body)" }}>
+                            ))}
+                            <span className="px-2.5 py-0.5 rounded-full text-xs sm:text-sm backdrop-blur-md" style={{ background: "rgba(26, 18, 8, 0.75)", color: "#d9c9b0", border: "1px solid #c8853a33", fontFamily: "var(--font-body)" }}>
                                 {categoryTitle}
                             </span>
                         </div>
 
-                        {/* Кнопка закрытия */}
+                        {/* Кнопка закрытия на фото (только на мобильных) */}
                         <button
                             type="button"
                             onClick={handleClose}
-                            className="absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center text-xl transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer z-10"
-                            style={{ background: "rgba(26,18,8,0.8)", color: "#f5ead8", border: "1px solid #c8853a44" }}
+                            className="md:hidden absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center text-xl transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer z-10"
+                            style={{ background: "rgba(26, 18, 8, 0.8)", color: "#f5ead8", border: "1px solid #c8853a44" }}
                             aria-label="Закрыть"
                         >
                             ✕
@@ -2583,7 +2732,7 @@ function DishPhotoModal({
                                     onClick={prevDish}
                                     aria-label="Предыдущее блюдо"
                                     className="md:hidden absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full flex items-center justify-center text-lg transition-all duration-200 hover:scale-110 active:scale-90 cursor-pointer z-10"
-                                    style={{ background: "rgba(26,18,8,0.8)", color: "#f5ead8", border: "1px solid #c8853a44" }}
+                                    style={{ background: "rgba(26, 18, 8, 0.8)", color: "#f5ead8", border: "1px solid #c8853a44" }}
                                 >
                                     ‹
                                 </button>
@@ -2592,26 +2741,27 @@ function DishPhotoModal({
                                     onClick={nextDish}
                                     aria-label="Следующее блюдо"
                                     className="md:hidden absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full flex items-center justify-center text-lg transition-all duration-200 hover:scale-110 active:scale-90 cursor-pointer z-10"
-                                    style={{ background: "rgba(26,18,8,0.8)", color: "#f5ead8", border: "1px solid #c8853a44" }}
+                                    style={{ background: "rgba(26, 18, 8, 0.8)", color: "#f5ead8", border: "1px solid #c8853a44" }}
                                 >
                                     ›
                                 </button>
-                                <div className="absolute bottom-3 right-4 px-2.5 py-0.5 rounded text-xs backdrop-blur-sm" style={{ background: "rgba(26,18,8,0.7)", color: "#d9c9b0" }}>
+                                <div className="absolute bottom-3 right-4 px-2.5 py-0.5 rounded text-xs backdrop-blur-sm select-none" style={{ background: "rgba(26, 18, 8, 0.7)", color: "#d9c9b0" }}>
                                     {currentIndex + 1} из {allDishes.length}
                                 </div>
                             </>
                         )}
                     </div>
 
-                    {/* Текстовая информация о блюде */}
+                    {/* ─── Текстовая информация о блюде (прокручивается внутри модалки) ─── */}
                     <div
                         ref={scrollContainerRef}
                         className="p-6 overflow-y-auto flex flex-col gap-4 flex-1"
                         style={{ overscrollBehavior: "contain" }}
                     >
-                        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-3 pb-4 border-b" style={{ borderColor: "#c8853a22" }}>
+                        {/* Заголовок и цена на мобильных */}
+                        <div className="md:hidden flex flex-col sm:flex-row sm:items-baseline justify-between gap-3 pb-4 border-b" style={{ borderColor: "#c8853a22" }}>
                             <div className="flex-1 min-w-0 pr-3">
-                                <h3 id="dish-modal-title" className="text-2xl sm:text-3xl md:text-4xl leading-snug font-normal" style={{ fontFamily: "var(--font-display)", color: "#f5ead8", fontStyle: "italic" }}>
+                                <h3 className="text-2xl sm:text-3xl leading-snug font-normal" style={{ fontFamily: "var(--font-display)", color: "#f5ead8", fontStyle: "italic" }}>
                                     {currentDish.name}
                                 </h3>
                                 {currentDish.weight && (
@@ -2696,8 +2846,8 @@ function DishPhotoModal({
                             </div>
                         )}
 
-                        {/* Кнопки действий */}
-                        <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                        {/* Кнопки действий на мобильных */}
+                        <div className="md:hidden pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                             <button
                                 type="button"
                                 onClick={() => handleBookTable(currentDish.name)}
@@ -2734,6 +2884,48 @@ function DishPhotoModal({
                                 )}
                             </a>
                         </div>
+                    </div>
+
+                    {/* ─── ДЕСКТОП: Липкий футер с кнопками ─── */}
+                    <div
+                        className="hidden md:flex items-center gap-3 px-6 py-4 border-t shrink-0 z-20"
+                        style={{ borderColor: "#c8853a22", background: "rgba(31, 20, 6, 0.96)", backdropFilter: "blur(8px)" }}
+                    >
+                        <button
+                            type="button"
+                            onClick={() => handleBookTable(currentDish.name)}
+                            className="booking-btn flex-1 py-3 px-5 rounded-xl text-sm uppercase tracking-widest font-bold flex items-center justify-center gap-2 text-center cursor-pointer"
+                            style={{ background: "#c8853a", color: "#1a1208", fontFamily: "var(--font-body)", fontWeight: 700 }}
+                        >
+                            <span>Забронировать</span>
+                        </button>
+                        <a
+                            href="tel:+79378435505"
+                            onClick={handlePhoneClick}
+                            className="py-3 px-5 rounded-xl text-sm uppercase tracking-wider font-semibold transition-all duration-200 hover:bg-[#3a2e1e] active:scale-[0.98] flex items-center justify-center gap-2 border text-center cursor-pointer select-none shrink-0"
+                            style={{
+                                borderColor: copiedPhone ? "#c8853a" : "#c8853a44",
+                                background: copiedPhone ? "rgba(200, 133, 58, 0.18)" : "transparent",
+                                color: copiedPhone ? "#e4a55a" : "#f5ead8",
+                                fontFamily: "var(--font-body)",
+                                letterSpacing: "0.06em",
+                            }}
+                            title="Позвонить или скопировать номер"
+                        >
+                            {copiedPhone ? (
+                                <>
+                                    <span className="text-base leading-none" style={{ color: "#c8853a" }}>✓</span>
+                                    <span>Номер скопирован!</span>
+                                </>
+                            ) : (
+                                <>
+                                    <svg className="w-4 h-4 shrink-0" style={{ color: "#c8853a" }} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                        <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.57a1 1 0 01-.25 1.02l-2.2 2.2z" />
+                                    </svg>
+                                    <span style={{ fontVariantNumeric: "tabular-nums" }}>+7 (937) 843-55-05</span>
+                                </>
+                            )}
+                        </a>
                     </div>
                 </div>
             </div>
@@ -4929,7 +5121,7 @@ export default function App() {
             <div className="flex flex-col">
                 {section.items.map((dish, i) => {
                     const isLast = i === section.items.length - 1;
-                    const dishTag = getDishTag(dish);
+                    const dishTags = getDishTags(dish);
                     return (
                         <button
                             key={i}
@@ -4944,11 +5136,19 @@ export default function App() {
                                     <span className="dish-name text-base sm:text-lg leading-snug font-medium" style={{ color: "#f5ead8" }}>
                                         {dish.name}
                                     </span>
-                                    {dishTag && (
-                                        <span className="text-xs px-2 py-0.5 rounded font-medium" style={{ background: "#c8853a22", color: "#c8853a", border: "1px solid #c8853a44" }}>
-                                            {dishTag}
+                                    {dishTags.map((tag, tIdx) => (
+                                        <span
+                                            key={tIdx}
+                                            className="text-xs px-2 py-0.5 rounded font-medium whitespace-nowrap"
+                                            style={{
+                                                background: tag === "Хит" ? "rgba(200, 133, 58, 0.25)" : "rgba(200, 133, 58, 0.15)",
+                                                color: "#c8853a",
+                                                border: "1px solid rgba(200, 133, 58, 0.35)"
+                                            }}
+                                        >
+                                            {tag}
                                         </span>
-                                    )}
+                                    ))}
                                 </div>
                                 {dish.weight && (
                                     <div className="flex gap-2 items-center flex-wrap">
