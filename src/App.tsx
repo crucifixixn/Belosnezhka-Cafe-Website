@@ -2619,63 +2619,8 @@ function DishPhotoModal({
                     className={`dish-modal-card relative w-full rounded-2xl overflow-hidden outline-none flex flex-col max-h-[92vh] md:max-h-[calc(100vh-48px)] ${isClosing ? "closing" : ""}`}
                     style={{ background: "#1f1406", border: "1px solid #c8853a33", overscrollBehavior: "contain" }}
                 >
-                    {/* ─── ДЕСКТОП: Липкая шапка (название, бейджи, категория, порция, цена, закрыть) ─── */}
-                    <div
-                        className="hidden md:flex items-center justify-between px-6 py-4 border-b shrink-0 z-20"
-                        style={{ borderColor: "#c8853a22", background: "rgba(31, 20, 6, 0.96)", backdropFilter: "blur(8px)" }}
-                    >
-                        <div className="flex-1 min-w-0 pr-4">
-                            <div className="flex items-center gap-2.5 flex-wrap">
-                                <h3 id="dish-modal-title" className="text-2xl lg:text-3xl leading-snug font-normal" style={{ fontFamily: "var(--font-display)", color: "#f5ead8", fontStyle: "italic" }}>
-                                    {currentDish.name}
-                                </h3>
-                                {currentDishTags.map((tag, idx) => (
-                                    <span
-                                        key={idx}
-                                        className="px-2.5 py-0.5 rounded-full text-xs font-semibold tracking-wide"
-                                        style={{
-                                            background: tag === "Хит" ? "rgba(200, 133, 58, 0.25)" : "#c8853a",
-                                            color: tag === "Хит" ? "#f5ead8" : "#1a1208",
-                                            fontFamily: "var(--font-body)",
-                                            fontWeight: 700,
-                                            border: tag === "Хит" ? "1px solid rgba(200, 133, 58, 0.45)" : "none"
-                                        }}
-                                    >
-                                        {tag}
-                                    </span>
-                                ))}
-                                <span
-                                    className="px-2.5 py-0.5 rounded-full text-xs"
-                                    style={{ background: "rgba(26, 18, 8, 0.75)", color: "#d9c9b0", border: "1px solid #c8853a33", fontFamily: "var(--font-body)" }}
-                                >
-                                    {categoryTitle}
-                                </span>
-                            </div>
-                            {currentDish.weight && (
-                                <p className="mt-1 text-xs tracking-wider" style={{ color: "#b8a98e", fontFamily: "var(--font-body)" }}>
-                                    <span style={{ color: "#c8853a99" }}>{portionLabel} </span>
-                                    <span style={{ color: "#e4a55a", fontVariantNumeric: "tabular-nums" }}>{currentDish.weight}</span>
-                                </p>
-                            )}
-                        </div>
-                        <div className="flex items-center gap-4 shrink-0 select-none">
-                            <div className="text-right">
-                                {renderRefinedPrice(currentDish.price)}
-                            </div>
-                            <button
-                                type="button"
-                                onClick={handleClose}
-                                className="w-9 h-9 rounded-full flex items-center justify-center text-xl transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer"
-                                style={{ background: "rgba(26, 18, 8, 0.8)", color: "#f5ead8", border: "1px solid #c8853a44" }}
-                                aria-label="Закрыть"
-                            >
-                                ✕
-                            </button>
-                        </div>
-                    </div>
-
-                    {/* ─── Фотография блюда — адаптивная высота на десктопе ─── */}
-                    <div className="relative shrink-0 select-none overflow-hidden h-[260px] sm:h-[320px] md:h-[32vh] md:max-h-[340px] md:min-h-[220px]" style={{ background: "#2c1f0e" }}>
+                    {/* ─── Фотография блюда — верхний блок карточки на всю ширину ─── */}
+                    <div className="relative shrink-0 select-none overflow-hidden h-[260px] sm:h-[300px] md:h-[35vh] md:max-h-[360px] md:min-h-[240px]" style={{ background: "#2c1f0e" }}>
                         <ResponsiveImage
                             image={dishImg}
                             alt={currentDish.name}
@@ -2688,15 +2633,15 @@ function DishPhotoModal({
                             decoding="async"
                             wrapperClassName="w-full h-full block"
                         />
-                        {/* Только тонкий верхний полупрозрачный градиент для контраста кнопки закрытия и бейджей на мобильных */}
-                        <div className="md:hidden absolute inset-x-0 top-0 h-16 pointer-events-none" style={{ background: "linear-gradient(to bottom, rgba(10,7,2,0.4) 0%, transparent 100%)" }} />
+                        {/* Тонкий верхний затемняющий градиент для читаемости бейджей и кнопки закрытия */}
+                        <div className="absolute inset-x-0 top-0 h-16 pointer-events-none" style={{ background: "linear-gradient(to bottom, rgba(10,7,2,0.45) 0%, transparent 100%)" }} />
 
-                        {/* Бейджи на фото (только на мобильных) */}
-                        <div className="md:hidden absolute top-4 left-4 flex flex-wrap gap-2 items-center">
+                        {/* Бейджи и категория поверх фото слева сверху */}
+                        <div className="absolute top-4 left-4 flex flex-wrap gap-2 items-center z-10">
                             {currentDishTags.map((tag, idx) => (
                                 <span
                                     key={idx}
-                                    className="px-3 py-1 rounded-full text-sm font-semibold tracking-wide"
+                                    className="px-3 py-1 rounded-full text-xs sm:text-sm font-semibold tracking-wide shadow-sm"
                                     style={{
                                         background: tag === "Хит" ? "rgba(200, 133, 58, 0.25)" : "#c8853a",
                                         color: tag === "Хит" ? "#f5ead8" : "#1a1208",
@@ -2708,16 +2653,16 @@ function DishPhotoModal({
                                     {tag}
                                 </span>
                             ))}
-                            <span className="px-2.5 py-0.5 rounded-full text-xs sm:text-sm backdrop-blur-md" style={{ background: "rgba(26, 18, 8, 0.75)", color: "#d9c9b0", border: "1px solid #c8853a33", fontFamily: "var(--font-body)" }}>
+                            <span className="px-2.5 py-1 rounded-full text-xs sm:text-sm backdrop-blur-md shadow-sm" style={{ background: "rgba(26, 18, 8, 0.75)", color: "#d9c9b0", border: "1px solid #c8853a33", fontFamily: "var(--font-body)" }}>
                                 {categoryTitle}
                             </span>
                         </div>
 
-                        {/* Кнопка закрытия на фото (только на мобильных) */}
+                        {/* Круглая кнопка закрытия (×) справа сверху */}
                         <button
                             type="button"
                             onClick={handleClose}
-                            className="md:hidden absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center text-xl transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer z-10"
+                            className="absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center text-xl transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer z-10"
                             style={{ background: "rgba(26, 18, 8, 0.8)", color: "#f5ead8", border: "1px solid #c8853a44" }}
                             aria-label="Закрыть"
                         >
@@ -2745,7 +2690,7 @@ function DishPhotoModal({
                                 >
                                     ›
                                 </button>
-                                <div className="absolute bottom-3 right-4 px-2.5 py-0.5 rounded text-xs backdrop-blur-sm select-none" style={{ background: "rgba(26, 18, 8, 0.7)", color: "#d9c9b0" }}>
+                                <div className="absolute bottom-3 right-4 px-2.5 py-0.5 rounded text-xs backdrop-blur-sm select-none z-10" style={{ background: "rgba(26, 18, 8, 0.7)", color: "#d9c9b0" }}>
                                     {currentIndex + 1} из {allDishes.length}
                                 </div>
                             </>
@@ -2758,10 +2703,10 @@ function DishPhotoModal({
                         className="p-6 overflow-y-auto flex flex-col gap-4 flex-1"
                         style={{ overscrollBehavior: "contain" }}
                     >
-                        {/* Заголовок и цена на мобильных */}
-                        <div className="md:hidden flex flex-col sm:flex-row sm:items-baseline justify-between gap-3 pb-4 border-b" style={{ borderColor: "#c8853a22" }}>
+                        {/* Название, вес и цена */}
+                        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-3 pb-4 border-b" style={{ borderColor: "#c8853a22" }}>
                             <div className="flex-1 min-w-0 pr-3">
-                                <h3 className="text-2xl sm:text-3xl leading-snug font-normal" style={{ fontFamily: "var(--font-display)", color: "#f5ead8", fontStyle: "italic" }}>
+                                <h3 id="dish-modal-title" className="text-2xl sm:text-3xl leading-snug font-normal" style={{ fontFamily: "var(--font-display)", color: "#f5ead8", fontStyle: "italic" }}>
                                     {currentDish.name}
                                 </h3>
                                 {currentDish.weight && (
@@ -2846,8 +2791,8 @@ function DishPhotoModal({
                             </div>
                         )}
 
-                        {/* Кнопки действий на мобильных */}
-                        <div className="md:hidden pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                        {/* Кнопки действий */}
+                        <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                             <button
                                 type="button"
                                 onClick={() => handleBookTable(currentDish.name)}
@@ -2884,48 +2829,6 @@ function DishPhotoModal({
                                 )}
                             </a>
                         </div>
-                    </div>
-
-                    {/* ─── ДЕСКТОП: Липкий футер с кнопками ─── */}
-                    <div
-                        className="hidden md:flex items-center gap-3 px-6 py-4 border-t shrink-0 z-20"
-                        style={{ borderColor: "#c8853a22", background: "rgba(31, 20, 6, 0.96)", backdropFilter: "blur(8px)" }}
-                    >
-                        <button
-                            type="button"
-                            onClick={() => handleBookTable(currentDish.name)}
-                            className="booking-btn flex-1 py-3 px-5 rounded-xl text-base uppercase tracking-widest font-bold flex items-center justify-center gap-2 text-center cursor-pointer"
-                            style={{ background: "#c8853a", color: "#1a1208", fontFamily: "var(--font-body)", fontWeight: 700 }}
-                        >
-                            <span>Забронировать</span>
-                        </button>
-                        <a
-                            href="tel:+79378435505"
-                            onClick={handlePhoneClick}
-                            className="py-3 px-5 rounded-xl text-base uppercase tracking-wider font-semibold transition-all duration-200 hover:bg-[#3a2e1e] active:scale-[0.98] flex items-center justify-center gap-2 border text-center cursor-pointer select-none shrink-0"
-                            style={{
-                                borderColor: copiedPhone ? "#c8853a" : "#c8853a44",
-                                background: copiedPhone ? "rgba(200, 133, 58, 0.18)" : "transparent",
-                                color: copiedPhone ? "#e4a55a" : "#f5ead8",
-                                fontFamily: "var(--font-body)",
-                                letterSpacing: "0.06em",
-                            }}
-                            title="Позвонить или скопировать номер"
-                        >
-                            {copiedPhone ? (
-                                <>
-                                    <span className="text-base leading-none" style={{ color: "#c8853a" }}>✓</span>
-                                    <span>Номер скопирован!</span>
-                                </>
-                            ) : (
-                                <>
-                                    <svg className="w-4 h-4 shrink-0" style={{ color: "#c8853a" }} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                                        <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.57a1 1 0 01-.25 1.02l-2.2 2.2z" />
-                                    </svg>
-                                    <span style={{ fontVariantNumeric: "tabular-nums" }}>+7 (937) 843-55-05</span>
-                                </>
-                            )}
-                        </a>
                     </div>
                 </div>
             </div>
