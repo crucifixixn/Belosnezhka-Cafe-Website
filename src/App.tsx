@@ -5147,17 +5147,17 @@ export default function App() {
 
                 <div className="hero-content-wrapper relative max-w-7xl mx-auto px-6 w-full mt-auto md:mt-0">
                     <div className="hero-content-block max-w-3xl">
-                        <p className="hero-city-tag mb-2.5 sm:mb-4 text-xs sm:text-sm tracking-wide uppercase" style={{ color: "#c8853a", letterSpacing: "0.14em" }}>
+                        <p className="hero-city-tag mb-2.5 sm:mb-4 text-xs sm:text-sm tracking-wide uppercase" style={{ color: "#c8853a", letterSpacing: "0.2em" }}>
                             ✦ &nbsp; Октябрьский · Республика Башкортостан
                         </p>
                         <h1
-                            className="hero-title mb-3.5 sm:mb-6 leading-[1.08]"
-                            style={{ fontFamily: "var(--font-display)", fontSize: "clamp(2.1rem, 6.8vw, 6.8rem)", color: "#f5ead8", fontStyle: "italic", fontWeight: 400, padding: 0 }}
+                            className="hero-title mb-3.5 sm:mb-6 leading-[1.12]"
+                            style={{ fontFamily: "var(--font-display)", fontSize: "clamp(2.7rem, 6.8vw, 6.8rem)", color: "#f5ead8", fontStyle: "italic", fontWeight: 400, padding: 0 }}
                         >
                             Там, где вечер
                             <br /><span className="inline-block whitespace-nowrap" style={{ color: "#c8853a", whiteSpace: "nowrap" }}>длится&nbsp;дольше.</span>
                         </h1>
-                        <p className="hero-subtitle mb-5 sm:mb-8 text-sm sm:text-base md:text-xl leading-relaxed max-w-lg" style={{ color: "#d9c9b0" }}>
+                        <p className="hero-subtitle mb-5 sm:mb-8 text-base sm:text-xl leading-relaxed max-w-lg" style={{ color: "#d9c9b0" }}>
                             Кафе с душой — разнообразная домашняя и банкетная кухня, блюда в мангале, живая музыка и тёплая атмосфера
                             в самом сердце Октябрьского с 2003 года.
                         </p>
