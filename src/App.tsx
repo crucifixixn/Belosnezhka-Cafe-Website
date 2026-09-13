@@ -2851,7 +2851,7 @@ function DishPhotoModal({
                             <button
                                 type="button"
                                 onClick={() => handleBookTable(currentDish.name)}
-                                className="booking-btn flex-1 py-3.5 px-5 rounded-xl text-sm uppercase tracking-widest font-bold flex items-center justify-center gap-2 text-center cursor-pointer"
+                                className="booking-btn flex-1 py-3.5 px-5 rounded-xl text-base uppercase tracking-widest font-bold flex items-center justify-center gap-2 text-center cursor-pointer"
                                 style={{ background: "#c8853a", color: "#1a1208", fontFamily: "var(--font-body)", fontWeight: 700 }}
                             >
                                 <span>Забронировать</span>
@@ -2859,7 +2859,7 @@ function DishPhotoModal({
                             <a
                                 href="tel:+79378435505"
                                 onClick={handlePhoneClick}
-                                className="py-3.5 px-5 rounded-xl text-sm uppercase tracking-wider font-semibold transition-all duration-200 hover:bg-[#3a2e1e] active:scale-[0.98] flex items-center justify-center gap-2 border text-center cursor-pointer select-none shrink-0"
+                                className="py-3.5 px-5 rounded-xl text-base uppercase tracking-wider font-semibold transition-all duration-200 hover:bg-[#3a2e1e] active:scale-[0.98] flex items-center justify-center gap-2 border text-center cursor-pointer select-none shrink-0"
                                 style={{
                                     borderColor: copiedPhone ? "#c8853a" : "#c8853a44",
                                     background: copiedPhone ? "rgba(200, 133, 58, 0.18)" : "transparent",
@@ -2894,7 +2894,7 @@ function DishPhotoModal({
                         <button
                             type="button"
                             onClick={() => handleBookTable(currentDish.name)}
-                            className="booking-btn flex-1 py-3 px-5 rounded-xl text-sm uppercase tracking-widest font-bold flex items-center justify-center gap-2 text-center cursor-pointer"
+                            className="booking-btn flex-1 py-3 px-5 rounded-xl text-base uppercase tracking-widest font-bold flex items-center justify-center gap-2 text-center cursor-pointer"
                             style={{ background: "#c8853a", color: "#1a1208", fontFamily: "var(--font-body)", fontWeight: 700 }}
                         >
                             <span>Забронировать</span>
@@ -2902,7 +2902,7 @@ function DishPhotoModal({
                         <a
                             href="tel:+79378435505"
                             onClick={handlePhoneClick}
-                            className="py-3 px-5 rounded-xl text-sm uppercase tracking-wider font-semibold transition-all duration-200 hover:bg-[#3a2e1e] active:scale-[0.98] flex items-center justify-center gap-2 border text-center cursor-pointer select-none shrink-0"
+                            className="py-3 px-5 rounded-xl text-base uppercase tracking-wider font-semibold transition-all duration-200 hover:bg-[#3a2e1e] active:scale-[0.98] flex items-center justify-center gap-2 border text-center cursor-pointer select-none shrink-0"
                             style={{
                                 borderColor: copiedPhone ? "#c8853a" : "#c8853a44",
                                 background: copiedPhone ? "rgba(200, 133, 58, 0.18)" : "transparent",
@@ -5270,7 +5270,7 @@ export default function App() {
                             <a
                                 key={href}
                                 href={href}
-                                className={`text-lg py-1.5 transition-all duration-300 ease-out cursor-pointer hover:text-amber-400 ${
+                                className={`text-base py-1.5 transition-all duration-300 ease-out cursor-pointer hover:text-amber-400 ${
                                     menuOpen ? "translate-x-0 opacity-100" : "-translate-x-2 opacity-0"
                                 }`}
                                 style={{
@@ -5347,7 +5347,7 @@ export default function App() {
 
                 <div className="hero-content-wrapper relative max-w-7xl mx-auto px-6 w-full mt-auto md:mt-0">
                     <div className="hero-content-block max-w-3xl">
-                        <p className="hero-city-tag mb-2.5 sm:mb-4 text-xs sm:text-sm tracking-wide uppercase" style={{ color: "#c8853a", letterSpacing: "0.2em" }}>
+                        <p className="hero-city-tag mb-2.5 sm:mb-4 text-sm tracking-widest uppercase" style={{ color: "#c8853a", letterSpacing: "0.14em", fontWeight: 400 }}>
                             ✦ &nbsp; Октябрьский · Республика Башкортостан
                         </p>
                         <h1
@@ -5364,7 +5364,7 @@ export default function App() {
                         <div className="hero-actions flex flex-wrap gap-3.5 sm:gap-4 items-center">
                             <button
                                 onClick={openBooking}
-                                className="booking-btn px-7 sm:px-8 py-3.5 rounded-full text-sm sm:text-base tracking-wider uppercase font-bold cursor-pointer"
+                                className="booking-btn px-7 sm:px-8 py-3.5 rounded-full text-base tracking-wider uppercase font-bold cursor-pointer"
                                 style={{ background: "#c8853a", color: "#1a1208", fontFamily: "var(--font-body)", letterSpacing: "0.1em", fontWeight: 700 }}
                             >
                                 Забронировать
@@ -5372,7 +5372,7 @@ export default function App() {
                             <a
                                 href="#menu"
                                 onClick={(e) => scrollToSection(e, "#menu")}
-                                className="text-sm sm:text-base underline underline-offset-4 transition-colors hover:text-amber-300 cursor-pointer"
+                                className="text-base underline underline-offset-4 transition-colors hover:text-amber-300 cursor-pointer"
                                 style={{ color: "#d9c9b0", letterSpacing: "0.04em" }}
                             >
                                 Смотреть меню →
@@ -5471,7 +5471,7 @@ export default function App() {
                                     key={cat.id}
                                     type="button"
                                     onClick={() => handleMenuCategoryChange(cat.id)}
-                                    className={`menu-subtab-btn px-6 py-2.5 text-sm sm:text-base ${isNew ? "menu-subtab-btn-new" : ""} ${isActive ? "is-active" : ""}`}
+                                    className={`menu-subtab-btn px-5 sm:px-6 py-2.5 text-base ${isNew ? "menu-subtab-btn-new" : ""} ${isActive ? "is-active" : ""}`}
                                     style={
                                         isNew
                                             ? isActive
@@ -5704,7 +5704,7 @@ export default function App() {
                             <button
                                 type="button"
                                 onClick={openBooking}
-                                className="booking-btn px-6 py-3.5 rounded-full text-sm sm:text-base tracking-wide uppercase font-bold cursor-pointer"
+                                className="booking-btn px-6 py-3.5 rounded-full text-base tracking-wide uppercase font-bold cursor-pointer"
                                 style={{
                                     background: "#c8853a",
                                     color: "#1a1208",
@@ -5717,7 +5717,7 @@ export default function App() {
                             </button>
                             <a
                                 href="tel:+79378435505"
-                                className="px-5 py-3.5 rounded-full text-sm sm:text-base tracking-wide uppercase font-semibold transition-colors hover:bg-amber-500/10 border text-center"
+                                className="px-5 py-3.5 rounded-full text-base tracking-wide uppercase font-semibold transition-colors hover:bg-amber-500/10 border text-center"
                                 style={{
                                     borderColor: "#c8853a44",
                                     color: "#f5ead8",
@@ -5802,7 +5802,7 @@ export default function App() {
                                 <button
                                     type="button"
                                     onClick={() => openEventBooking("big")}
-                                    className="booking-btn w-full py-3.5 px-6 rounded-xl text-sm sm:text-base uppercase tracking-wider font-bold cursor-pointer text-center"
+                                    className="booking-btn w-full py-3.5 px-6 rounded-xl text-base uppercase tracking-wider font-bold cursor-pointer text-center"
                                     style={{ background: "#c8853a", color: "#1a1208", fontFamily: "var(--font-body)", fontWeight: 700 }}
                                 >
                                     Забронировать Большой зал
@@ -5862,7 +5862,7 @@ export default function App() {
                                 <button
                                     type="button"
                                     onClick={() => openEventBooking("small")}
-                                    className="booking-btn w-full py-3.5 px-6 rounded-xl text-sm sm:text-base uppercase tracking-wider font-bold cursor-pointer text-center"
+                                    className="booking-btn w-full py-3.5 px-6 rounded-xl text-base uppercase tracking-wider font-bold cursor-pointer text-center"
                                     style={{ background: "#c8853a", color: "#1a1208", fontFamily: "var(--font-body)", fontWeight: 700 }}
                                 >
                                     Забронировать Малый зал
@@ -5903,7 +5903,7 @@ export default function App() {
                                     key={tab.id}
                                     type="button"
                                     onClick={() => setActivePromoTab(tab.id as any)}
-                                    className="px-6 py-2.5 rounded-full text-sm sm:text-base tracking-wide uppercase font-bold transition-[background-color,color,border-color,transform] active:scale-[0.96] cursor-pointer"
+                                    className="px-6 py-2.5 rounded-full text-base tracking-wide uppercase font-bold transition-[background-color,color,border-color,transform] active:scale-[0.96] cursor-pointer"
                                     style={{
                                         background: isActive ? "#c8853a" : "#231808",
                                         color: isActive ? "#1a1208" : "#d9c9b0",
@@ -5978,7 +5978,7 @@ export default function App() {
                                                 setBookingStep("event");
                                             }
                                         }}
-                                        className="booking-btn w-full py-3.5 rounded-xl text-sm sm:text-base tracking-widest uppercase font-bold flex items-center justify-center gap-2 cursor-pointer"
+                                        className="booking-btn w-full py-3.5 rounded-xl text-base tracking-widest uppercase font-bold flex items-center justify-center gap-2 cursor-pointer"
                                         style={{
                                             background: "#c8853a",
                                             color: "#1a1208",
@@ -6226,7 +6226,7 @@ export default function App() {
                         </p>
                         <button
                             onClick={openBooking}
-                            className="booking-btn-text text-sm tracking-widest uppercase underline underline-offset-4 cursor-pointer"
+                            className="booking-btn-text text-base tracking-widest uppercase underline underline-offset-4 cursor-pointer"
                             style={{ color: "#c8853a", letterSpacing: "0.12em" }}
                         >
                             Забронировать
