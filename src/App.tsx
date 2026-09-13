@@ -5113,7 +5113,10 @@ export default function App() {
             />
 
             {/* ── HERO ── */}
-            <section className="relative min-h-screen min-h-[100dvh] flex items-start pt-[clamp(120px,20vh,200px)] md:pt-[42vh] lg:pt-[44vh] pb-12 md:pb-24">
+            <section
+                id="hero"
+                className="hero-section relative min-h-screen min-h-[100vh] min-h-[100svh] min-h-[100dvh] flex flex-col justify-end md:justify-start md:items-start md:pt-[42vh] lg:pt-[44vh] md:pb-24"
+            >
                 <div className="absolute inset-0 bg-stone-900 overflow-hidden">
                     <ResponsiveImage
                         image={{
@@ -5142,26 +5145,26 @@ export default function App() {
                 </div>
                 <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(26,18,8,0.72) 0%, rgba(26,18,8,0.55) 30%, rgba(26,18,8,0.35) 55%, rgba(26,18,8,0.7) 80%, #1a1208 100%)" }} />
 
-                <div className="relative max-w-7xl mx-auto px-6 w-full">
-                    <div className="max-w-3xl">
-                        <p className="mb-3 sm:mb-4 text-xs sm:text-sm tracking-wide uppercase" style={{ color: "#c8853a", letterSpacing: "0.14em" }}>
+                <div className="hero-content-wrapper relative max-w-7xl mx-auto px-6 w-full mt-auto md:mt-0">
+                    <div className="hero-content-block max-w-3xl">
+                        <p className="hero-city-tag mb-2.5 sm:mb-4 text-xs sm:text-sm tracking-wide uppercase" style={{ color: "#c8853a", letterSpacing: "0.14em" }}>
                             ✦ &nbsp; Октябрьский · Республика Башкортостан
                         </p>
                         <h1
-                            className="mb-4 sm:mb-6 leading-[1.08]"
-                            style={{ fontFamily: "var(--font-display)", fontSize: "clamp(2.2rem, 6.8vw, 6.8rem)", color: "#f5ead8", fontStyle: "italic", fontWeight: 400, padding: 0 }}
+                            className="hero-title mb-3.5 sm:mb-6 leading-[1.08]"
+                            style={{ fontFamily: "var(--font-display)", fontSize: "clamp(2.1rem, 6.8vw, 6.8rem)", color: "#f5ead8", fontStyle: "italic", fontWeight: 400, padding: 0 }}
                         >
                             Там, где вечер
                             <br /><span className="inline-block whitespace-nowrap" style={{ color: "#c8853a", whiteSpace: "nowrap" }}>длится&nbsp;дольше.</span>
                         </h1>
-                        <p className="mb-6 sm:mb-8 text-base sm:text-xl leading-relaxed max-w-lg" style={{ color: "#d9c9b0" }}>
+                        <p className="hero-subtitle mb-5 sm:mb-8 text-sm sm:text-base md:text-xl leading-relaxed max-w-lg" style={{ color: "#d9c9b0" }}>
                             Кафе с душой — разнообразная домашняя и банкетная кухня, блюда в мангале, живая музыка и тёплая атмосфера
                             в самом сердце Октябрьского с 2003 года.
                         </p>
-                        <div className="flex flex-wrap gap-4 items-center">
+                        <div className="hero-actions flex flex-wrap gap-3.5 sm:gap-4 items-center">
                             <button
                                 onClick={openBooking}
-                                className="booking-btn px-8 py-3.5 rounded-full text-base tracking-wider uppercase font-bold cursor-pointer"
+                                className="booking-btn px-7 sm:px-8 py-3.5 rounded-full text-sm sm:text-base tracking-wider uppercase font-bold cursor-pointer"
                                 style={{ background: "#c8853a", color: "#1a1208", fontFamily: "var(--font-body)", letterSpacing: "0.1em", fontWeight: 700 }}
                             >
                                 Забронировать
@@ -5169,7 +5172,7 @@ export default function App() {
                             <a
                                 href="#menu"
                                 onClick={(e) => scrollToSection(e, "#menu")}
-                                className="text-base underline underline-offset-4 transition-colors hover:text-amber-300 cursor-pointer"
+                                className="text-sm sm:text-base underline underline-offset-4 transition-colors hover:text-amber-300 cursor-pointer"
                                 style={{ color: "#d9c9b0", letterSpacing: "0.04em" }}
                             >
                                 Смотреть меню →

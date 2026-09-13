@@ -658,3 +658,37 @@ html {
     background-color: rgba(26, 18, 8, 0.95) !important;
   }
 }
+
+/* ─── Hero: прижатие контент-блока к нижней зоне на мобильных (≤ 768px) ─── */
+@media (max-width: 768px) {
+  .hero-section {
+    min-height: 100vh !important;
+    min-height: 100svh !important;
+    min-height: 100dvh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-end !important;
+    padding-top: max(76px, 9svh) !important;
+    padding-bottom: clamp(40px, 8svh, 96px) !important;
+  }
+
+  .hero-content-wrapper {
+    margin-top: auto !important;
+    margin-bottom: 0 !important;
+    position: relative !important;
+    top: auto !important;
+    transform: none !important;
+    width: 100% !important;
+  }
+
+  .hero-content-block {
+    margin-top: auto !important;
+    margin-bottom: 0 !important;
+  }
+}
+
+@media (max-width: 768px) and (max-height: 700px) {
+  .hero-section {
+    padding-bottom: clamp(28px, 6svh, 48px) !important;
+  }
+}
