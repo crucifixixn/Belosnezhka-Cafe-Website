@@ -3276,7 +3276,6 @@ function BookingChoiceModal({
                         <div className="pr-8">
                             <div className="flex items-center gap-2 mb-1">
                                 <span className="text-lg font-semibold" style={{ fontFamily: "var(--font-display)", color: "#f5ead8" }}>Большой банкетный зал</span>
-                                <span data-capacity-pill="true" className="capacity-pill text-xs uppercase font-bold px-2.5 py-0.5 rounded-full" style={{ background: "#c8853a", color: "#1a1208", fontFamily: "var(--font-body)", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" }}>ДО 150 ЧЕЛОВЕК</span>
                             </div>
                             <p className="text-sm sm:text-base" style={{ color: "#b8a98e" }}>Свадьбы, масштабные юбилеи, корпоративы: сцена, танцпол и профессиональный звук</p>
                         </div>
@@ -3294,7 +3293,6 @@ function BookingChoiceModal({
                         <div className="pr-8">
                             <div className="flex items-center gap-2 mb-1">
                                 <span className="text-lg font-semibold" style={{ fontFamily: "var(--font-display)", color: "#f5ead8" }}>Малый банкетный зал</span>
-                                <span data-capacity-pill="true" className="capacity-pill text-xs uppercase font-bold px-2.5 py-0.5 rounded-full" style={{ background: "#c8853a", color: "#1a1208", fontFamily: "var(--font-body)", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" }}>ДО 25 ЧЕЛОВЕК</span>
                             </div>
                             <p className="text-sm sm:text-base" style={{ color: "#b8a98e" }}>Камерные праздники, дни рождения, ужины в приватной обстановке с ТВ и барельефами</p>
                         </div>
@@ -3572,7 +3570,7 @@ function BookingFormModal({
         setLoading(true);
 
         const isBig = currentTab === "big";
-        const hallTitle = isBig ? "Большой зал (до 150 человек)" : "Малый зал (до 25 человек)";
+        const hallTitle = isBig ? "Большой зал" : "Малый зал";
         try {
             await fetch("/send.php", {
                 method: "POST",
@@ -3727,13 +3725,6 @@ function BookingFormModal({
         </div>
     );
 
-    const currentBadge =
-        currentTab === "table"
-            ? "до 8 гостей"
-            : currentTab === "big"
-                ? "до 150 человек"
-                : "до 25 человек";
-
     return (
         <ModalShell id="booking-modal-title" onClose={onClose} externalClosing={isBackExiting}>
             {sent ? (
@@ -3750,12 +3741,6 @@ function BookingFormModal({
                         >
                             ← Назад к выбору
                         </button>
-                        <span
-                            className="text-xs sm:text-sm font-bold px-2.5 sm:px-3 py-1 rounded-full uppercase tracking-wider transition-colors duration-200"
-                            style={{ background: "#c8853a26", color: "#e4a55a", border: "1px solid #c8853a44" }}
-                        >
-                            {currentBadge}
-                        </span>
                     </div>
 
                     {/* Подвкладки бронирования: Столик, Большой зал, Малый зал */}
@@ -3770,7 +3755,7 @@ function BookingFormModal({
                             role="tab"
                             aria-selected={currentTab === "table"}
                             onClick={() => handleTabSwitch("table")}
-                            className={`booking-subtab-btn py-2 px-1 sm:px-2 rounded-lg text-center flex flex-col items-center justify-center gap-0.5 cursor-pointer select-none transition-all duration-200 ${
+                            className={`booking-subtab-btn py-2 px-1 sm:px-2 rounded-lg text-center flex items-center justify-center cursor-pointer select-none transition-all duration-200 ${
                                 currentTab === "table" ? "is-active" : ""
                             }`}
                             style={{
@@ -3779,14 +3764,13 @@ function BookingFormModal({
                             }}
                         >
                             <span className="font-bold text-xs sm:text-sm whitespace-nowrap">Столик</span>
-                            <span className="text-[10px] sm:text-xs opacity-80 whitespace-nowrap">до 8 гостей</span>
                         </button>
                         <button
                             type="button"
                             role="tab"
                             aria-selected={currentTab === "big"}
                             onClick={() => handleTabSwitch("big")}
-                            className={`booking-subtab-btn py-2 px-1 sm:px-2 rounded-lg text-center flex flex-col items-center justify-center gap-0.5 cursor-pointer select-none transition-all duration-200 ${
+                            className={`booking-subtab-btn py-2 px-1 sm:px-2 rounded-lg text-center flex items-center justify-center cursor-pointer select-none transition-all duration-200 ${
                                 currentTab === "big" ? "is-active" : ""
                             }`}
                             style={{
@@ -3795,14 +3779,13 @@ function BookingFormModal({
                             }}
                         >
                             <span className="font-bold text-xs sm:text-sm whitespace-nowrap">Большой зал</span>
-                            <span className="text-[10px] sm:text-xs opacity-80 whitespace-nowrap">до 150 чел.</span>
                         </button>
                         <button
                             type="button"
                             role="tab"
                             aria-selected={currentTab === "small"}
                             onClick={() => handleTabSwitch("small")}
-                            className={`booking-subtab-btn py-2 px-1 sm:px-2 rounded-lg text-center flex flex-col items-center justify-center gap-0.5 cursor-pointer select-none transition-all duration-200 ${
+                            className={`booking-subtab-btn py-2 px-1 sm:px-2 rounded-lg text-center flex items-center justify-center cursor-pointer select-none transition-all duration-200 ${
                                 currentTab === "small" ? "is-active" : ""
                             }`}
                             style={{
@@ -3811,7 +3794,6 @@ function BookingFormModal({
                             }}
                         >
                             <span className="font-bold text-xs sm:text-sm whitespace-nowrap">Малый зал</span>
-                            <span className="text-[10px] sm:text-xs opacity-80 whitespace-nowrap">до 25 чел.</span>
                         </button>
                     </div>
 
@@ -3849,8 +3831,8 @@ function BookingFormModal({
                                 {currentTab === "table"
                                     ? "✦ В пятницу, субботу и праздничные дни вход — 250 ₽."
                                     : currentTab === "big"
-                                        ? "✦ Вместимость Большого зала — до 150 человек. Разрешены свои фрукты и напитки."
-                                        : "✦ Вместимость Малого зала — до 25 человек. Спокойный приватный отдых без посторонних."}
+                                        ? "✦ Разрешены свои фрукты и напитки."
+                                        : "✦ Спокойный приватный отдых без посторонних."}
                             </div>
 
                             {/* Форма для текущей вкладки */}
@@ -4234,7 +4216,7 @@ function BookingFormModal({
                                             type="number"
                                             min="1"
                                             max={currentTab === "big" ? 150 : 25}
-                                            placeholder={currentTab === "big" ? "до 150" : "до 25"}
+                                            placeholder="Количество персон"
                                             value={eventGuests}
                                             onChange={e => {
                                                 const val = e.target.value;
@@ -4249,11 +4231,6 @@ function BookingFormModal({
                                                 fontVariantNumeric: "tabular-nums",
                                             }}
                                         />
-                                        <span className="text-xs" style={{ color: "#b8a98e" }}>
-                                            {currentTab === "big"
-                                                ? "Вместимость Большого зала — до 150 человек"
-                                                : "Вместимость Малого зала — до 25 человек"}
-                                        </span>
                                     </label>
 
                                     <label className="flex flex-col gap-1.5">
@@ -5136,7 +5113,7 @@ export default function App() {
             />
 
             {/* ── HERO ── */}
-            <section className="relative min-h-screen min-h-[100dvh] flex items-start pt-[clamp(5rem,24vh,38vh)] md:pt-[42vh] lg:pt-[44vh] pb-16 md:pb-24">
+            <section className="relative min-h-screen min-h-[100dvh] flex items-start pt-[clamp(120px,20vh,200px)] md:pt-[42vh] lg:pt-[44vh] pb-12 md:pb-24">
                 <div className="absolute inset-0 bg-stone-900 overflow-hidden">
                     <ResponsiveImage
                         image={{
@@ -5171,13 +5148,13 @@ export default function App() {
                             ✦ &nbsp; Октябрьский · Республика Башкортостан
                         </p>
                         <h1
-                            className="mb-5 sm:mb-6 leading-[1.08]"
-                            style={{ fontFamily: "var(--font-display)", fontSize: "clamp(2.7rem, 7.2vw, 6.8rem)", color: "#f5ead8", fontStyle: "italic", fontWeight: 400, padding: 0 }}
+                            className="mb-4 sm:mb-6 leading-[1.08]"
+                            style={{ fontFamily: "var(--font-display)", fontSize: "clamp(2.2rem, 6.8vw, 6.8rem)", color: "#f5ead8", fontStyle: "italic", fontWeight: 400, padding: 0 }}
                         >
                             Там, где вечер
                             <br /><span className="inline-block whitespace-nowrap" style={{ color: "#c8853a", whiteSpace: "nowrap" }}>длится&nbsp;дольше.</span>
                         </h1>
-                        <p className="mb-6 sm:mb-8 text-lg sm:text-xl leading-relaxed max-w-lg" style={{ color: "#d9c9b0" }}>
+                        <p className="mb-6 sm:mb-8 text-base sm:text-xl leading-relaxed max-w-lg" style={{ color: "#d9c9b0" }}>
                             Кафе с душой — разнообразная домашняя и банкетная кухня, блюда в мангале, живая музыка и тёплая атмосфера
                             в самом сердце Октябрьского с 2003 года.
                         </p>
