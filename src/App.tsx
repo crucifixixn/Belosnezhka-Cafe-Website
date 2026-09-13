@@ -2584,8 +2584,11 @@ function DishPhotoModal({
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
         >
-            {/* Обертка с фиксированной шириной 520px и внешними кнопками навигации */}
-            <div className="relative w-full mx-auto" style={{ maxWidth: "520px" }} onClick={(e) => e.stopPropagation()}>
+            {/* Обертка с фиксированной шириной на мобильных и до 1100px на десктопе, с внешними кнопками навигации */}
+            <div
+                className="relative w-full mx-auto max-w-[520px] lg:max-w-[min(1100px,92vw)] flex items-center justify-center"
+                onClick={(e) => e.stopPropagation()}
+            >
                 {/* Внешние кнопки навигации на десктопе (как в блоке "Внутри Белоснежки") */}
                 {allDishes.length > 1 && (
                     <>
@@ -2593,7 +2596,7 @@ function DishPhotoModal({
                             type="button"
                             onClick={(e) => { e.stopPropagation(); prevDish(); }}
                             aria-label="Предыдущее блюдо"
-                            className="hidden md:flex absolute -left-16 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full items-center justify-center text-2xl transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer select-none z-30"
+                            className="hidden lg:flex absolute -left-14 xl:-left-16 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full items-center justify-center text-2xl transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer select-none z-30"
                             style={{ background: "rgba(26,18,8,0.85)", color: "#f5ead8", border: "1px solid #c8853a55" }}
                         >
                             ‹
@@ -2602,7 +2605,7 @@ function DishPhotoModal({
                             type="button"
                             onClick={(e) => { e.stopPropagation(); nextDish(); }}
                             aria-label="Следующее блюдо"
-                            className="hidden md:flex absolute -right-16 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full items-center justify-center text-2xl transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer select-none z-30"
+                            className="hidden lg:flex absolute -right-14 xl:-right-16 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full items-center justify-center text-2xl transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer select-none z-30"
                             style={{ background: "rgba(26,18,8,0.85)", color: "#f5ead8", border: "1px solid #c8853a55" }}
                         >
                             ›
@@ -2616,11 +2619,22 @@ function DishPhotoModal({
                     aria-modal="true"
                     aria-labelledby="dish-modal-title"
                     tabIndex={-1}
-                    className={`dish-modal-card relative w-full rounded-2xl overflow-hidden outline-none flex flex-col max-h-[92vh] md:max-h-[calc(100vh-48px)] ${isClosing ? "closing" : ""}`}
+                    className={`dish-modal-card relative w-full rounded-2xl overflow-hidden outline-none flex flex-col lg:flex-row h-[min(640px,calc(100vh-32px))] sm:h-[min(680px,calc(100vh-48px))] lg:h-[min(680px,92vh)] ${isClosing ? "closing" : ""}`}
                     style={{ background: "#1f1406", border: "1px solid #c8853a33", overscrollBehavior: "contain" }}
                 >
-                    {/* ─── Фотография блюда — верхний блок карточки на всю ширину ─── */}
-                    <div className="relative shrink-0 select-none overflow-hidden h-[260px] sm:h-[300px] md:h-[35vh] md:max-h-[360px] md:min-h-[240px]" style={{ background: "#2c1f0e" }}>
+                    {/* Круглая кнопка закрытия (×) в правом верхнем углу карточки */}
+                    <button
+                        type="button"
+                        onClick={handleClose}
+                        className="absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center text-xl transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer z-30"
+                        style={{ background: "rgba(26, 18, 8, 0.85)", color: "#f5ead8", border: "1px solid #c8853a44" }}
+                        aria-label="Закрыть"
+                    >
+                        ✕
+                    </button>
+
+                    {/* ─── Левая колонка (45% на десктопе): Фотография блюда на всю высоту карточки ─── */}
+                    <div className="relative shrink-0 select-none overflow-hidden w-full lg:w-[45%] h-[260px] sm:h-[300px] lg:h-full" style={{ background: "#2c1f0e" }}>
                         <ResponsiveImage
                             image={dishImg}
                             alt={currentDish.name}
@@ -2633,21 +2647,24 @@ function DishPhotoModal({
                             decoding="async"
                             wrapperClassName="w-full h-full block"
                         />
-                        {/* Тонкий верхний затемняющий градиент для читаемости бейджей и кнопки закрытия */}
-                        <div className="absolute inset-x-0 top-0 h-16 pointer-events-none" style={{ background: "linear-gradient(to bottom, rgba(10,7,2,0.45) 0%, transparent 100%)" }} />
+                        {/* Тонкий затемняющий градиент сверху для читаемости бейджей */}
+                        <div className="absolute inset-x-0 top-0 h-20 pointer-events-none" style={{ background: "linear-gradient(to bottom, rgba(10,7,2,0.5) 0%, transparent 100%)" }} />
+
+                        {/* Тонкий затемняющий градиент снизу для читаемости счетчика */}
+                        <div className="absolute inset-x-0 bottom-0 h-16 pointer-events-none" style={{ background: "linear-gradient(to top, rgba(10,7,2,0.5) 0%, transparent 100%)" }} />
 
                         {/* Бейджи и категория поверх фото слева сверху */}
-                        <div className="absolute top-4 left-4 flex flex-wrap gap-2 items-center z-10">
+                        <div className="absolute top-4 left-4 flex flex-wrap gap-2 items-center z-10 pr-12 lg:pr-4">
                             {currentDishTags.map((tag, idx) => (
                                 <span
                                     key={idx}
                                     className="px-3 py-1 rounded-full text-xs sm:text-sm font-semibold tracking-wide shadow-sm"
                                     style={{
-                                        background: tag === "Хит" ? "rgba(200, 133, 58, 0.25)" : "#c8853a",
-                                        color: tag === "Хит" ? "#f5ead8" : "#1a1208",
+                                        background: "#c8853a",
+                                        color: "#1a1208",
                                         fontFamily: "var(--font-body)",
                                         fontWeight: 700,
-                                        border: tag === "Хит" ? "1px solid rgba(200, 133, 58, 0.45)" : "none"
+                                        border: "none"
                                     }}
                                 >
                                     {tag}
@@ -2658,25 +2675,14 @@ function DishPhotoModal({
                             </span>
                         </div>
 
-                        {/* Круглая кнопка закрытия (×) справа сверху */}
-                        <button
-                            type="button"
-                            onClick={handleClose}
-                            className="absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center text-xl transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer z-10"
-                            style={{ background: "rgba(26, 18, 8, 0.8)", color: "#f5ead8", border: "1px solid #c8853a44" }}
-                            aria-label="Закрыть"
-                        >
-                            ✕
-                        </button>
-
-                        {/* Стрелки перелистывания на мобильных устройствах */}
+                        {/* Стрелки перелистывания на мобильных устройствах (< 1024px) */}
                         {allDishes.length > 1 && (
                             <>
                                 <button
                                     type="button"
                                     onClick={prevDish}
                                     aria-label="Предыдущее блюдо"
-                                    className="md:hidden absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full flex items-center justify-center text-lg transition-all duration-200 hover:scale-110 active:scale-90 cursor-pointer z-10"
+                                    className="lg:hidden absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full flex items-center justify-center text-lg transition-all duration-200 hover:scale-110 active:scale-90 cursor-pointer z-10"
                                     style={{ background: "rgba(26, 18, 8, 0.8)", color: "#f5ead8", border: "1px solid #c8853a44" }}
                                 >
                                     ‹
@@ -2685,26 +2691,26 @@ function DishPhotoModal({
                                     type="button"
                                     onClick={nextDish}
                                     aria-label="Следующее блюдо"
-                                    className="md:hidden absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full flex items-center justify-center text-lg transition-all duration-200 hover:scale-110 active:scale-90 cursor-pointer z-10"
+                                    className="lg:hidden absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full flex items-center justify-center text-lg transition-all duration-200 hover:scale-110 active:scale-90 cursor-pointer z-10"
                                     style={{ background: "rgba(26, 18, 8, 0.8)", color: "#f5ead8", border: "1px solid #c8853a44" }}
                                 >
                                     ›
                                 </button>
-                                <div className="absolute bottom-3 right-4 px-2.5 py-0.5 rounded text-xs backdrop-blur-sm select-none z-10" style={{ background: "rgba(26, 18, 8, 0.7)", color: "#d9c9b0" }}>
+                                <div className="absolute bottom-3 sm:bottom-4 right-4 px-2.5 py-1 rounded text-xs backdrop-blur-sm select-none z-10" style={{ background: "rgba(26, 18, 8, 0.75)", color: "#d9c9b0", border: "1px solid #c8853a22" }}>
                                     {currentIndex + 1} из {allDishes.length}
                                 </div>
                             </>
                         )}
                     </div>
 
-                    {/* ─── Текстовая информация о блюде (прокручивается внутри модалки) ─── */}
+                    {/* ─── Правая колонка (55% на десктопе): Весь контент карточки (скроллится внутри) ─── */}
                     <div
                         ref={scrollContainerRef}
-                        className="p-6 overflow-y-auto flex flex-col gap-4 flex-1"
+                        className="p-6 lg:p-8 overflow-y-auto flex flex-col gap-4 flex-1 min-w-0 w-full lg:w-[55%]"
                         style={{ overscrollBehavior: "contain" }}
                     >
                         {/* Название, вес и цена */}
-                        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-3 pb-4 border-b" style={{ borderColor: "#c8853a22" }}>
+                        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-3 pb-4 border-b pr-10 lg:pr-12" style={{ borderColor: "#c8853a22" }}>
                             <div className="flex-1 min-w-0 pr-3">
                                 <h3 id="dish-modal-title" className="text-2xl sm:text-3xl leading-snug font-normal" style={{ fontFamily: "var(--font-display)", color: "#f5ead8", fontStyle: "italic" }}>
                                     {currentDish.name}
@@ -2792,7 +2798,7 @@ function DishPhotoModal({
                         )}
 
                         {/* Кнопки действий */}
-                        <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                        <div className="pt-2 mt-auto flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                             <button
                                 type="button"
                                 onClick={() => handleBookTable(currentDish.name)}
@@ -5044,7 +5050,7 @@ export default function App() {
                                             key={tIdx}
                                             className="text-xs px-2 py-0.5 rounded font-medium whitespace-nowrap"
                                             style={{
-                                                background: tag === "Хит" ? "rgba(200, 133, 58, 0.25)" : "rgba(200, 133, 58, 0.15)",
+                                                background: "rgba(200, 133, 58, 0.15)",
                                                 color: "#c8853a",
                                                 border: "1px solid rgba(200, 133, 58, 0.35)"
                                             }}
